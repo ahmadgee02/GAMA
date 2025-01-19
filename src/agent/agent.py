@@ -1,9 +1,9 @@
 import json
 from lms.gpt4 import GPT4
 import os.path
-from src.game.game_history import GameHistory
 from src.game.game import Game
-from src.agent.agent_mind import AgentMind
+from src.agent.mind import Mind
+from src.agent.memory import Memory
 from src.autoformalizer.autoformalizer import Autoformalizer
 from src.solver.solver import Solver
 from src.utils.setup_logger import logger
@@ -26,7 +26,7 @@ class Agent:
 	    autoformalization_on (bool): Indicates if autoformalization is enabled for the agent.
 	    max_attempts (int): Maximum number of attempts allowed for certain operations.
 	    autoformalizer (Optional[Autoformalizer]): Handles autoformalization logic; None if disabled.
-	    mind (AgentMind): Handles the agent's interaction with the environment and decision-making.
+	    mind (Mind): Handles the agent's interaction with the environment and decision-making.
 	    strategy_name (str): Name of the strategy used by the agent (default: "unnamed_strategy").
 	    moves (list): List of moves made by the agent during the game.
 	    payoffs (list): List of payoffs received by the agent in different rounds.
@@ -53,8 +53,8 @@ class Agent:
 		Raises:
 		    ValueError: If neither the required data nor the JSON configuration is provided.
 		"""
-		# Initialize game history and game objects to manage state.
-		self.game_history = GameHistory()
+		# Initialize memory and game objects to manage state.
+		self.memory = Memory()
 		self.game = Game()
 
 		# Load the solver logic and initialize the solver.
@@ -70,7 +70,7 @@ class Agent:
 		self.autoformalizer = Autoformalizer(llm, max_attempts=max_attempts) if self.autoformalization_on else None
 
 		# Initialize the agent's mind for decision-making and set default strategy name.
-		self.mind = AgentMind(self.solver, autoformalizer=self.autoformalizer)
+		self.mind = Mind(self)
 		self.strategy_name = "unnamed_strategy"
 
 		# Initialize the agent either from a JSON file or provided data.
@@ -80,10 +80,6 @@ class Agent:
 			self._init_from_data(game_data, strategy_data)
 		else:
 			raise ValueError("Invalid arguments provided. Either provide game_data and strategy_data, or agent_json.")
-
-		# Track moves and payoffs during the game.
-		self.moves = [] #TODO change to GameHistory/memory
-		self.payoffs = []
 
 	@classmethod
 	def from_data(cls, game_data: DataObject, strategy_data: DataObject):
@@ -111,6 +107,12 @@ class Agent:
 		    Agent: An initialized Agent instance.
 		"""
 		return cls(agent_json=agent_json)
+
+	def release_solver(self):
+		"""
+		Releases Prolog solver thread.
+		"""
+		self.solver.release_prolog_thread()
 
 	def _init_from_data(self, game_data: DataObject, strategy_data: DataObject):
 		"""
@@ -152,6 +154,22 @@ class Agent:
 					f"correctly initialized.")
 		else:
 			logger.debug(f"Agent's {self.name} initialization failed with status {self.status.value}.")
+
+	def autoformalize(self, parser, trace_processor):
+		"""
+		Uses the autoformalizer to generate formal game rules and process feedback.
+
+		Args:
+			solver (Solver): The solver instance containing current game logic.
+			parser (function): A parser function to extract code from LMs response.
+			trace_processor (function): A function to process trace outputs for creating feedback.
+
+		Returns:
+			tuple: A pair containing the formalized rules (str) and the status (AgentStatus).
+		"""
+		# Delegates the autoformalization process to the autoformalizer.
+		rules, status = self.autoformalizer.autoformalize(self, parser, trace_processor)
+		return rules, status
 
 	def set_game(self, game_object: DataObject, reload_solver=True):
 		"""
@@ -250,10 +268,10 @@ class Agent:
 
 			# Reload the solver if required.
 			if reload_solver:
-				self.solver = Solver(*self.solver.get_params())
+				self.reload_solver()
 
 			# Perform autoformalization and return the results.
-			return self.mind.autoformalize(self.solver, parse_axioms, process_trace)
+			return self.autoformalize(parse_axioms, process_trace)
 		else:
 			raise RuntimeError(f"Unknown mode {data_object.mode}")
 
@@ -270,7 +288,7 @@ class Agent:
 		"""
 		if reload_solver:
 			# Reload the solver and validate it.
-			self.solver = Solver(*self.solver.get_params())
+			self.reload_solver()
 			valid = self.solver.valid
 			trace = self.solver.trace
 		else:
@@ -289,17 +307,22 @@ class Agent:
 		Returns:
 			bool: True if both possible moves and player names are successfully extracted, False otherwise.
 		"""
-		try:
-			possible_moves = self.solver.get_variable_values("possible(move(_,X), s0).") #TODO move all Prolog to solver
-			player_names = self.solver.get_variable_values("holds(player(N), s0).")
+		possible_moves = self.solver.get_possible_moves()
+		player_names = self.solver.get_player_names()
 
-			if possible_moves and player_names:
-				self.game.set_players(player_names)
-				self.game.set_possible_moves(list(set(possible_moves)))
-				return True
-		except Exception as e:
-			logger.debug(f"Error extracting game variables: {e}")
+		if possible_moves and player_names:
+			self.game.set_players(player_names)
+			self.game.set_possible_moves(list(set(possible_moves)))
+			return True
+
 		return False
+
+	def reload_solver(self):
+		"""
+		Reloads the solver. Note that each time the solver is reloaded it has to be updated in the agent's mind.
+		"""
+		self.solver = Solver(*self.solver.get_params())
+		self.mind.solver = self.solver
 
 	def _extract_default_move(self) -> bool:
 		"""
@@ -308,27 +331,43 @@ class Agent:
 		Returns:
 			bool: True if a default move is successfully extracted, False otherwise.
 		"""
-		try:
-			default_move = self.solver.get_variable_values(
-				f"initially(default_move({self.game.game_players[0]}, X), s0).", 1
-			)
-			if default_move:
-				self.game.default_move = default_move[0]
-				return True
-		except Exception as e:
-			logger.debug(f"Error extracting default move: {e}")
+		default_move = self.solver.get_default_move(self.game.game_players[0])
+		if default_move:
+			self.game.default_move = default_move[0]
+			return True
+
 		return False
 
-	def get_total_payoff(self) -> float:
+	def update_default_move(self, move: str) -> bool:
 		"""
-		Get the total payoff accumulated by the agent.
+		Update the default move in the Prolog solver.
+
+		Args:
+			move (str): The move to set as the default move.
 
 		Returns:
-			float: The total sum of payoffs.
+			bool: True if the update was successful, False otherwise.
+
+		Raises:
+			ValueError: If the move is not in the set of possible moves.
 		"""
-		total = sum(self.payoffs)
-		logger.debug(f"Total payoff for agent {self.name}: {total}")
-		return total
+		if not self._is_valid_move(move):
+			raise ValueError(f"The move '{move}' is not in the set of possible moves!")
+
+		# Apply the default move update in the solver
+		return self.solver.update_default_move(move)
+
+	def _is_valid_move(self, move: str) -> bool:
+		"""
+		Check if the provided move is valid.
+
+		Args:
+			move (str): The move to validate.
+
+		Returns:
+			bool: True if the move is valid, False otherwise.
+		"""
+		return move in self.game.get_possible_moves()
 
 	def save(self, save_dir):
 		"""
@@ -346,21 +385,24 @@ class Agent:
 		# Reference the current game object for convenience.
 		game = self.game
 
+		trace_messages = self.autoformalizer.trace_messages if self.autoformalizer else []
+		attempts = self.autoformalizer.attempts if self.autoformalizer else 0
+
 		# Create a dictionary capturing the agent's state.
 		agent_log = {
 			"name": self.name,
 			"strategy_name": self.strategy_name,
 			"strategy_rules": game.strategy_rules,
-			"status": self.status,
+			"status": self.status.value,
 			"game_rules": game.game_rules,
 			"game_moves": game.game_moves,
 			"game_players": game.game_players,
 			"default_move": game.default_move,
-			"moves": self.moves,
-			"payoffs": self.payoffs,
-			"total_payoff": self.get_total_payoff(),
-			"trace_messages": self.autoformalizer.trace_messages,
-			"attempts": self.autoformalizer.attempts
+			"moves": self.memory.moves,
+			"payoffs": self.memory.payoffs,
+			"total_payoff": self.mind.get_total_payoff(),
+			"trace_messages": trace_messages,
+			"attempts": attempts
 		}
 
 		# Construct the file path and save the JSON file.

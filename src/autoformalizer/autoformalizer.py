@@ -1,5 +1,4 @@
 from src.utils.base_lm import BaseLM
-from src.solver.solver import Solver
 from lms.gpt4 import GPT4
 from typing import Optional
 from src.utils.utils import AgentStatus
@@ -58,12 +57,12 @@ class Autoformalizer:
 		"""
 		self.feedback_prompt = prompt
 
-	def autoformalize(self, solver, parser, trace_processor):
+	def autoformalize(self, agent, parser, trace_processor):
 		"""
 		Performs the autoformalization process to generate syntactically correct game rules.
 
 		Args:
-		    solver (Solver): The solver instance to validate the generated rules.
+		    agent (Agent): An agent with a solver instance to validate the generated rules.
 		    parser (function): A function to parse the LLM's response into formalized rules.
 		    trace_processor (function): A function to process error traces from the solver.
 
@@ -92,7 +91,7 @@ class Autoformalizer:
 					prompt = "Follow the rules of marking the beginning and the end of the code."
 				elif status == AgentStatus.SYNTACTIC_ERROR:
 					# Reload the solver to reset its state and refine the rules based on feedback.
-					solver = Solver(*solver.get_params())  # TODO better way of handling reloading
+					agent.reload_solver()
 					prompt = self.feedback_prompt.format(code=rules, messages=lines)
 				else:
 					raise RuntimeError(f"Unknown status {status}")
@@ -109,7 +108,7 @@ class Autoformalizer:
 				continue
 
 			# Validate the generated rules using the solver.
-			correct, trace = solver.validate(rules)
+			correct, trace = agent.solver.validate(rules)
 			if correct:
 				status = AgentStatus.CORRECT
 				break

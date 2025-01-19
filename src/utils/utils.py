@@ -13,6 +13,7 @@ class AgentStatus(Enum):
 	SYNTACTIC_ERROR = "syntactic_error"
 	MISSING_PREDICATES = "missing_predicates"
 	INSTRUCTION_ERROR = "instruction_following_error"
+	RUNTIME_ERROR = "runtime_error"
 
 
 class Mode(Enum):

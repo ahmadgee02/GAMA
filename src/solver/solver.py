@@ -63,18 +63,7 @@ class Solver:
 			# Update the overall validity of the solver.
 			self.valid = all_valid
 
-	def _initialize_prolog_thread(self) -> Optional[object]:
-		"""
-		Initialize a Prolog thread for querying the solver.
-
-		Returns:
-			Optional[object]: The Prolog thread object if created successfully, otherwise None.
-		"""
-		try:
-			return PrologMQI().create_thread()
-		except Exception as e:
-			logger.error(f"Failed to initialize Prolog thread: {e}")
-			return None
+	########################################### game-independent methods ###############################################
 
 	def validate(
 			self,
@@ -137,6 +126,38 @@ class Solver:
 
 		return self.valid, self.trace
 
+	def apply_predicate(self, predicate: str) -> Optional[bool]:
+		"""
+		Applies a given Prolog predicate to update the solver's internal state.
+
+		Args:
+			predicate (str): The Prolog predicate to evaluate and apply.
+
+		Returns:
+			Optional[bool]: True if the predicate was successfully applied, False if it failed.
+							Returns None if an exception occurs.
+
+		Raises:
+			ValueError: If the predicate evaluation or execution fails.
+		"""
+		try:
+			logger.debug(f"Applying predicate: {predicate}")
+
+			# Step 1: Execute the predicate in the Prolog thread
+			result = self._execute_predicate(predicate)
+
+			# Step 2: Log and return the result
+			if result:
+				logger.debug(f"Predicate '{predicate}' applied successfully: {result}")
+				return True
+			else:
+				logger.debug(f"Predicate '{predicate}' failed.")
+				return False
+
+		except Exception as e:
+			logger.error(f"Failed to apply predicate '{predicate}': {e}")
+			return None
+
 	def get_params(self):
 		"""
 		Retrieves non-None parameters from the solver, game, and strategy strings.
@@ -146,6 +167,80 @@ class Solver:
 		"""
 		# Filter out `None` values and return the remaining strings.
 		return [item for item in [self.solver_string, self.game_string, self.strategy_string] if item is not None]
+
+	def get_variable_values(self, predicate: str, count: Optional[int] = None) -> Optional[List[Union[str, bool]]]:
+		"""
+		Retrieves values from the solver based on a given predicate.
+
+		Args:
+			predicate (str): The Prolog predicate to evaluate.
+			count (Optional[int]): The number of values to return. If None, returns all values.
+
+		Returns:
+			Optional[List[Union[str, bool]]]: A list of evaluated variable values, or None if no values are found.
+
+		Raises:
+			ValueError: If the predicate evaluation fails.
+		"""
+		try:
+			logger.debug(f"Querying predicate: {predicate}")
+			# Step 1: Execute the query asynchronously
+			self.prolog_thread.query_async(predicate, find_all=False)
+
+			# Step 2: Retrieve results from the Prolog thread
+			final_result = self._collect_query_results()
+
+			# Step 3: Extract and return values from the results
+			return self._extract_values(final_result, count)
+
+		except Exception as e:
+			logger.error(f"Error querying predicate '{predicate}': {e}")
+			return None
+
+	def consult_prolog_file(self, file_path: str) -> bool:
+		"""
+		Consult a Prolog file in the solver.
+
+		Args:
+			file_path (str): Path to the Prolog file.
+
+		Returns:
+			bool: True if the file was successfully consulted, False otherwise.
+		"""
+		try:
+			file_path = file_path.replace(os.sep, '/')
+			result = self.prolog_thread.query(f'consult("{file_path}").')
+			logger.debug(f"Consulted file {file_path}: {result}")
+			return bool(result)
+		except Exception as e:
+			logger.error(f"Error consulting file {file_path}: {e}")
+			return False
+
+	def release_prolog_thread(self):
+		"""
+		Release the Prolog thread to free resources.
+		"""
+		if self.prolog_thread:
+			try:
+				self.prolog_thread.stop()  # Close the thread (adjust if the library uses a different method)
+				logger.debug("Prolog thread released.")
+			except Exception as e:
+				logger.debug(f"Failed to release Prolog thread: {e}")
+			finally:
+				self.prolog_thread = None
+
+	def _initialize_prolog_thread(self) -> Optional[object]:
+		"""
+		Initialize a Prolog thread for querying the solver.
+
+		Returns:
+			Optional[object]: The Prolog thread object if created successfully, otherwise None.
+		"""
+		try:
+			return PrologMQI().create_thread()
+		except Exception as e:
+			logger.error(f"Failed to initialize Prolog thread: {e}")
+			return None
 
 	def _setup_logging(self) -> Tuple[io.StringIO, logging.StreamHandler]:
 		"""
@@ -179,25 +274,6 @@ class Solver:
 				temp_file.write(data.encode())
 				temp_files.append(temp_file.name)
 		return temp_files
-
-	def consult_prolog_file(self, file_path: str) -> bool:
-		"""
-		Consult a Prolog file in the solver.
-
-		Args:
-			file_path (str): Path to the Prolog file.
-
-		Returns:
-			bool: True if the file was successfully consulted, False otherwise.
-		"""
-		try:
-			file_path = file_path.replace(os.sep, '/')
-			result = self.prolog_thread.query(f'consult("{file_path}").')
-			logger.debug(f"Consulted file {file_path}: {result}")
-			return bool(result)
-		except Exception as e:
-			logger.error(f"Error consulting file {file_path}: {e}")
-			return False
 
 	def _validate_predicates(self, predicates: Tuple[str, ...]) -> bool:
 		"""
@@ -252,35 +328,6 @@ class Solver:
 		"""
 		logging.getLogger('swiplserver').removeHandler(log_handler)
 
-	def get_variable_values(self, predicate: str, count: Optional[int] = None) -> Optional[List[Union[str, bool]]]:
-		"""
-		Retrieves values from the solver based on a given predicate.
-
-		Args:
-			predicate (str): The Prolog predicate to evaluate.
-			count (Optional[int]): The number of values to return. If None, returns all values.
-
-		Returns:
-			Optional[List[Union[str, bool]]]: A list of evaluated variable values, or None if no values are found.
-
-		Raises:
-			ValueError: If the predicate evaluation fails.
-		"""
-		try:
-			logger.debug(f"Querying predicate: {predicate}")
-			# Step 1: Execute the query asynchronously
-			self.prolog_thread.query_async(predicate, find_all=False)
-
-			# Step 2: Retrieve results from the Prolog thread
-			final_result = self._collect_query_results()
-
-			# Step 3: Extract and return values from the results
-			return self._extract_values(final_result, count)
-
-		except Exception as e:
-			logger.error(f"Error querying predicate '{predicate}': {e}")
-			return None
-
 	def _collect_query_results(self) -> List[dict]:
 		"""
 		Collects results from the asynchronous Prolog query.
@@ -321,38 +368,6 @@ class Solver:
 
 		return values[:count] if count is not None else values
 
-	def apply_predicate(self, predicate: str) -> Optional[bool]:
-		"""
-		Applies a given Prolog predicate to update the solver's internal state.
-
-		Args:
-			predicate (str): The Prolog predicate to evaluate and apply.
-
-		Returns:
-			Optional[bool]: True if the predicate was successfully applied, False if it failed.
-							Returns None if an exception occurs.
-
-		Raises:
-			ValueError: If the predicate evaluation or execution fails.
-		"""
-		try:
-			logger.debug(f"Applying predicate: {predicate}")
-
-			# Step 1: Execute the predicate in the Prolog thread
-			result = self._execute_predicate(predicate)
-
-			# Step 2: Log and return the result
-			if result:
-				logger.debug(f"Predicate '{predicate}' applied successfully: {result}")
-				return True
-			else:
-				logger.debug(f"Predicate '{predicate}' failed.")
-				return False
-
-		except Exception as e:
-			logger.error(f"Failed to apply predicate '{predicate}': {e}")
-			return None
-
 	def _execute_predicate(self, predicate: str) -> Optional[bool]:
 		"""
 		Executes a Prolog query for a given predicate.
@@ -368,3 +383,103 @@ class Solver:
 		except Exception as e:
 			logger.error(f"Error executing predicate '{predicate}': {e}")
 			return None
+
+	######################################## game-specific methods #########################################################
+
+	def get_possible_moves(self):
+		try:
+			possible_moves = self.get_variable_values("possible(move(_,X), s0).")
+		except Exception as e:
+			logger.debug(f"Error extracting game variables: {e}")
+			return None
+		return possible_moves
+
+	def get_default_move(self, player_name):
+		try:
+			default_move = self.get_variable_values(
+				f"initially(default_move({player_name}, X), s0).", 1
+			)
+		except Exception as e:
+			logger.debug(f"Error extracting default move: {e}")
+			return None
+		return default_move
+
+	def update_default_move(self, move: str) -> bool:
+		"""
+		Apply the default move update in the solver.
+
+		Args:
+			move (str): The move to set as default.
+
+		Returns:
+			bool: True if the update was successful, False otherwise.
+		"""
+		query = f"initialise(default_move(_, '{move}'), s0)."
+		success = self.apply_predicate(query)
+		logger.debug(f"Updated default move to '{move}' with status: {success}")
+		return success
+
+	def get_player_names(self):
+		try:
+			player_names = self.get_variable_values("holds(player(N), s0).")
+		except Exception as e:
+			logger.debug(f"Error extracting player names: {e}")
+			return None
+		return player_names
+
+	def select_move(self, agent_name) -> Optional[str]:
+		"""
+		Use the solver to select the agent's move.
+
+		Returns:
+			Optional[str]: The move selected by the solver, or None if no move is found.
+		"""
+		try:
+			move = self.get_variable_values(f"select({agent_name}, _, s0, M).", 1)
+			return move[0] if move else None
+		except Exception as e:
+			logger.debug(f"Error selecting a move: {e}")
+			return None
+
+	def calculate_payoff(self, player_name: str, opponent_name: str, player_move: str, opponent_move: str) -> Optional[
+		float]:
+		"""
+		Calculate the agent's payoff based on the last move using the solver.
+
+		Args:
+			player_name (str): The name of the player.
+			opponent_name (str): The name of the opponent.
+			player_move (str): The move made by the player.
+			opponent_move (str): The move made by the opponent.
+
+		Returns:
+			Optional[float]: The calculated payoff if successful, otherwise None.
+
+		Raises:
+			Exception: If an unexpected error occurs during the calculation process.
+		"""
+		try:
+			query = (
+				f"finally(goal({player_name}, U), "
+				f"do(move({player_name}, '{player_move}'), "
+				f"do(move({opponent_name}, '{opponent_move}'), s0)))."
+			)
+			payoff = self.get_variable_values(query, 1)
+			return float(payoff[0]) if payoff else None
+		except Exception as e:
+			logger.debug(f"Could not calculate payoff: {e}")
+			return None
+
+	def update_opponent_last_move(self, opponent_name: str, opponent_move: str) -> bool:
+		"""
+		Update the solver state with the opponent's last move.
+
+		Args:
+			opponent_name (str): The name of the opponent.
+			opponent_move (str): The move made by the opponent.
+
+		Returns:
+			bool: True if the solver state was successfully updated, otherwise False.
+		"""
+		query = f"initialise(last_move({opponent_name}, '{opponent_move}'), s0)."
+		return self.apply_predicate(query)

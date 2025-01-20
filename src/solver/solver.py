@@ -5,7 +5,6 @@ import logging
 import tempfile
 from typing import List, Optional, Tuple, Union
 import os
-import re
 
 
 class Solver:

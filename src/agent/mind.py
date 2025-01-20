@@ -82,7 +82,7 @@ class Mind:
 
 		# Step 4: Log the successful update and store the payoff
 		self.agent.memory.payoffs.append(payoff)
-		logger.debug(f"Agent {self.agent.name} received payoff: {payoff} and logged opponent's move: {opponent_move}")
+		logger.info(f"Agent {self.agent.name} received payoff: {payoff} and logged opponent's move: {opponent_move}")
 		return True
 
 	def act(self):
@@ -112,7 +112,7 @@ class Mind:
 		move = self.agent.solver.select_move(agent_name)
 		if move:
 			self.agent.memory.moves.append(move)
-			logger.debug(f"Agent {self.agent.name} with strategy {self.agent.strategy_name} made move: {move}")
+			logger.info(f"Agent {self.agent.name} with strategy {self.agent.strategy_name} made move: {move}")
 			return move
 
 		# If no move is selected, log the error and update status
@@ -128,5 +128,5 @@ class Mind:
 			float: The total sum of payoffs.
 		"""
 		total = sum(self.agent.memory.payoffs)
-		logger.debug(f"Total payoff for agent {self.agent.name}: {total}")
+		logger.info(f"Total payoff for agent {self.agent.name}: {total}")
 		return total

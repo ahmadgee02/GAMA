@@ -149,11 +149,11 @@ class Agent:
 		if self.status == AgentStatus.CORRECT:
 			self.set_strategy(strategy_data, reload_solver=False)
 			if self.status == AgentStatus.CORRECT:
-				logger.debug(
+				logger.info(
 					f"Agent {self.name} with players {self.game.game_players} and moves {self.game.game_moves} is "
 					f"correctly initialized.")
 		else:
-			logger.debug(f"Agent's {self.name} initialization failed with status {self.status.value}.")
+			logger.info(f"Agent's {self.name} initialization failed with status {self.status.value}.")
 
 	def autoformalize(self, parser, trace_processor):
 		"""

@@ -2,9 +2,9 @@ import unittest
 import itertools
 import os
 import copy
-from src.tournament.tournament import Tournament
+from src.environment.environment import Environment
 from src.agent.agent import Agent
-from src.tournament.agent_pool import AgentPool
+from src.environment.agent_pool import AgentPool
 import logging
 from src.utils.setup_logger import logger
 from src.utils.utils import generate_agent_name, Mode
@@ -47,7 +47,7 @@ class TestTournament(unittest.TestCase):
 		# Load agent data from JSON files
 		self._load_agents_from_json()
 
-		tournament = Tournament(
+		tournament = Environment(
 			agent_pool=self.agent_pool,
 			num_rounds=self.num_rounds,
 			match_maker=self.match_maker,
@@ -70,7 +70,7 @@ class TestTournament(unittest.TestCase):
 
 		self._load_agents_from_json()
 		tournament_name = "test_tournament"
-		tournament = Tournament(
+		tournament = Environment(
 			agent_pool=self.agent_pool,
 			num_rounds=self.num_rounds,
 			match_maker=self.match_maker
@@ -92,7 +92,12 @@ class TestTournament(unittest.TestCase):
 		logger.info("Testing tournament play with agents loaded from JSON in clones mode.")
 
 		# Load agent data from JSON files
-		self._load_agents_from_json()
+		for i in range(3):
+			agent = Agent(agent_json=self.agent_json_path, autoformalization_on=False)
+			agent.name = generate_agent_name(3)
+			game_data = DataObject(rules_path="../DATA/MISC/general_agent.pl", mode=Mode.RULES_PATH)
+			agent.set_game(game_data)
+			self.agent_pool.add_agent(agent)
 
 		# Record original number of agents
 		agents_num = len(self.agent_pool.valid_agents)
@@ -113,11 +118,11 @@ class TestTournament(unittest.TestCase):
 		# Create matching: (original_agent, clone)
 		self.match_maker = lambda agents: [(agents[i], agents[i+agents_num]) for i in range(agents_num)]
 
-		tournament = Tournament(
+		tournament = Environment(
 			agent_pool=self.agent_pool,
 			num_rounds=self.num_rounds,
 			match_maker=self.match_maker,
-			target_payoffs=[2.0, 2.0, 2.0]
+			target_payoffs=[3.0, 3.0, 3.0]
 		)
 
 		# Run the tournament
@@ -128,6 +133,11 @@ class TestTournament(unittest.TestCase):
 
 		# Validate results
 		winners = tournament.get_winners()
+
+		# Log the results
+		tournament_dir = "./LOGS"
+		tournament.log_tournament(tournament_dir, "bs_test_tournament")
+
 		self.assertTrue(len(winners) == 3, "Tournament must have at least one winner.")
 		self.agent_pool.clean_agents()
 
@@ -139,7 +149,7 @@ class TestTournament(unittest.TestCase):
 
 		# Load agent data from JSON files
 		self._load_agents_from_json()
-		tournament = Tournament(
+		tournament = Environment(
 			agent_pool=self.agent_pool,
 			num_rounds=self.num_rounds,
 			match_maker=self.match_maker

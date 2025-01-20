@@ -7,7 +7,7 @@ from src.utils.setup_logger import logger
 from src.utils.utils import set_default
 
 
-class Tournament:
+class Environment:
 	"""
 	A class to manage a game-theoretic tournament using agents, rounds, and target payoffs.
 
@@ -86,12 +86,12 @@ class Tournament:
 			if not (move_agent_1 and move_agent_2):
 				return False
 
-			agent1.mind.perceive(move_agent_2)
-			agent2.mind.perceive(move_agent_1)
+			agent1.mind.observe(move_agent_2)
+			agent2.mind.observe(move_agent_1)
 
 			# Update payoffs based on the opponents' moves
-			updated_1 = agent1.mind.revise()
-			updated_2 = agent2.mind.revise()
+			updated_1 = agent1.mind.think()
+			updated_2 = agent2.mind.think()
 			if not (updated_1 and updated_2):
 				return False
 

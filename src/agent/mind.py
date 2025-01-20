@@ -27,9 +27,9 @@ class Mind:
 		"""
 		self.agent = agent
 
-	def perceive(self, opponent_move):
+	def observe(self, opponent_move):
 		"""
-		Perceive the opponent move in the current round and add it to memory.
+		Observe the opponent move in the current round and add it to memory.
 
 		Args:
 			opponent_move (str): The move made by the opponent in the current round.
@@ -42,7 +42,7 @@ class Mind:
 		# Log the opponent's move
 		self.agent.memory.opponent_moves.append(opponent_move)
 
-	def revise(self):
+	def think(self):
 		"""
 		Revise the agent's state based on the most recent moves and update its solver.
 

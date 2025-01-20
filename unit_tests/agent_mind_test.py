@@ -38,7 +38,7 @@ class TestAgentMindFunctions(unittest.TestCase):
 		"""Test the agent's ability to perceive an opponent's move using the `perceive` method."""
 		logging.debug("Testing the `perceive` method.")
 		opponent_move = "Move2"
-		self.agent.mind.perceive(opponent_move)  # Use the Mind instance within Agent
+		self.agent.mind.observe(opponent_move)  # Use the Mind instance within Agent
 		self.assertIn(opponent_move, self.agent.memory.opponent_moves,
 					  "The opponent's move should be stored in the agent's memory.")
 
@@ -51,7 +51,7 @@ class TestAgentMindFunctions(unittest.TestCase):
 		self.agent.memory.opponent_moves.append(opponent_move)
 		self.agent.game.game_players = ["player1", "player2"]
 
-		success = self.agent.mind.revise()  # Use the Mind instance within Agent
+		success = self.agent.mind.think()  # Use the Mind instance within Agent
 		payoff = self.agent.memory.payoffs[-1]
 		last_move = self.agent.solver.get_variable_values(f"holds(last_move({self.agent.game.game_players[1]}, {opponent_move}), s0).", 1)
 
@@ -72,8 +72,8 @@ class TestAgentMindFunctions(unittest.TestCase):
 		for opponent_move in opponent_moves:
 			move = self.agent.mind.act()  # Agent makes a move
 			self.assertIsNotNone(move, "The agent should successfully make a move.")
-			self.agent.mind.perceive(opponent_move)  # Agent perceives opponent's move
-			success = self.agent.mind.revise()  # Agent revises based on moves
+			self.agent.mind.observe(opponent_move)  # Agent perceives opponent's move
+			success = self.agent.mind.think()  # Agent revises based on moves
 			self.assertTrue(success, "The revise method should successfully update the solver and state.")
 
 		# Save memory to a temporary JSON file

@@ -13,7 +13,7 @@ holds(F, do(A, S)):- holds(F, S), \+ abnormal(F, A, S).
 
 The prisoner's dilemma game, having the following verbal description:
 
-"You play a game with an anonymous player in which you simultaneously make a move. Your payoff depends on both moves. If you both pick C, you each get 3$. If you choose C while they choose D, you get 1$, and they get 4$. Similarly, if you pick D while they pick C, you get 4$, and they get 1$. If you both pick D, you each earn 2$. The game has only one round."
+"You play a game with an anonymous player in which you simultaneously make a move. Your payoff depends on both moves. If you both pick C, you each get $3. If you choose C while they choose D, you get $1, and they get $4. Similarly, if you pick D while they pick C, you get $4, and they get $1. If you both pick D, you each earn $2. The game has only one round."
 
 can be specified as follows:
 

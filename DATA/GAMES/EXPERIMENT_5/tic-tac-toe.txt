@@ -1,0 +1,28 @@
+Objective:
+The objective of Tic-Tac-Toe is to be the first player to place three of your marks in a horizontal, vertical, or diagonal row on a 3x3 grid.
+
+Setup:
+1. Players: The game is for two players.
+   - Player 1 uses X.
+   - Player 2 uses O.
+2. Game Board: The board is a 3x3 grid, with nine empty spaces.
+
+How to Play:
+1. Decide who goes first. Flip a coin, roll a dice, or agree on who starts.
+2. Take turns: Players alternate turns. During a turn:
+   - Select an empty space on the grid.
+   - Place your mark (X or O) in that space.
+3. Win Condition: The first player to align three marks in:
+   - A horizontal row,
+   - A vertical column, or
+   - A diagonal line (left-to-right or right-to-left),
+   wins the game.
+4.  Draw Condition: If all nine spaces are filled without a winner, the game ends in a draw.
+
+Rules:
+1. No Overwriting: You cannot place your mark in a space that is already occupied.
+2. Turn Limits: Each player must make a move during their turn.
+
+Ending the Game:
+1. Win: Declare the winner if one player aligns three marks.
+2. Draw: Announce a draw if no spaces remain, and no player has aligned three marks.

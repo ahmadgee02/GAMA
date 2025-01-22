@@ -51,8 +51,13 @@ class Game:
 		Args:
 			moves (List[str]): A list of valid moves.
 		"""
-		if not isinstance(moves, list) or not all(isinstance(move, str) for move in moves):
+		if not isinstance(moves, list):
 			raise ValueError("Moves should be a list of strings.")
+		if not all(isinstance(move, str) for move in moves):
+			if not all(isinstance(move, int) for move in moves):
+				raise ValueError("Moves should be a list of strings.")
+			else:
+				moves = [str(m) for m in moves]
 		self.game_moves = moves
 
 	def get_possible_moves(self) -> List[str]:

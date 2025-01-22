@@ -46,7 +46,7 @@ class Claude(BaseLM):
         """Returns the current context message."""
         return self._context
 
-    def prompt(self, instruction: str, max_tokens: int = 1024) -> str:
+    def prompt(self, instruction: str, max_tokens: int = 2048) -> str:
         """
         Prompt the Claude model with an instruction and return the response.
 

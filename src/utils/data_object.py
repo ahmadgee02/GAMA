@@ -17,6 +17,7 @@ class DataObject:
 	    rules_path (Optional[str]): The file path to a Prolog rules file (default: None).
 	    prompt (Optional[str]): The initial instruction prompt for autoformalization (default: None).
 	    feedback_prompt (Optional[str]): The feedback prompt for refining rules during autoformalization (default: None).
+	    name (Optional[str]): The name of the strategy/game (default: None).
 	"""
 
 	def __init__(self,
@@ -25,10 +26,12 @@ class DataObject:
 				 rules_string: Optional[str] = None,
 				 rules_path: Optional[str] = None,
 				 instruction_prompt: Optional[str] = None,
-				 feedback_prompt: Optional[str] = None):
+				 feedback_prompt: Optional[str] = None,
+				 name: Optional[str] = None):
 		self.mode = mode
 		self.nl_description = nl_description
 		self.rules_string = rules_string
 		self.rules_path = rules_path
 		self.prompt = instruction_prompt
 		self.feedback_prompt = feedback_prompt
+		self.name = name

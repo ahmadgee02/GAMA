@@ -1,8 +1,7 @@
 import os
 import random
 import re
-import json
-from datetime import datetime
+from src.utils.setup_logger import logger
 from typing import Any, Dict, List, Optional, Union, TYPE_CHECKING
 from enum import Enum
 
@@ -76,10 +75,10 @@ def read_file(filename: str) -> Optional[str]:
 			s = f.read()
 			return s
 	except FileNotFoundError:
-		print(f"The file {filename} was not found.")
+		logger.error(f"The file {filename} was not found.")
 		return None
 	except IOError:
-		print("An error occurred while reading the file.")
+		logger.error(f"An error occurred while reading the file {filename}.")
 		return None
 
 

@@ -231,7 +231,9 @@ class Agent:
 
 		if self.status == AgentStatus.CORRECT:
 			# If the strategy rules are correct, extract the strategy name if available.
-			if strategy_object.rules_path is not None:
+			if strategy_object.name is not None:
+				self.strategy_name = strategy_object.name
+			elif strategy_object.rules_path is not None:
 				# Extract the strategy name from the file path.
 				self.strategy_name = strategy_object.rules_path.split(os.path.sep)[-1][:-2]
 
@@ -310,12 +312,12 @@ class Agent:
 		possible_moves = self.solver.get_possible_moves()
 		player_names = self.solver.get_player_names()
 
-		if possible_moves and player_names:
+		if player_names:
 			self.game.set_players(player_names)
+		if possible_moves:
 			self.game.set_possible_moves(list(set(possible_moves)))
-			return True
 
-		return False
+		return (possible_moves is not None) and (possible_moves is not None)
 
 	def reload_solver(self):
 		"""
@@ -331,10 +333,12 @@ class Agent:
 		Returns:
 			bool: True if a default move is successfully extracted, False otherwise.
 		"""
-		default_move = self.solver.get_default_move(self.game.game_players[0])
-		if default_move:
-			self.game.default_move = default_move[0]
-			return True
+		if self.game.game_players is not None:
+			if len(self.game.game_players) > 0:
+				default_move = self.solver.get_default_move(self.game.game_players[0])
+				if default_move:
+					self.game.default_move = default_move[0]
+					return True
 
 		return False
 

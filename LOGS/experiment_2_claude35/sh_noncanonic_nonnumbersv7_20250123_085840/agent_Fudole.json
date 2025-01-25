@@ -1,0 +1,23 @@
+{
+  "name": "Fudole",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix (collaborate = 'C', independent = 'I')\npayoff('C', 'C', 5, 5).    % Both collaborate: high rewards\npayoff('C', 'I', 0, 3).    % First collaborates, second independent\npayoff('I', 'C', 3, 0).    % First independent, second collaborates\npayoff('I', 'I', 1, 1).    % Both independent: low rewards\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(startup1), s0).\ninitially(player(startup2), s0).\ninitially(role(startup1,row), s0).\ninitially(role(startup2,col), s0).\ninitially(control(startup1), s0).\ninitially(control(startup2), s0).\ninitially(default_move(_, 'C'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'C'), S):- holds(player(P), S).\npossible(move(P,'I'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('C', 'I').\nopposite_move('I', 'C').\n",
+  "game_moves": [
+    "I",
+    "C"
+  ],
+  "game_players": [
+    "startup1",
+    "startup2"
+  ],
+  "default_move": "C",
+  "moves": [
+    "C"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

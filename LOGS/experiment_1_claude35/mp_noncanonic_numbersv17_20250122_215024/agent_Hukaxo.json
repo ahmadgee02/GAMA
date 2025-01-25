@@ -1,0 +1,23 @@
+{
+    "name": "Hukaxo",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix for Marketing Agencies Game\npayoff('SOCIAL', 'SOCIAL', 4, -4).\npayoff('SOCIAL', 'INFLUENCER', -6, 6).\npayoff('INFLUENCER', 'SOCIAL', -6, 6).\npayoff('INFLUENCER', 'INFLUENCER', 4, -4).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(boutique), s0).\ninitially(player(large), s0).\ninitially(role(boutique,row), s0).\ninitially(role(large,col), s0).\ninitially(control(boutique), s0).\ninitially(control(large), s0).\ninitially(default_move(_, 'SOCIAL'), s0).\n\n% What moves are possible\npossible(move(P,'SOCIAL'), S):- holds(player(P), S).\npossible(move(P,'INFLUENCER'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('SOCIAL', 'INFLUENCER').\nopposite_move('INFLUENCER', 'SOCIAL').\n",
+    "game_moves": [
+        "SOCIAL",
+        "INFLUENCER"
+    ],
+    "game_players": [
+        "boutique",
+        "large"
+    ],
+    "default_move": "SOCIAL",
+    "moves": [
+        "SOCIAL"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

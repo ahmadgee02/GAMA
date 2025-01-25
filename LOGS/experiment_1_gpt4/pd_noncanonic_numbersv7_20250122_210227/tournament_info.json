@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    18,
+    18,
+    18,
+    18,
+    18
+  ],
+  "winners_payoffs": [
+    [
+      "Niyoju",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Yiqali",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Wacaro",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Qoceca",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Papume",
+      "tit-for-tat.",
+      18.0
+    ]
+  ]
+}

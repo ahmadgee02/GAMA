@@ -1,0 +1,23 @@
+{
+  "num_agents": 6,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Dihocu",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Rivuha",
+      "tit-for-tat.",
+      3.0
+    ]
+  ]
+}

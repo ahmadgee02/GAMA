@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    19,
+    19,
+    19,
+    19,
+    19
+  ],
+  "winners_payoffs": [
+    [
+      "Wetego",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Laboja",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Repavi",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Behequ",
+      "tit-for-tat.",
+      19.0
+    ]
+  ]
+}

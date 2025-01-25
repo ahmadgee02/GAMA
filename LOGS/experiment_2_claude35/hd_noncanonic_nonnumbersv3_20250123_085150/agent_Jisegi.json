@@ -1,0 +1,23 @@
+{
+  "name": "Jisegi",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix (compromise='C', hold_firm='F')\npayoff('C', 'C', 3, 3).    % Both compromise: moderate success\npayoff('F', 'C', 4, 1).    % Party1 firm, Party2 compromises\npayoff('C', 'F', 1, 4).    % Party1 compromises, Party2 firm\npayoff('F', 'F', 0, 0).    % Both firm: political gridlock\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(party1), s0).\ninitially(player(party2), s0).\ninitially(role(party1,row), s0).\ninitially(role(party2,col), s0).\ninitially(control(party1), s0).\ninitially(control(party2), s0).\ninitially(default_move(_, 'C'), s0).\n\n% What moves are possible\npossible(move(P,'C'), S):- holds(player(P), S).\npossible(move(P,'F'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('C', 'F').\nopposite_move('F', 'C').\n",
+  "game_moves": [
+    "C",
+    "F"
+  ],
+  "game_players": [
+    "party1",
+    "party2"
+  ],
+  "default_move": "C",
+  "moves": [
+    "C"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

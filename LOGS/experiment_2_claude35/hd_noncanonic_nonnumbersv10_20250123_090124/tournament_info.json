@@ -1,0 +1,22 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Mapuje",
+      "tit-for-tat.",
+      8.0
+    ],
+    [
+      "Dubeqi",
+      "tit-for-tat.",
+      8.0
+    ],
+    [
+      "Gesupe",
+      "tit-for-tat.",
+      8.0
+    ]
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Temiga",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Labor Negotiations */\n\n% Payoff matrix (union, management)\npayoff('COMPROMISE', 'COMPROMISE', 3, 3).    % Both get fair deal\npayoff('HOLD', 'COMPROMISE', 4, 1).         % Union gets better terms\npayoff('COMPROMISE', 'HOLD', 1, 4).         % Management gets better terms\npayoff('HOLD', 'HOLD', 0, 0).              % Strike occurs, both lose\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(union), s0).\ninitially(player(management), s0).\ninitially(role(union,row), s0).\ninitially(role(management,col), s0).\ninitially(control(union), s0).\ninitially(control(management), s0).\ninitially(default_move(_, 'COMPROMISE'), s0).\n\n% Possible moves for players\npossible(move(P,'COMPROMISE'), S):- holds(player(P), S).\npossible(move(P,'HOLD'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('COMPROMISE', 'HOLD').\nopposite_move('HOLD', 'COMPROMISE').\n",
+  "game_moves": [
+    "HOLD",
+    "COMPROMISE"
+  ],
+  "game_players": [
+    "union",
+    "management"
+  ],
+  "default_move": "COMPROMISE",
+  "moves": [
+    "COMPROMISE"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

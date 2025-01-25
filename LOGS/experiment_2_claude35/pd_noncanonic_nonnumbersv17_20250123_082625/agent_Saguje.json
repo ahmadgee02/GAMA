@@ -1,0 +1,23 @@
+{
+  "name": "Saguje",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Climate Control Game */\n\n% Payoff matrix (higher numbers are better outcomes)\npayoff('CONTROL', 'CONTROL', 7, 7).   % Both control: mutual benefit\npayoff('CONTROL', 'POLLUTE', 2, 8).   % One controls, one pollutes\npayoff('POLLUTE', 'CONTROL', 8, 2).   % One pollutes, one controls\npayoff('POLLUTE', 'POLLUTE', 4, 4).   % Both pollute: mutual harm\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(country1), s0).\ninitially(player(country2), s0).\ninitially(role(country1,row), s0).\ninitially(role(country2,col), s0).\ninitially(control(country1), s0).\ninitially(control(country2), s0).\ninitially(default_move(_, 'CONTROL'), s0).\n\n% What moves are possible\npossible(move(P,'CONTROL'), S):- holds(player(P), S).\npossible(move(P,'POLLUTE'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('CONTROL', 'POLLUTE').\nopposite_move('POLLUTE', 'CONTROL').\n",
+  "game_moves": [
+    "CONTROL",
+    "POLLUTE"
+  ],
+  "game_players": [
+    "country1",
+    "country2"
+  ],
+  "default_move": "CONTROL",
+  "moves": [
+    "CONTROL"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

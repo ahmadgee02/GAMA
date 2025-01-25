@@ -1,0 +1,23 @@
+{
+    "name": "Xazepi",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n/* Game specific predicates for Energy Investment Game */\n\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix for Energy Investment\npayoff('wind', 'wind', 5, -5).\npayoff('solar', 'solar', 5, -5).\npayoff('wind', 'solar', -4, 4).\npayoff('solar', 'wind', -4, 4).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(startup), s0).\ninitially(player(traditional), s0).\ninitially(role(startup,row), s0).\ninitially(role(traditional,col), s0).\ninitially(control(startup), s0).\ninitially(control(traditional), s0).\ninitially(default_move(_, 'wind'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'wind'), S):- holds(player(P), S).\npossible(move(P,'solar'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('wind', 'solar').\nopposite_move('solar', 'wind').\n",
+    "game_moves": [
+        "wind",
+        "solar"
+    ],
+    "game_players": [
+        "startup",
+        "traditional"
+    ],
+    "default_move": "wind",
+    "moves": [
+        "wind"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

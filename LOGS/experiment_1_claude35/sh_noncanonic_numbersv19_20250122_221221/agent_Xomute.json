@@ -1,0 +1,23 @@
+{
+    "name": "Xomute",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n% Payoff matrix for Film Directors' Game\npayoff('COMMIT', 'COMMIT', 7, 7).\npayoff('DISENGAGE', 'COMMIT', 3, 0).\npayoff('COMMIT', 'DISENGAGE', 0, 3).\npayoff('DISENGAGE', 'DISENGAGE', 2, 2).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(d1), s0).\ninitially(player(d2), s0).\ninitially(role(d1,row), s0).\ninitially(role(d2,col), s0).\ninitially(control(d1), s0).\ninitially(control(d2), s0).\ninitially(default_move(_, 'COMMIT'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'COMMIT'), S):- holds(player(P), S).\npossible(move(P,'DISENGAGE'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('COMMIT', 'DISENGAGE').\nopposite_move('DISENGAGE', 'COMMIT').\n",
+    "game_moves": [
+        "COMMIT",
+        "DISENGAGE"
+    ],
+    "game_players": [
+        "d1",
+        "d2"
+    ],
+    "default_move": "COMMIT",
+    "moves": [
+        "COMMIT"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

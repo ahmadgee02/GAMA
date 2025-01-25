@@ -1,0 +1,23 @@
+{
+  "name": "Bacufa",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Defense Contractors Bidding Game */\n\n% Payoff matrix ('C' for compete, 'F' for price-fix)\npayoff('C', 'C', 3, 3).    % Both compete - moderate profits\npayoff('C', 'F', 1, 5).    % One competes, other fixes\npayoff('F', 'C', 5, 1).    % One fixes, other competes\npayoff('F', 'F', 4, 4).    % Both fix - high profits but legal risk\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(contractor1), s0).\ninitially(player(contractor2), s0).\ninitially(role(contractor1,row), s0).\ninitially(role(contractor2,col), s0).\ninitially(control(contractor1), s0).\ninitially(control(contractor2), s0).\ninitially(default_move(_, 'C'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'C'), S):- holds(player(P), S).\npossible(move(P,'F'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('C', 'F').\nopposite_move('F', 'C').\n",
+  "game_moves": [
+    "C",
+    "F"
+  ],
+  "game_players": [
+    "contractor1",
+    "contractor2"
+  ],
+  "default_move": "C",
+  "moves": [
+    "C"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

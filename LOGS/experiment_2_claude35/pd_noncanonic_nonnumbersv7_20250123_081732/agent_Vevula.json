@@ -1,0 +1,23 @@
+{
+  "name": "Vevula",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n\n/* Game specific predicates for Disarmament Treaty Game */\n\n% Payoff matrix ('C' for Comply, 'D' for Defect)\npayoff('C', 'C', 3, 3).    % Both comply: mutual benefit\npayoff('C', 'D', 0, 4).    % First complies, second defects\npayoff('D', 'C', 4, 0).    % First defects, second complies\npayoff('D', 'D', 1, 1).    % Both defect: mutual loss\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(country1), s0).\ninitially(player(country2), s0).\ninitially(role(country1,row), s0).\ninitially(role(country2,col), s0).\ninitially(control(country1), s0).\ninitially(control(country2), s0).\ninitially(default_move(_, 'C'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'C'), S):- holds(player(P), S).  % Comply with treaty\npossible(move(P,'D'), S):- holds(player(P), S).  % Defect from treaty\n\n% Moves that are opposite to each other\nopposite_move('C', 'D').\nopposite_move('D', 'C').\n",
+  "game_moves": [
+    "C",
+    "D"
+  ],
+  "game_players": [
+    "country1",
+    "country2"
+  ],
+  "default_move": "C",
+  "moves": [
+    "C"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

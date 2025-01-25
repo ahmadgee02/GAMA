@@ -1,0 +1,23 @@
+{
+    "name": "Juruvi",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Coffee Shop Game */\n\n% Payoff matrix\npayoff('LATTE', 'LATTE', 2, -2).\npayoff('BREW', 'BREW', 2, -2).\npayoff('LATTE', 'BREW', -3, 3).\npayoff('BREW', 'LATTE', -3, 3).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(local), s0).\ninitially(player(chain), s0).\ninitially(role(local,row), s0).\ninitially(role(chain,col), s0).\ninitially(control(local), s0).\ninitially(control(chain), s0).\ninitially(default_move(_, 'LATTE'), s0).\n\n% What moves are possible for a player\npossible(move(P,'LATTE'), S):- holds(player(P), S).\npossible(move(P,'BREW'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('LATTE', 'BREW').\nopposite_move('BREW', 'LATTE').\n",
+    "game_moves": [
+        "BREW",
+        "LATTE"
+    ],
+    "game_players": [
+        "local",
+        "chain"
+    ],
+    "default_move": "LATTE",
+    "moves": [
+        "LATTE"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

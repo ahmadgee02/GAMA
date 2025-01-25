@@ -1,0 +1,23 @@
+{
+  "name": "Qoxoha",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Vacation Choice */\n\n% Payoff matrix (beach_lover gets first utility, mountain_lover gets second)\npayoff('beach', 'beach', 4, 2).\npayoff('mountain', 'mountain', 2, 4).\npayoff('beach', 'mountain', 0, 0).\npayoff('mountain', 'beach', 0, 0).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(beach_lover), s0).\ninitially(player(mountain_lover), s0).\ninitially(role(beach_lover, row), s0).\ninitially(role(mountain_lover, col), s0).\ninitially(control(beach_lover), s0).\ninitially(control(mountain_lover), s0).\ninitially(default_move(_, 'beach'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'beach'), S):- holds(player(P), S).\npossible(move(P,'mountain'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('beach', 'mountain').\nopposite_move('mountain', 'beach').\n",
+  "game_moves": [
+    "mountain",
+    "beach"
+  ],
+  "game_players": [
+    "beach_lover",
+    "mountain_lover"
+  ],
+  "default_move": "beach",
+  "moves": [
+    "beach"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

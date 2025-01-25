@@ -1,0 +1,23 @@
+{
+  "name": "Sikiga",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n/* Game specific predicates for Newspapers Game */\n\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n\n% Payoff matrix (local paper, national paper)\npayoff('LOCAL', 'LOCAL', 3, -1).     % Both choose local story\npayoff('INTL', 'INTL', 3, -1).       % Both choose international story\npayoff('LOCAL', 'INTL', 1, 2).       % Different stories\npayoff('INTL', 'LOCAL', 1, 2).       % Different stories\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(local_paper), s0).\ninitially(player(national_paper), s0).\ninitially(role(local_paper,row), s0).\ninitially(role(national_paper,col), s0).\ninitially(control(local_paper), s0).\ninitially(control(national_paper), s0).\ninitially(default_move(_, 'LOCAL'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'LOCAL'), S):- holds(player(P), S).\npossible(move(P,'INTL'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('LOCAL', 'INTL').\nopposite_move('INTL', 'LOCAL').\n",
+  "game_moves": [
+    "INTL",
+    "LOCAL"
+  ],
+  "game_players": [
+    "local_paper",
+    "national_paper"
+  ],
+  "default_move": "LOCAL",
+  "moves": [
+    "LOCAL"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

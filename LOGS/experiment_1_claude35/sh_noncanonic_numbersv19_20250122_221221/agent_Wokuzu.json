@@ -1,0 +1,23 @@
+{
+    "name": "Wokuzu",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n:- discontiguous payoff/4.\n\n% Payoff matrix for the Film Directors' Game\npayoff('Commit', 'Commit', 7, 7).\npayoff('Disengage', 'Commit', 3, 0).\npayoff('Commit', 'Disengage', 0, 3).\npayoff('Disengage', 'Disengage', 2, 2).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(d1), s0).\ninitially(player(d2), s0).\ninitially(role(d1,row), s0).\ninitially(role(d2,col), s0).\ninitially(control(d1), s0).\ninitially(control(d2), s0).\ninitially(default_move(_, 'Commit'), s0).\n\n% What moves are possible for a player\npossible(move(P,'Commit'), S):- holds(player(P), S).\npossible(move(P,'Disengage'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('Commit', 'Disengage').\nopposite_move('Disengage', 'Commit').\n",
+    "game_moves": [
+        "Commit",
+        "Disengage"
+    ],
+    "game_players": [
+        "d1",
+        "d2"
+    ],
+    "default_move": "Commit",
+    "moves": [
+        "Commit"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

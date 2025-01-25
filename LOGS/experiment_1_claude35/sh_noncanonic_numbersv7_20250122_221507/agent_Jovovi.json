@@ -1,0 +1,23 @@
+{
+    "name": "Jovovi",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix for Community Garden game\npayoff('Work', 'Work', 6, 6).\npayoff('Slack', 'Work', 3, 0).\npayoff('Work', 'Slack', 0, 3).\npayoff('Slack', 'Slack', 1, 1).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(p1), s0).\ninitially(player(p2), s0).\ninitially(role(p1,row), s0).\ninitially(role(p2,col), s0).\ninitially(control(p1), s0).\ninitially(control(p2), s0).\ninitially(default_move(_, 'Work'), s0).\n\n% What moves are possible\npossible(move(P,'Work'), S):- holds(player(P), S).\npossible(move(P,'Slack'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('Work', 'Slack').\nopposite_move('Slack', 'Work').\n",
+    "game_moves": [
+        "Slack",
+        "Work"
+    ],
+    "game_players": [
+        "p1",
+        "p2"
+    ],
+    "default_move": "Work",
+    "moves": [
+        "Work"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

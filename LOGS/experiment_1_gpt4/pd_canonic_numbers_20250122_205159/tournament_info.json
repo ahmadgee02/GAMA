@@ -1,0 +1,23 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -16,
+    -16,
+    -16,
+    -16,
+    -16
+  ],
+  "winners_payoffs": [
+    [
+      "Bedifa",
+      "tit-for-tat.",
+      -16.0
+    ],
+    [
+      "Jomeku",
+      "tit-for-tat.",
+      -16.0
+    ]
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    10,
+    10,
+    10,
+    10,
+    10
+  ],
+  "winners_payoffs": [
+    [
+      "Poxuhi",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Woreke",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Nenodu",
+      "tit-for-tat.",
+      10.0
+    ]
+  ]
+}

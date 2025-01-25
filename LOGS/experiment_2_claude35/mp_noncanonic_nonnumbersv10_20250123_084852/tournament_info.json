@@ -1,0 +1,27 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Xowusi",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Kesewu",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Muvevu",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Xomala",
+      "anti-tit-for-tat.",
+      10.0
+    ]
+  ]
+}

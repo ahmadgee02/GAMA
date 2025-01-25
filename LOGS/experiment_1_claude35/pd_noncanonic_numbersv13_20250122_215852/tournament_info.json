@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    25,
+    25,
+    25,
+    25,
+    25
+  ],
+  "winners_payoffs": [
+    [
+      "Secefa",
+      "tit-for-tat.",
+      25.0
+    ],
+    [
+      "Daviti",
+      "tit-for-tat.",
+      25.0
+    ],
+    [
+      "Winoke",
+      "tit-for-tat.",
+      25.0
+    ],
+    [
+      "Rejilo",
+      "tit-for-tat.",
+      25.0
+    ],
+    [
+      "Seteju",
+      "tit-for-tat.",
+      25.0
+    ]
+  ]
+}

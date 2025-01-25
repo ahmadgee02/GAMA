@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    19,
+    19,
+    19,
+    19,
+    19
+  ],
+  "winners_payoffs": [
+    [
+      "Mijaqe",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Regage",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Xuzube",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Mafiqa",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Yopupa",
+      "tit-for-tat.",
+      19.0
+    ]
+  ]
+}

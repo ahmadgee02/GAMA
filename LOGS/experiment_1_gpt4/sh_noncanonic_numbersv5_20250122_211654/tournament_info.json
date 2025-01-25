@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    7,
+    7,
+    7,
+    7,
+    7
+  ],
+  "winners_payoffs": [
+    [
+      "Pikavi",
+      "tit-for-tat.",
+      7.0
+    ],
+    [
+      "Piqiru",
+      "tit-for-tat.",
+      7.0
+    ],
+    [
+      "Kovuwa",
+      "tit-for-tat.",
+      7.0
+    ],
+    [
+      "Lawado",
+      "tit-for-tat.",
+      7.0
+    ]
+  ]
+}

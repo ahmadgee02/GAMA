@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    16,
+    16,
+    16,
+    16,
+    16
+  ],
+  "winners_payoffs": [
+    [
+      "Wiquha",
+      "tit-for-tat.",
+      16.0
+    ],
+    [
+      "Buxoje",
+      "tit-for-tat.",
+      16.0
+    ],
+    [
+      "Gemeqi",
+      "tit-for-tat.",
+      16.0
+    ],
+    [
+      "Lacoru",
+      "tit-for-tat.",
+      16.0
+    ]
+  ]
+}

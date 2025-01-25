@@ -59,10 +59,12 @@ class Mind:
 		        - `None` if the memory or game player data is not initialized or too short.
 		"""
 		if not self.agent.memory.moves or not self.agent.memory.opponent_moves or not self.agent.game.game_players:
+			self.agent.status = AgentStatus.RUNTIME_ERROR
 			logger.debug(f"Memory of moves or player names not initialised!")
 			return None
 		if len(self.agent.memory.moves) < 1 or len(self.agent.memory.opponent_moves) < 1 or len(
 				self.agent.game.game_players) < 2:
+			self.agent.status = AgentStatus.RUNTIME_ERROR
 			logger.debug(f"Memory of moves or player names not too short!")
 			return None
 
@@ -72,11 +74,13 @@ class Mind:
 		payoff = self.agent.solver.calculate_payoff(self.agent.game.game_players[0], opponent_name,
 													self.agent.memory.moves[-1], opponent_move)
 		if payoff is None:
+			self.agent.status = AgentStatus.RUNTIME_ERROR
 			logger.debug(f"Payoff not calculated!")
 			return False
 
 		# Step 3: Update the solver state with the opponent's last move
 		if not self.agent.solver.update_opponent_last_move(opponent_name, opponent_move):
+			self.agent.status = AgentStatus.RUNTIME_ERROR
 			logger.debug(f"Opponent's last move not updated!")
 			return False
 

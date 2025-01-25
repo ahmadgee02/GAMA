@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Wixona",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Zalimu",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Bekezo",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Tikoyo",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Xicahi",
+      "tit-for-tat.",
+      3.0
+    ]
+  ]
+}

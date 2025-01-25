@@ -1,0 +1,23 @@
+{
+    "name": "Nutiqo",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix (market share percentages)\npayoff('SEDAN', 'SEDAN', 10, -10).\npayoff('SUV', 'SUV', 10, -10).\npayoff('SEDAN', 'SUV', -15, 15).\npayoff('SUV', 'SEDAN', -15, 15).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(small), s0).\ninitially(player(large), s0).\ninitially(role(small,row), s0).\ninitially(role(large,col), s0).\ninitially(control(small), s0).\ninitially(control(large), s0).\ninitially(default_move(_, 'SEDAN'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'SEDAN'), S):- holds(player(P), S).\npossible(move(P,'SUV'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('SEDAN', 'SUV').\nopposite_move('SUV', 'SEDAN').\n\n% Effects of moves\neffect(did(P, M), move(P, M), _S).\n\n% Loss of control after move\nabnormal(control(P), move(P, _M), _S).\n",
+    "game_moves": [
+        "SUV",
+        "SEDAN"
+    ],
+    "game_players": [
+        "small",
+        "large"
+    ],
+    "default_move": "SEDAN",
+    "moves": [
+        "SEDAN"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -2,
+    -2,
+    -2,
+    -2,
+    -2
+  ],
+  "winners_payoffs": [
+    [
+      "Sacuqu",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Getevu",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Wufule",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Tavoga",
+      "tit-for-tat.",
+      -2.0
+    ]
+  ]
+}

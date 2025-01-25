@@ -1,0 +1,23 @@
+{
+    "name": "Rizipa",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n\n% Payoff matrix for Water Sharing Game\npayoff('SHARE', 'SHARE', 0, 0).\npayoff('TAKE', 'SHARE', 2, -2).\npayoff('SHARE', 'TAKE', -2, 2).\npayoff('TAKE', 'TAKE', -10, -10).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(f1), s0).\ninitially(player(f2), s0).\ninitially(role(f1,row), s0).\ninitially(role(f2,col), s0).\ninitially(control(f1), s0).\ninitially(control(f2), s0).\ninitially(default_move(_, 'SHARE'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'SHARE'), S):- holds(player(P), S).\npossible(move(P,'TAKE'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('SHARE', 'TAKE').\nopposite_move('TAKE', 'SHARE').\n",
+    "game_moves": [
+        "TAKE",
+        "SHARE"
+    ],
+    "game_players": [
+        "f1",
+        "f2"
+    ],
+    "default_move": "SHARE",
+    "moves": [
+        "SHARE"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

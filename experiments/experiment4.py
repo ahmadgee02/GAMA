@@ -47,18 +47,17 @@ def main():
 		for i in range(5):
 			agent_pool = AgentPool()
 			for i in range(num_agents):
-				for strategy_path in os.listdir(strategies_path):
+				for strategy_path in sorted(os.listdir(strategies_path)):
 					strategy_name = strategy_path.split(os.path.sep)[-1].replace(".txt", "")
 					strategy_desc = read_file(os.path.join(strategies_path,strategy_path))
 					prompt = read_file(strategy_template_path).format(strategy_description=strategy_desc)
 
-					agent = Agent(agent_json=agent_json, max_attempts=5)
+					agent = Agent(agent_json=agent_json, max_attempts=max_attempts)
 					strategy_data = DataObject(nl_description=strategy_desc, instruction_prompt=prompt,
 											   feedback_prompt=read_file(feedback_template_path),
 											   mode=Mode.AUTOFORMALIZATION, name=strategy_name)
 					agent.set_strategy(strategy_data)
-					agent_name = generate_agent_name(3)
-					agent.name = agent_name
+					agent.name = generate_agent_name(3)
 					agent_pool.add_agent(agent)
 
 			# Record original number of agents

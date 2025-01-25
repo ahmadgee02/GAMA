@@ -1,0 +1,27 @@
+{
+    "name": "Rovino",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/6.\n:- discontiguous initial/1.\n:- discontiguous initially/2.\n:- discontiguous final/1.\n:- discontiguous legal/2.\n:- discontiguous possible/2.\n:- discontiguous effect/3.\n:- discontiguous abnormal/3.\n:- discontiguous finally/2.\n\n% Payoff matrix for the Campaign Strategy Session game\npayoff('Grand Conference Hall', 'Grand Conference Hall', 2, 1).\npayoff('Tech Innovation Center', 'Grand Conference Hall', 1, 2).\npayoff('Grand Conference Hall', 'Tech Innovation Center', 2, 1).\npayoff('Tech Innovation Center', 'Tech Innovation Center', 1, 2).\npayoff('No Agreement', 'No Agreement', 0, 0).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play.\ninitially(player(manager1), s0).\ninitially(player(manager2), s0).\ninitially(role(manager1, location_chooser), s0).\ninitially(role(manager2, location_chooser), s0).\ninitially(control(manager1), s0).\ninitially(control(manager2), s0).\ninitially(default_move(_, 'No Agreement'), s0).\n\n% When a state is final\nfinal(do(move(_Manager2, _M2), do(move(_Manager1, _M1), S))):-initial(S).\n\n% A legal move is a possible move where the player has control (is its turn)\nlegal(move(Manager, Location), S):- possible(move(Manager, Location), S), holds(control(Manager), S).\n\n% What is possible for a player to choose\npossible(move(Manager, 'Grand Conference Hall'), S):- holds(player(Manager), S).\npossible(move(Manager, 'Tech Innovation Center'), S):- holds(player(Manager), S).\npossible(move(Manager, 'No Agreement'), S):- holds(player(Manager), S).\n\n% Moves that are opposite to each other. 'No Agreement' has no direct opposite.\nopposite_move('Grand Conference Hall', 'Tech Innovation Center').\nopposite_move('Tech Innovation Center', 'Grand Conference Hall').\n\n% The effects of a move: if Manager has chosen Location, then in the next state this\n% is what they did.\neffect(did(Manager, Location), move(Manager, Location), _S).\n\n% The effects of a move: once a move is made, the player loses control, i.e.,\n% cannot move anymore.\nabnormal(control(Manager), move(Manager, _Location), _S).\n\n% What holds finally: the outcome with players, Moves, and Utilities.\nfinally(outcome(M1, L1, U1, M2, L2, U2), S):-\n    final(S),\n    holds(role(M1, location_chooser), S),\n    holds(did(M1, L1), S),\n    holds(role(M2, location_chooser), S),\n    holds(did(M2, L2), S),\n    payoff(L1, L2, U1, U2).\n\n% Goals achieved by the players.\nfinally(goal(M1, U1), S):-\n    finally(outcome(M1,_,U1,_,_,_), S).\nfinally(goal(M2, U2), S):-\n    finally(outcome(_,_,_,M2,_,U2), S).\n",
+    "game_moves": [
+        "No Agreement",
+        "Tech Innovation Center",
+        "Grand Conference Hall"
+    ],
+    "game_players": [
+        "manager1",
+        "manager2"
+    ],
+    "default_move": "No Agreement",
+    "moves": [
+        "No Agreement",
+        "No Agreement"
+    ],
+    "payoffs": [
+        0.0
+    ],
+    "total_payoff": 0.0,
+    "trace_messages": [],
+    "attempts": 1
+}

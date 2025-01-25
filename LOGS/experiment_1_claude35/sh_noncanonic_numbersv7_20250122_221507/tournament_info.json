@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    10,
+    10,
+    10,
+    10,
+    10
+  ],
+  "winners_payoffs": [
+    [
+      "Celuya",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Cogoru",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Zugimu",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Dupuzi",
+      "tit-for-tat.",
+      10.0
+    ]
+  ]
+}

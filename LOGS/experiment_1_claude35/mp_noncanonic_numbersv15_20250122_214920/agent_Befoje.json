@@ -1,0 +1,23 @@
+{
+    "name": "Befoje",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Sports Sponsorship Game */\n\n% Payoff matrix ('SOCCER', 'BASKETBALL')\npayoff('SOCCER', 'SOCCER', 3, -3).\npayoff('BASKETBALL', 'BASKETBALL', 3, -3).\npayoff('SOCCER', 'BASKETBALL', -5, 5).\npayoff('BASKETBALL', 'SOCCER', -5, 5).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(small_company), s0).\ninitially(player(big_brand), s0).\ninitially(role(small_company,row), s0).\ninitially(role(big_brand,col), s0).\ninitially(control(small_company), s0).\ninitially(control(big_brand), s0).\ninitially(default_move(_, 'SOCCER'), s0).\n\n% What moves are possible\npossible(move(P,'SOCCER'), S):- holds(player(P), S).\npossible(move(P,'BASKETBALL'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('SOCCER', 'BASKETBALL').\nopposite_move('BASKETBALL', 'SOCCER').\n",
+    "game_moves": [
+        "BASKETBALL",
+        "SOCCER"
+    ],
+    "game_players": [
+        "small_company",
+        "big_brand"
+    ],
+    "default_move": "SOCCER",
+    "moves": [
+        "SOCCER"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

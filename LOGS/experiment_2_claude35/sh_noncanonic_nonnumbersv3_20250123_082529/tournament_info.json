@@ -1,0 +1,32 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Pejoxa",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Wonodo",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Jeruta",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Rerofu",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Xiruyi",
+      "anti-tit-for-tat.",
+      10.0
+    ]
+  ]
+}

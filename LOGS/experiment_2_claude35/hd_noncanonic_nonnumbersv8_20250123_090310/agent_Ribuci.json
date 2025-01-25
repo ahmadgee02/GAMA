@@ -1,0 +1,23 @@
+{
+  "name": "Ribuci",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix (higher numbers are better)\npayoff('FIRM', 'FIRM', 1, 1).     % Both hold firm: strikes and losses\npayoff('COMP', 'FIRM', 2, 4).     % Union compromises, Management holds firm\npayoff('FIRM', 'COMP', 4, 2).     % Union holds firm, Management compromises\npayoff('COMP', 'COMP', 3, 3).     % Both compromise: reasonable contract\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(union), s0).\ninitially(player(management), s0).\ninitially(role(union,row), s0).\ninitially(role(management,col), s0).\ninitially(control(union), s0).\ninitially(control(management), s0).\ninitially(default_move(_, 'COMP'), s0).\n\n% What moves are possible\npossible(move(P,'FIRM'), S):- holds(player(P), S).\npossible(move(P,'COMP'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('COMP', 'FIRM').\nopposite_move('FIRM', 'COMP').\n",
+  "game_moves": [
+    "COMP",
+    "FIRM"
+  ],
+  "game_players": [
+    "union",
+    "management"
+  ],
+  "default_move": "COMP",
+  "moves": [
+    "COMP"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

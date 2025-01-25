@@ -1,0 +1,32 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Libotu",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Doviga",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Hahusi",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Hoqohe",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Zizafe",
+      "anti-tit-for-tat.",
+      6.0
+    ]
+  ]
+}

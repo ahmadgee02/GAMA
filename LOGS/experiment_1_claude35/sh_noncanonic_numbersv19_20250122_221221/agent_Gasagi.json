@@ -1,0 +1,23 @@
+{
+    "name": "Gasagi",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous effect/3.\n:- discontiguous abnormal/3.\n\n% Payoff matrix\npayoff('Commit', 'Commit', 7, 7).\npayoff('Disengage', 'Commit', 3, 0).\npayoff('Commit', 'Disengage', 0, 3).\npayoff('Disengage', 'Disengage', 2, 2).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(director1), s0).\ninitially(player(director2), s0).\ninitially(role(director1,row), s0).\ninitially(role(director2,col), s0).\ninitially(control(director1), s0).\ninitially(control(director2), s0).\ninitially(default_move(_, 'Commit'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'Commit'), S):- holds(player(P), S).\npossible(move(P,'Disengage'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('Commit', 'Disengage').\nopposite_move('Disengage', 'Commit').\n\n% The effects of a move\neffect(did(P, M), move(P, M), _S).\n\n% Abnormal conditions\nabnormal(control(P), move(P, _M), _S).\n",
+    "game_moves": [
+        "Commit",
+        "Disengage"
+    ],
+    "game_players": [
+        "director1",
+        "director2"
+    ],
+    "default_move": "Commit",
+    "moves": [
+        "Commit"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

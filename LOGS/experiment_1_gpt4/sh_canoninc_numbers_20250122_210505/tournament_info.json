@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    6,
+    6,
+    6,
+    6,
+    6
+  ],
+  "winners_payoffs": [
+    [
+      "Rofobi",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Kupasa",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Zeyere",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Lobamu",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Peyebo",
+      "tit-for-tat.",
+      6.0
+    ]
+  ]
+}

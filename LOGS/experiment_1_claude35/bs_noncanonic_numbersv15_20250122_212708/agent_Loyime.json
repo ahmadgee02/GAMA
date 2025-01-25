@@ -1,0 +1,23 @@
+{
+    "name": "Loyime",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Conference Choice Game */\n\n% Payoff matrix\npayoff('TECH', 'TECH', 2, 1).\npayoff('MKTG', 'MKTG', 1, 2).\npayoff('TECH', 'MKTG', 0, 0).\npayoff('MKTG', 'TECH', 0, 0).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(p1), s0).\ninitially(player(p2), s0).\ninitially(role(p1,row), s0).\ninitially(role(p2,col), s0).\ninitially(control(p1), s0).\ninitially(control(p2), s0).\ninitially(default_move(_, 'TECH'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'TECH'), S):- holds(player(P), S).\npossible(move(P,'MKTG'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('TECH', 'MKTG').\nopposite_move('MKTG', 'TECH').\n",
+    "game_moves": [
+        "MKTG",
+        "TECH"
+    ],
+    "game_players": [
+        "p1",
+        "p2"
+    ],
+    "default_move": "TECH",
+    "moves": [
+        "TECH"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

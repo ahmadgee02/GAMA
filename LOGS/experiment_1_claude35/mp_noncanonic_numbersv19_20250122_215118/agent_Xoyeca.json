@@ -1,0 +1,23 @@
+{
+    "name": "Xoyeca",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Renewable Energy Game */\n\n% Payoff matrix ('WIND' and 'SOLAR' are the moves)\npayoff('WIND', 'WIND', 5, -5).\npayoff('SOLAR', 'SOLAR', 5, -5).\npayoff('WIND', 'SOLAR', -4, 4).\npayoff('SOLAR', 'WIND', -4, 4).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(startup), s0).\ninitially(player(traditional), s0).\ninitially(role(startup,row), s0).\ninitially(role(traditional,col), s0).\ninitially(control(startup), s0).\ninitially(control(traditional), s0).\ninitially(default_move(_, 'WIND'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'WIND'), S):- holds(player(P), S).\npossible(move(P,'SOLAR'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('WIND', 'SOLAR').\nopposite_move('SOLAR', 'WIND').\n",
+    "game_moves": [
+        "SOLAR",
+        "WIND"
+    ],
+    "game_players": [
+        "startup",
+        "traditional"
+    ],
+    "default_move": "WIND",
+    "moves": [
+        "WIND"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

@@ -1,0 +1,22 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Sotexi",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Fericu",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Dohafu",
+      "tit-for-tat.",
+      10.0
+    ]
+  ]
+}

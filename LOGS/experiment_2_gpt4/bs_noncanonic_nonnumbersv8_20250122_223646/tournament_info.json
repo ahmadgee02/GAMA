@@ -1,0 +1,17 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Qevive",
+      "tit-for-tat.",
+      7.0
+    ],
+    [
+      "Todaro",
+      "tit-for-tat.",
+      7.0
+    ]
+  ]
+}

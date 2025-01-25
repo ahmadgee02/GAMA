@@ -1,0 +1,23 @@
+{
+  "name": "Wuquja",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n:- discontiguous effect/3.\n:- discontiguous abnormal/3.\n\n% Payoff matrix (North advocate is row player, East advocate is column player)\npayoff('N', 'N', 4, 2).  % both choose North\npayoff('E', 'E', 2, 4).  % both choose East\npayoff('N', 'E', 0, 0).  % different choices\npayoff('E', 'N', 0, 0).  % different choices\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(p1), s0).          % p1 is a player\ninitially(player(p2), s0).          % p2 is a player\ninitially(role(p1,row), s0).        % p1 is row player (North advocate)\ninitially(role(p2,col), s0).        % p2 is col player (East advocate)\ninitially(control(p1), s0).         % p1 can move\ninitially(control(p2), s0).         % p2 can move\ninitially(default_move(_, 'N'), s0). % default move is North\n\n% What moves are possible\npossible(move(P,'N'), S):- holds(player(P), S).  % can choose North\npossible(move(P,'E'), S):- holds(player(P), S).  % can choose East\n\n% Opposite moves\nopposite_move('N', 'E').\nopposite_move('E', 'N').\n",
+  "game_moves": [
+    "E",
+    "N"
+  ],
+  "game_players": [
+    "p1",
+    "p2"
+  ],
+  "default_move": "N",
+  "moves": [
+    "N"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

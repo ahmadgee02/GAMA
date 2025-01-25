@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -2,
+    -2,
+    -2,
+    -2,
+    -2
+  ],
+  "winners_payoffs": [
+    [
+      "Fepedo",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Votori",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Bixoqo",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Josoke",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Diyefi",
+      "tit-for-tat.",
+      -2.0
+    ]
+  ]
+}

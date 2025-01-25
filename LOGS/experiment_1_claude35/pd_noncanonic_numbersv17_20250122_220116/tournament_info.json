@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    18,
+    18,
+    18,
+    18,
+    18
+  ],
+  "winners_payoffs": [
+    [
+      "Kabula",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Numupi",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Juvenu",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Fihigu",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Wonugi",
+      "tit-for-tat.",
+      18.0
+    ]
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "num_agents": 6,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Bebini",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Kuruva",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Menede",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Jotara",
+      "tit-for-tat.",
+      3.0
+    ]
+  ]
+}

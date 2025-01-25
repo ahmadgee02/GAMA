@@ -1,0 +1,23 @@
+{
+    "name": "Tecika",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Electric Vehicle Market Game */\n\n% Payoff matrix (market share changes in percentages)\npayoff('SEDAN', 'SEDAN', -10, 10).\npayoff('SUV', 'SUV', -10, 10).\npayoff('SEDAN', 'SUV', 15, -15).\npayoff('SUV', 'SEDAN', 15, -15).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(large_manufacturer), s0).\ninitially(player(small_company), s0).\ninitially(role(large_manufacturer, row), s0).\ninitially(role(small_company, col), s0).\ninitially(control(large_manufacturer), s0).\ninitially(control(small_company), s0).\ninitially(default_move(_, 'SEDAN'), s0).\n\n% What moves are possible\npossible(move(P,'SEDAN'), S):- holds(player(P), S).\npossible(move(P,'SUV'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('SEDAN', 'SUV').\nopposite_move('SUV', 'SEDAN').\n\n% The effects of a move\neffect(did(P, M), move(P, M), _S).\n\n% Loss of control after move\nabnormal(control(P), move(P, _M), _S).\n\n% Final state definition\nfinal(do(move(_P2, _M2), do(move(_P1, _M1), S))):- initial(S).\n",
+    "game_moves": [
+        "SUV",
+        "SEDAN"
+    ],
+    "game_players": [
+        "large_manufacturer",
+        "small_company"
+    ],
+    "default_move": "SEDAN",
+    "moves": [
+        "SEDAN"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

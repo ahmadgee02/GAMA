@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    25,
+    25,
+    25,
+    25,
+    25
+  ],
+  "winners_payoffs": [
+    [
+      "Retivo",
+      "tit-for-tat.",
+      25.0
+    ],
+    [
+      "Verefu",
+      "tit-for-tat.",
+      25.0
+    ],
+    [
+      "Tikecu",
+      "tit-for-tat.",
+      25.0
+    ],
+    [
+      "Xigucu",
+      "tit-for-tat.",
+      25.0
+    ],
+    [
+      "Xaxuje",
+      "tit-for-tat.",
+      25.0
+    ]
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Foyode",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix ('I' for Invest, 'N' for Not invest)\npayoff('I', 'I', 3, 3).    % Both invest: stay competitive\npayoff('I', 'N', 1, 4).    % P1 invests, P2 doesn't: P1 faces costs, P2 gains\npayoff('N', 'I', 4, 1).    % P1 doesn't invest, P2 invests: P1 gains, P2 faces costs\npayoff('N', 'N', 2, 2).    % Neither invests: both save costs but fall behind\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(company1), s0).\ninitially(player(company2), s0).\ninitially(role(company1,row), s0).\ninitially(role(company2,col), s0).\ninitially(control(company1), s0).\ninitially(control(company2), s0).\ninitially(default_move(_, 'N'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'I'), S):- holds(player(P), S).\npossible(move(P,'N'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('I', 'N').\nopposite_move('N', 'I').\n",
+  "game_moves": [
+    "I",
+    "N"
+  ],
+  "game_players": [
+    "company1",
+    "company2"
+  ],
+  "default_move": "N",
+  "moves": [
+    "N"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

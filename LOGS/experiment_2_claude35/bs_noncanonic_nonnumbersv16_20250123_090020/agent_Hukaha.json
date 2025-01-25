@@ -1,0 +1,23 @@
+{
+  "name": "Hukaha",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix\npayoff('fantasy', 'fantasy', 4, 2).\npayoff('fantasy', 'historical', 0, 0).\npayoff('historical', 'fantasy', 0, 0).\npayoff('historical', 'historical', 2, 4).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(author1), s0).\ninitially(player(author2), s0).\ninitially(role(author1, row), s0).\ninitially(role(author2, col), s0).\ninitially(control(author1), s0).\ninitially(control(author2), s0).\ninitially(default_move(_, 'fantasy'), s0).\n\n% What moves are possible\npossible(move(P,'fantasy'), S):- holds(player(P), S).\npossible(move(P,'historical'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('fantasy', 'historical').\nopposite_move('historical', 'fantasy').\n",
+  "game_moves": [
+    "fantasy",
+    "historical"
+  ],
+  "game_players": [
+    "author1",
+    "author2"
+  ],
+  "default_move": "fantasy",
+  "moves": [
+    "fantasy"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Sabeha",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n\n/* Game specific predicates for Fashion Designer's Game */\n\n% Payoff matrix ('C' for classical, 'A' for avant-garde)\n% Format: payoff(New_Designer_Move, Established_Designer_Move, New_Designer_Points, Established_Designer_Points)\npayoff('C', 'C', 4, 2).     % Both classical: new designer gains recognition\npayoff('A', 'A', 4, 2).     % Both avant-garde: new designer gains recognition\npayoff('C', 'A', 1, 4).     % Different choices: established designer dominates\npayoff('A', 'C', 1, 4).     % Different choices: established designer dominates\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(new_designer), s0).\ninitially(player(established_designer), s0).\ninitially(role(new_designer, row), s0).\ninitially(role(established_designer, col), s0).\ninitially(control(new_designer), s0).\ninitially(control(established_designer), s0).\ninitially(default_move(_, 'C'), s0).\n\n% What moves are possible for a player\npossible(move(P,'C'), S):- holds(player(P), S).    % Classical collection\npossible(move(P,'A'), S):- holds(player(P), S).    % Avant-garde collection\n\n% Opposite moves\nopposite_move('C', 'A').\nopposite_move('A', 'C').\n",
+  "game_moves": [
+    "C",
+    "A"
+  ],
+  "game_players": [
+    "new_designer",
+    "established_designer"
+  ],
+  "default_move": "C",
+  "moves": [
+    "C"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

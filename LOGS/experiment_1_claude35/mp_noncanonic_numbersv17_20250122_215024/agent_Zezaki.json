@@ -1,0 +1,23 @@
+{
+    "name": "Zezaki",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix\npayoff('social', 'social', 4, -4).\npayoff('influencer', 'influencer', 4, -4).\npayoff('social', 'influencer', -6, 6).\npayoff('influencer', 'social', -6, 6).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(boutique), s0).\ninitially(player(bigfirm), s0).\ninitially(role(boutique,row), s0).\ninitially(role(bigfirm,col), s0).\ninitially(control(boutique), s0).\ninitially(control(bigfirm), s0).\ninitially(default_move(_, 'social'), s0).\n\n% What moves are possible\npossible(move(P,'social'), S):- holds(player(P), S).\npossible(move(P,'influencer'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('social', 'influencer').\nopposite_move('influencer', 'social').\n",
+    "game_moves": [
+        "social",
+        "influencer"
+    ],
+    "game_players": [
+        "boutique",
+        "bigfirm"
+    ],
+    "default_move": "social",
+    "moves": [
+        "social"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

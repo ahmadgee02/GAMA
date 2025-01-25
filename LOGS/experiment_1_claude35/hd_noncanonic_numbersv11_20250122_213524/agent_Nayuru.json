@@ -1,0 +1,31 @@
+{
+    "name": "Nayuru",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "correct",
+    "game_rules": "\n:- discontiguous initially/2.\n:- discontiguous effect/3.\n:- discontiguous abnormal/3.\n:- discontiguous finally/2.\n\n% Payoff matrix for Water Sharing Game\npayoff('share', 'share', 0, 0).\npayoff('take', 'share', 2, -2).\npayoff('share', 'take', -2, 2).\npayoff('take', 'take', -10, -10).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(f1), s0).\ninitially(player(f2), s0).\ninitially(role(f1,row), s0).\ninitially(role(f2,col), s0).\ninitially(control(f1), s0).\ninitially(control(f2), s0).\ninitially(default_move(_, 'share'), s0).\n\n% When a state is final\nfinal(do(move(_F2, _M2), do(move(_F1, _M1), S))):-initial(S).\n\n% Legal moves\nlegal(move(F, M), S):- possible(move(F, M), S), holds(control(F), S).\n\n% Possible moves for a player\npossible(move(F,'share'), S):- holds(player(F), S).\npossible(move(F,'take'), S):- holds(player(F), S).\n\n% Opposite moves\nopposite_move('share', 'take').\nopposite_move('take', 'share').\n\n% Effects of moves\neffect(did(F, M), move(F, M), _S).\nabnormal(control(F), move(F, _M), _S).\n\n% Final outcomes\nfinally(outcome(F1,M1,U1,F2,M2,U2), S):-\n    final(S),\n    holds(role(F1, row), S),\n    holds(did(F1, M1), S),\n    holds(role(F2, col), S),\n    holds(did(F2, M2), S),\n    payoff(M1, M2, U1, U2).\n\n% Goals achieved\nfinally(goal(F1, U1), S):-\n    finally(outcome(F1,_,U1,_,_,_), S).\nfinally(goal(F2, U2), S):-\n    finally(outcome(_,_,_,F2,_,U2), S).\n",
+    "game_moves": [
+        "share",
+        "take"
+    ],
+    "game_players": [
+        "f1",
+        "f2"
+    ],
+    "default_move": "share",
+    "moves": [
+        "share",
+        "share",
+        "take",
+        "take"
+    ],
+    "payoffs": [
+        0.0,
+        -2.0,
+        -10.0,
+        2.0
+    ],
+    "total_payoff": -10.0,
+    "trace_messages": [],
+    "attempts": 1
+}

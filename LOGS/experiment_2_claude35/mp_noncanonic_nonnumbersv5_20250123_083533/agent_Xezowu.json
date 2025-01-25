@@ -1,0 +1,23 @@
+{
+  "name": "Xezowu",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Fashion Designer Game */\n\n% Payoff matrix (fresh_designer, established_designer)\npayoff('classical', 'classical', 4, 2).       % matching classical\npayoff('avantgarde', 'avantgarde', 4, 2).    % matching avant-garde\npayoff('classical', 'avantgarde', 1, 4).     % different choices\npayoff('avantgarde', 'classical', 1, 4).     % different choices\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(fresh), s0).\ninitially(player(established), s0).\ninitially(role(fresh,row), s0).\ninitially(role(established,col), s0).\ninitially(control(fresh), s0).\ninitially(control(established), s0).\ninitially(default_move(_, 'classical'), s0).\n\n% What moves are possible\npossible(move(P,'classical'), S):- holds(player(P), S).\npossible(move(P,'avantgarde'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('classical', 'avantgarde').\nopposite_move('avantgarde', 'classical').\n",
+  "game_moves": [
+    "classical",
+    "avantgarde"
+  ],
+  "game_players": [
+    "fresh",
+    "established"
+  ],
+  "default_move": "classical",
+  "moves": [
+    "classical"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

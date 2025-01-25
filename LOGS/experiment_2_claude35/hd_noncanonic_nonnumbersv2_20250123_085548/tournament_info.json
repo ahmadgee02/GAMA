@@ -1,0 +1,17 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Qotuxi",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Gabomu",
+      "tit-for-tat.",
+      10.0
+    ]
+  ]
+}

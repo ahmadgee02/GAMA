@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -10,
+    -10,
+    -10,
+    -10,
+    -10
+  ],
+  "winners_payoffs": [
+    [
+      "Gagofe",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Yeqora",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Pofovo",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Mepadi",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Fitava",
+      "tit-for-tat.",
+      -10.0
+    ]
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Hutaco",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Cewehi",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Neboro",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Tuzocu",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Paruki",
+      "anti-tit-for-tat.",
+      10.0
+    ]
+  ]
+}

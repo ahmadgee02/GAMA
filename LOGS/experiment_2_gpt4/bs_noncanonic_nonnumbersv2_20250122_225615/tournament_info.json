@@ -1,0 +1,32 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Wobuna",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Xeduno",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Lovewe",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Xexide",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Kodudi",
+      "tit-for-tat.",
+      6.0
+    ]
+  ]
+}

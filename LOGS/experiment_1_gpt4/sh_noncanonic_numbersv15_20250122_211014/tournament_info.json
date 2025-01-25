@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    19,
+    19,
+    19,
+    19,
+    19
+  ],
+  "winners_payoffs": [
+    [
+      "Yafofu",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Xisema",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Qatoma",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Rayihe",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Vasexa",
+      "tit-for-tat.",
+      19.0
+    ]
+  ]
+}

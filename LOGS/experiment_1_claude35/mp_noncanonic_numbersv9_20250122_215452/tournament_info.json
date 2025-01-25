@@ -1,0 +1,28 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -10,
+    -10,
+    -10,
+    -10,
+    -10
+  ],
+  "winners_payoffs": [
+    [
+      "Dumeho",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Mutesi",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Rahoqe",
+      "tit-for-tat.",
+      -10.0
+    ]
+  ]
+}

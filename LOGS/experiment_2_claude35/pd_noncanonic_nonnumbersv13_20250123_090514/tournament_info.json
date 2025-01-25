@@ -1,0 +1,32 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Zajofu",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Saquse",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Befodo",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Rorede",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Gegepe",
+      "tit-for-tat.",
+      10.0
+    ]
+  ]
+}

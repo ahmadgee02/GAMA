@@ -1,0 +1,23 @@
+{
+    "name": "Tebuze",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n\n/* Game specific predicates for Fashion Brand Game */\n\n% Payoff matrix ('sustainable' vs 'tech')\npayoff('sustainable', 'sustainable', 1, -1).\npayoff('tech', 'tech', 1, -1).\npayoff('sustainable', 'tech', -2, 2).\npayoff('tech', 'sustainable', -2, 2).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(niche), s0).\ninitially(player(giant), s0).\ninitially(role(niche,row), s0).\ninitially(role(giant,col), s0).\ninitially(control(niche), s0).\ninitially(control(giant), s0).\ninitially(default_move(_, 'sustainable'), s0).\n\n% A legal move is a possible move where the player has control\nlegal(move(P, M), S):- possible(move(P, M), S), holds(control(P), S).\n\n% What is possible for a player to choose\npossible(move(P,'sustainable'), S):- holds(player(P), S).\npossible(move(P,'tech'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('sustainable', 'tech').\nopposite_move('tech', 'sustainable').\n\n% Final state definition\nfinal(do(move(_P2, _M2), do(move(_P1, _M1), S))):-initial(S).\n\n% Effect and abnormality axioms\neffect(did(P, M), move(P, M), _S).\nabnormal(control(P), move(P, _M), _S).\n",
+    "game_moves": [
+        "tech",
+        "sustainable"
+    ],
+    "game_players": [
+        "niche",
+        "giant"
+    ],
+    "default_move": "sustainable",
+    "moves": [
+        "sustainable"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

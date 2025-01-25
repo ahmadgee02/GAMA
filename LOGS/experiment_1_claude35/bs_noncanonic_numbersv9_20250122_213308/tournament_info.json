@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Mudoju",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Muwufu",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Kerine",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Fepufo",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Cokafa",
+      "tit-for-tat.",
+      3.0
+    ]
+  ]
+}

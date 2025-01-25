@@ -1,0 +1,32 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Jutoyi",
+      "tit-for-tat.",
+      0.0
+    ],
+    [
+      "Dukela",
+      "tit-for-tat.",
+      0.0
+    ],
+    [
+      "Poxeva",
+      "tit-for-tat.",
+      0.0
+    ],
+    [
+      "Pumuji",
+      "tit-for-tat.",
+      0.0
+    ],
+    [
+      "Yacibi",
+      "anti-tit-for-tat.",
+      0.0
+    ]
+  ]
+}

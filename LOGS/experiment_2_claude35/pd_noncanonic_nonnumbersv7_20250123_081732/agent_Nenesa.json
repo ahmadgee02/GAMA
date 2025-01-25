@@ -1,0 +1,23 @@
+{
+  "name": "Nenesa",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n:- discontiguous opposite_move/2.\n:- discontiguous effect/3.\n:- discontiguous abnormal/3.\n\n/* Game specific predicates for Disarmament Treaty */\n\n% Payoff matrix (comply='C', not_comply='N')\npayoff('C', 'C', 4, 4).    % Both comply: mutual benefit\npayoff('C', 'N', 1, 5).    % One complies, other doesn't\npayoff('N', 'C', 5, 1).    % One doesn't comply, other does\npayoff('N', 'N', 2, 2).    % Neither complies\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(country1), s0).\ninitially(player(country2), s0).\ninitially(role(country1,row), s0).\ninitially(role(country2,col), s0).\ninitially(control(country1), s0).\ninitially(control(country2), s0).\ninitially(default_move(_, 'C'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'C'), S):- holds(player(P), S).\npossible(move(P,'N'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('C', 'N').\nopposite_move('N', 'C').\n\n% When a state is final\nfinal(do(move(_P2, _M2), do(move(_P1, _M1), S))):-initial(S).\n\n% A legal move is a possible move where the player has control\nlegal(move(P, M), S):- possible(move(P, M), S), holds(control(P), S).\n\n% The effects of a move\neffect(did(P, M), move(P, M), _S).\nabnormal(control(P), move(P, _M), _S).\n",
+  "game_moves": [
+    "C",
+    "N"
+  ],
+  "game_players": [
+    "country1",
+    "country2"
+  ],
+  "default_move": "C",
+  "moves": [
+    "C"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

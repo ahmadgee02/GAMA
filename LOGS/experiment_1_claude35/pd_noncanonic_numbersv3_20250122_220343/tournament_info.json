@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    20,
+    20,
+    20,
+    20,
+    20
+  ],
+  "winners_payoffs": [
+    [
+      "Xixuku",
+      "tit-for-tat.",
+      20.0
+    ],
+    [
+      "Xifiti",
+      "tit-for-tat.",
+      20.0
+    ],
+    [
+      "Qajude",
+      "tit-for-tat.",
+      20.0
+    ],
+    [
+      "Xumise",
+      "tit-for-tat.",
+      20.0
+    ],
+    [
+      "Jofote",
+      "tit-for-tat.",
+      20.0
+    ]
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Roroko",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Chef's Collaboration Game */\n\n% Payoff matrix ('C' for collaborate, 'I' for independent)\npayoff('C', 'C', 5, 5).    % Both collaborate: high reward\npayoff('C', 'I', 0, 3).    % One collaborates, other independent\npayoff('I', 'C', 3, 0).    % One independent, other collaborates\npayoff('I', 'I', 1, 1).    % Both independent: low reward\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(chef1), s0).\ninitially(player(chef2), s0).\ninitially(role(chef1,row), s0).\ninitially(role(chef2,col), s0).\ninitially(control(chef1), s0).\ninitially(control(chef2), s0).\ninitially(default_move(_, 'I'), s0).\n\n% What moves are possible\npossible(move(P,'C'), S):- holds(player(P), S).\npossible(move(P,'I'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('C', 'I').\nopposite_move('I', 'C').\n",
+  "game_moves": [
+    "I",
+    "C"
+  ],
+  "game_players": [
+    "chef1",
+    "chef2"
+  ],
+  "default_move": "I",
+  "moves": [
+    "I"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

@@ -1,0 +1,32 @@
+{
+  "num_agents": 9,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Xumite",
+      "tit-for-tat.",
+      12.0
+    ],
+    [
+      "Lijagi",
+      "tit-for-tat.",
+      12.0
+    ],
+    [
+      "Nomige",
+      "tit-for-tat.",
+      12.0
+    ],
+    [
+      "Nuxapo",
+      "anti-tit-for-tat.",
+      12.0
+    ],
+    [
+      "Veximi",
+      "anti-tit-for-tat.",
+      12.0
+    ]
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Moquge",
+      "tit-for-tat.",
+      11.0
+    ],
+    [
+      "Wufuju",
+      "tit-for-tat.",
+      11.0
+    ],
+    [
+      "Hupeka",
+      "anti-tit-for-tat.",
+      11.0
+    ]
+  ]
+}

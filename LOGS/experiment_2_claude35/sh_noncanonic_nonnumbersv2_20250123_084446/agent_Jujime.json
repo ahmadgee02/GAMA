@@ -1,0 +1,23 @@
+{
+  "name": "Jujime",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n\n/* Game specific predicates for Project Managers' Game */\n\n% Payoff matrix ('C' for collaborate, 'I' for independent work)\npayoff('C', 'C', 5, 5).    % Both collaborate: high rewards\npayoff('C', 'I', 0, 3).    % P1 collaborates, P2 independent\npayoff('I', 'C', 3, 0).    % P1 independent, P2 collaborates\npayoff('I', 'I', 1, 1).    % Both work independently\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(pm1), s0).\ninitially(player(pm2), s0).\ninitially(role(pm1,row), s0).\ninitially(role(pm2,col), s0).\ninitially(control(pm1), s0).\ninitially(control(pm2), s0).\ninitially(default_move(_, 'C'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'C'), S):- holds(player(P), S).\npossible(move(P,'I'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('C', 'I').\nopposite_move('I', 'C').\n",
+  "game_moves": [
+    "I",
+    "C"
+  ],
+  "game_players": [
+    "pm1",
+    "pm2"
+  ],
+  "default_move": "C",
+  "moves": [
+    "C"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

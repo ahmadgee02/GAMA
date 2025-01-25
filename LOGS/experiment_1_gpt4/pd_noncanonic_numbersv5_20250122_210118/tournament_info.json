@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    18,
+    18,
+    18,
+    18,
+    18
+  ],
+  "winners_payoffs": [
+    [
+      "Xifoje",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Nowafi",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Vuxege",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Ruraco",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Dekape",
+      "tit-for-tat.",
+      18.0
+    ]
+  ]
+}

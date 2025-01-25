@@ -1,0 +1,28 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    14,
+    14,
+    14,
+    14,
+    14
+  ],
+  "winners_payoffs": [
+    [
+      "Yiyubo",
+      "tit-for-tat.",
+      14.0
+    ],
+    [
+      "Pexeho",
+      "tit-for-tat.",
+      14.0
+    ],
+    [
+      "Yizipi",
+      "tit-for-tat.",
+      14.0
+    ]
+  ]
+}

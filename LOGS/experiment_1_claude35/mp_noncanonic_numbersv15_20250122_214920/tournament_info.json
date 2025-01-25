@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -4,
+    -4,
+    -4,
+    -4,
+    -4
+  ],
+  "winners_payoffs": [
+    [
+      "Piboku",
+      "tit-for-tat.",
+      -4.0
+    ],
+    [
+      "Moqira",
+      "tit-for-tat.",
+      -4.0
+    ],
+    [
+      "Zigequ",
+      "tit-for-tat.",
+      -4.0
+    ],
+    [
+      "Wafuru",
+      "tit-for-tat.",
+      -4.0
+    ]
+  ]
+}

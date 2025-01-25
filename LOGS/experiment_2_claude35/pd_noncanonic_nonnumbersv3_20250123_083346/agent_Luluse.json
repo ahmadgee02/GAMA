@@ -1,0 +1,23 @@
+{
+  "name": "Luluse",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n:- discontiguous effect/3.\n:- discontiguous abnormal/3.\n\n% Payoff matrix\npayoff('SHARE', 'SHARE', 4, 4).\npayoff('SHARE', 'WITHHOLD', 1, 5).\npayoff('WITHHOLD', 'SHARE', 5, 1).\npayoff('WITHHOLD', 'WITHHOLD', 2, 2).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(emp1), s0).\ninitially(player(emp2), s0).\ninitially(role(emp1,row), s0).\ninitially(role(emp2,col), s0).\ninitially(control(emp1), s0).\ninitially(control(emp2), s0).\ninitially(default_move(_, 'SHARE'), s0).\n\n% What moves are possible\npossible(move(P,'SHARE'), S):- holds(player(P), S).\npossible(move(P,'WITHHOLD'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('SHARE', 'WITHHOLD').\nopposite_move('WITHHOLD', 'SHARE').\n",
+  "game_moves": [
+    "SHARE",
+    "WITHHOLD"
+  ],
+  "game_players": [
+    "emp1",
+    "emp2"
+  ],
+  "default_move": "SHARE",
+  "moves": [
+    "SHARE"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

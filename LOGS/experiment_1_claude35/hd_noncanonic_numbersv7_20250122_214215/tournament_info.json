@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -20,
+    -20,
+    -20,
+    -20,
+    -20
+  ],
+  "winners_payoffs": [
+    [
+      "Dureri",
+      "tit-for-tat.",
+      -20.0
+    ],
+    [
+      "Delamu",
+      "tit-for-tat.",
+      -20.0
+    ],
+    [
+      "Niwoxi",
+      "tit-for-tat.",
+      -20.0
+    ],
+    [
+      "Xarame",
+      "tit-for-tat.",
+      -20.0
+    ],
+    [
+      "Qahapa",
+      "tit-for-tat.",
+      -20.0
+    ]
+  ]
+}

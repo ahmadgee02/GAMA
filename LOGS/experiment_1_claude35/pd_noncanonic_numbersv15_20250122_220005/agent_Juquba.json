@@ -1,0 +1,23 @@
+{
+    "name": "Juquba",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Doping Game */\n\n% Payoff matrix\npayoff('DOPE', 'DOPE', 3, 3).\npayoff('CLEAN', 'DOPE', 1, 9).\npayoff('DOPE', 'CLEAN', 9, 1).\npayoff('CLEAN', 'CLEAN', 6, 6).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(p1), s0).\ninitially(player(p2), s0).\ninitially(role(p1,row), s0).\ninitially(role(p2,col), s0).\ninitially(control(p1), s0).\ninitially(control(p2), s0).\ninitially(default_move(_, 'CLEAN'), s0).\n\n% What moves are possible\npossible(move(P,'DOPE'), S):- holds(player(P), S).\npossible(move(P,'CLEAN'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('CLEAN', 'DOPE').\nopposite_move('DOPE', 'CLEAN').\n",
+    "game_moves": [
+        "DOPE",
+        "CLEAN"
+    ],
+    "game_players": [
+        "p1",
+        "p2"
+    ],
+    "default_move": "CLEAN",
+    "moves": [
+        "CLEAN"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

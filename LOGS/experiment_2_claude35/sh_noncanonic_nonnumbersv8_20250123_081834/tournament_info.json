@@ -1,0 +1,27 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Cajobu",
+      "tit-for-tat.",
+      11.0
+    ],
+    [
+      "Nofezi",
+      "tit-for-tat.",
+      11.0
+    ],
+    [
+      "Tihuya",
+      "tit-for-tat.",
+      11.0
+    ],
+    [
+      "Fakode",
+      "tit-for-tat.",
+      11.0
+    ]
+  ]
+}

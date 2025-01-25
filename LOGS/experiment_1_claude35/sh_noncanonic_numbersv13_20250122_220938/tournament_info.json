@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    15,
+    15,
+    15,
+    15,
+    15
+  ],
+  "winners_payoffs": [
+    [
+      "Conime",
+      "tit-for-tat.",
+      15.0
+    ],
+    [
+      "Zokexo",
+      "tit-for-tat.",
+      15.0
+    ],
+    [
+      "Niwige",
+      "tit-for-tat.",
+      15.0
+    ],
+    [
+      "Yotace",
+      "tit-for-tat.",
+      15.0
+    ],
+    [
+      "Xusimo",
+      "tit-for-tat.",
+      15.0
+    ]
+  ]
+}

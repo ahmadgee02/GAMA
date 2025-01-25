@@ -1,0 +1,28 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Winuhi",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Gomina",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Hisoma",
+      "tit-for-tat.",
+      3.0
+    ]
+  ]
+}

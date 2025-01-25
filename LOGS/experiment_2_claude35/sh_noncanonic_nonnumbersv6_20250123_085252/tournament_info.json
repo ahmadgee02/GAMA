@@ -1,0 +1,32 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Hazuki",
+      "tit-for-tat.",
+      8.0
+    ],
+    [
+      "Xetifi",
+      "tit-for-tat.",
+      8.0
+    ],
+    [
+      "Gedajo",
+      "tit-for-tat.",
+      8.0
+    ],
+    [
+      "Hoqexa",
+      "tit-for-tat.",
+      8.0
+    ],
+    [
+      "Bocumu",
+      "tit-for-tat.",
+      8.0
+    ]
+  ]
+}

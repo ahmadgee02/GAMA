@@ -1,0 +1,23 @@
+{
+    "name": "Butivo",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n\n% Domain specific predicates for Generals' Coordination Game\n\n:- discontiguous possible/3.\n:- discontiguous initially/2.\n:- discontiguous payoff/4.\n:- discontiguous opposite_move/2.\n\n% Payoff matrix for the Generals' Coordination Game\npayoff('Attack', 'Attack', 9, 9).\npayoff('Attack', 'Hesitate', 0, 4).\npayoff('Hesitate', 'Attack', 4, 0).\npayoff('Hesitate', 'Hesitate', 2, 2).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play.\ninitially(player(general1), s0).\ninitially(player(general2), s0).\ninitially(role(general1, row), s0).\ninitially(role(general2, col), s0).\ninitially(control(general1), s0).\ninitially(control(general2), s0).\ninitially(default_move(_, 'Hesitate'), s0).\n\n% A legal move is a possible move where the player has control (is its turn).\nlegal(move(P, M), S):- possible(move(P, M), S), holds(control(P), S).\n\n% What is possible for a player to choose\npossible(move(P, 'Attack'), S):- holds(player(P), S).\npossible(move(P, 'Hesitate'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other.\nopposite_move('Attack', 'Hesitate').\nopposite_move('Hesitate', 'Attack').\n\n% The effects of a move: if P has chosen M, then in the next state this\n% is what they did.\neffect(did(P, M), move(P, M), _S).\n\n% The effects of a move: once a move is made, the player loses control, i.e.\n% cannot move anymore.\nabnormal(control(P), move(P, _M), _S).\n\n",
+    "game_moves": [
+        "Attack",
+        "Hesitate"
+    ],
+    "game_players": [
+        "general1",
+        "general2"
+    ],
+    "default_move": "Hesitate",
+    "moves": [
+        "Hesitate"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 2
+}

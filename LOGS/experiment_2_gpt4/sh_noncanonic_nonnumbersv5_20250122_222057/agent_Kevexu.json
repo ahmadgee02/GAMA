@@ -1,0 +1,31 @@
+{
+  "name": "Kevexu",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "correct",
+  "game_rules": "\n% Domain specific predicates for the Conservation Game (CG)\n\n:- discontiguous role/3.\n:- discontiguous possible/2.\n\n% Payoff matrix for the Conservation Game\npayoff('Join Forces', 'Join Forces', 5, 5).\npayoff('Join Forces', 'Independent', 1, 3).\npayoff('Independent', 'Join Forces', 3, 1).\npayoff('Independent', 'Independent', 2, 2).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play.\ninitially(player(org1), s0).\ninitially(player(org2), s0).\ninitially(role(org1, leader), s0).\ninitially(role(org2, contributor), s0).\ninitially(control(org1), s0).\ninitially(control(org2), s0).\ninitially(default_move(_, 'Independent'), s0).\n\n% A state is final if both organizations have made their decisions\nfinal(do(move(_, _), do(move(_, _), S))) :- initial(S).\n\n% A legal move is a possible move where the organization has control (is its turn).\nlegal(move(O, M), S) :- possible(move(O, M), S), holds(control(O), S).\n\n% What is possible for an organization to choose\npossible(move(O, 'Join Forces'), S) :- holds(player(O), S).\npossible(move(O, 'Independent'), S) :- holds(player(O), S).\n\n% Moves that are opposite to each other\nopposite_move('Join Forces', 'Independent').\nopposite_move('Independent', 'Join Forces').\n\n% The effects of a move: if O has chosen M, then in the next state this is what they did.\neffect(did(O, M), move(O, M), _S).\n\n% The effects of a move: once a move is made, the organization loses control, i.e.\n% cannot move anymore.\nabnormal(control(O), move(O, _M), _S).\n\n% What holds finally: the outcome with organizations, Moves, and Payoffs.\nfinally(outcome(O1, M1, U1, O2, M2, U2), S) :-\n    final(S),\n    holds(role(O1, leader), S),\n    holds(did(O1, M1), S),\n    holds(role(O2, contributor), S),\n    holds(did(O2, M2), S),\n    payoff(M1, M2, U1, U2).\n\n% Goals achieved by the organizations.\nfinally(goal(O1, U1), S) :-\n    finally(outcome(O1, _, U1, _, _, _), S).\nfinally(goal(O2, U2), S) :-\n    finally(outcome(_, _, _, O2, _, U2), S).\n",
+  "game_moves": [
+    "Join Forces",
+    "Independent"
+  ],
+  "game_players": [
+    "org1",
+    "org2"
+  ],
+  "default_move": "Independent",
+  "moves": [
+    "Independent",
+    "Independent",
+    "Join Forces",
+    "Join Forces"
+  ],
+  "payoffs": [
+    2.0,
+    3.0,
+    5.0,
+    1.0
+  ],
+  "total_payoff": 11.0,
+  "trace_messages": [],
+  "attempts": 2
+}

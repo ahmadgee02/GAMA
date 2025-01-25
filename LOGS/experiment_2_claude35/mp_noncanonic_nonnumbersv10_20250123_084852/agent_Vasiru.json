@@ -1,0 +1,23 @@
+{
+  "name": "Vasiru",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n/* Game specific predicates for Basketball Strategy Game */\n\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix (lesser-known team, top university)\npayoff('offense', 'offense', 4, 1).\npayoff('defense', 'defense', 4, 1).\npayoff('offense', 'defense', 1, 3).\npayoff('defense', 'offense', 1, 3).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(lesser), s0).\ninitially(player(top), s0).\ninitially(role(lesser,row), s0).\ninitially(role(top,col), s0).\ninitially(control(lesser), s0).\ninitially(control(top), s0).\ninitially(default_move(_, 'offense'), s0).\n\n% What moves are possible\npossible(move(P,'offense'), S):- holds(player(P), S).\npossible(move(P,'defense'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('offense', 'defense').\nopposite_move('defense', 'offense').\n",
+  "game_moves": [
+    "defense",
+    "offense"
+  ],
+  "game_players": [
+    "lesser",
+    "top"
+  ],
+  "default_move": "offense",
+  "moves": [
+    "offense"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

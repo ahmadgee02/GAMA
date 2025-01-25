@@ -1,0 +1,12 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Tuzoti",
+      "tit-for-tat.",
+      16.0
+    ]
+  ]
+}

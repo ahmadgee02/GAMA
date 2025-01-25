@@ -1,0 +1,23 @@
+{
+    "name": "Doneda",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix for Strategic Alliance game\npayoff('Partner', 'Partner', 5, 5).\npayoff('Solo', 'Partner', 3, 0).\npayoff('Partner', 'Solo', 0, 3).\npayoff('Solo', 'Solo', 2, 2).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(comp1), s0).\ninitially(player(comp2), s0).\ninitially(role(comp1,row), s0).\ninitially(role(comp2,col), s0).\ninitially(control(comp1), s0).\ninitially(control(comp2), s0).\ninitially(default_move(_, 'Solo'), s0).\n\n% What moves are possible for a player\npossible(move(P,'Partner'), S):- holds(player(P), S).\npossible(move(P,'Solo'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('Partner', 'Solo').\nopposite_move('Solo', 'Partner').\n",
+    "game_moves": [
+        "Solo",
+        "Partner"
+    ],
+    "game_players": [
+        "comp1",
+        "comp2"
+    ],
+    "default_move": "Solo",
+    "moves": [
+        "Solo"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

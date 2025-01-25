@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    32,
+    16,
+    24,
+    11,
+    20
+  ],
+  "winners_payoffs": [
+    [
+      "Labaso",
+      "anti-default-move",
+      32.0
+    ],
+    [
+      "Jeheda",
+      "anti-tit-for-tat",
+      16.0
+    ],
+    [
+      "Wazaxo",
+      "best_response",
+      24.0
+    ],
+    [
+      "Joxehu",
+      "default_move",
+      11.0
+    ]
+  ]
+}

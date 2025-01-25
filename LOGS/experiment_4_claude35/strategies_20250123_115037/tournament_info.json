@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    32,
+    16,
+    24,
+    11,
+    20
+  ],
+  "winners_payoffs": [
+    [
+      "Nokuvu",
+      "anti-default-move",
+      32.0
+    ],
+    [
+      "Husewe",
+      "anti-tit-for-tat",
+      16.0
+    ],
+    [
+      "Xoveye",
+      "best_response",
+      24.0
+    ],
+    [
+      "Wilero",
+      "default_move",
+      11.0
+    ]
+  ]
+}

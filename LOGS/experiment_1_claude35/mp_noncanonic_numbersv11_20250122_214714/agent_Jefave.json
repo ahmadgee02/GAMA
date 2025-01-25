@@ -1,0 +1,23 @@
+{
+    "name": "Jefave",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix (independent store move, chain store move, independent store points, chain store points)\npayoff('FICTION', 'FICTION', 2, -2).\npayoff('NONFICTION', 'NONFICTION', 2, -2).\npayoff('FICTION', 'NONFICTION', -3, 3).\npayoff('NONFICTION', 'FICTION', -3, 3).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(independent), s0).\ninitially(player(chain), s0).\ninitially(role(independent,row), s0).\ninitially(role(chain,col), s0).\ninitially(control(independent), s0).\ninitially(control(chain), s0).\ninitially(default_move(_, 'FICTION'), s0).\n\n% What moves are possible\npossible(move(P,'FICTION'), S):- holds(player(P), S).\npossible(move(P,'NONFICTION'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('FICTION', 'NONFICTION').\nopposite_move('NONFICTION', 'FICTION').\n",
+    "game_moves": [
+        "NONFICTION",
+        "FICTION"
+    ],
+    "game_players": [
+        "independent",
+        "chain"
+    ],
+    "default_move": "FICTION",
+    "moves": [
+        "FICTION"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

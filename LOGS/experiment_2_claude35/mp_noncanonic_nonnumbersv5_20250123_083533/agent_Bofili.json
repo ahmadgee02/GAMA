@@ -1,0 +1,23 @@
+{
+  "name": "Bofili",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n\n/* Game specific predicates for Fashion Designers Game */\n\n% Payoff matrix (first number for new designer, second for established)\npayoff('classical', 'classical', 4, 2).     % New designer gains in classical niche\npayoff('avantgarde', 'avantgarde', 4, 2).  % New designer gains in avant-garde niche\npayoff('classical', 'avantgarde', 1, 4).   % Established designer dominates\npayoff('avantgarde', 'classical', 1, 4).   % Established designer dominates\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(new_designer), s0).\ninitially(player(established), s0).\ninitially(role(new_designer, row), s0).\ninitially(role(established, col), s0).\ninitially(control(new_designer), s0).\ninitially(control(established), s0).\ninitially(default_move(_, 'classical'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'classical'), S):- holds(player(P), S).\npossible(move(P,'avantgarde'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('classical', 'avantgarde').\nopposite_move('avantgarde', 'classical').\n\n% The effects of a move\neffect(did(P, M), move(P, M), _S).\n\n% Player loses control after moving\nabnormal(control(P), move(P, _M), _S).\n",
+  "game_moves": [
+    "classical",
+    "avantgarde"
+  ],
+  "game_players": [
+    "new_designer",
+    "established"
+  ],
+  "default_move": "classical",
+  "moves": [
+    "classical"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Xuzege",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n\n% Payoff matrix for Bookstore Game\npayoff('Mystery', 'Mystery', 4, 1).\npayoff('Romance', 'Romance', 4, 1).\npayoff('Mystery', 'Romance', 1, 4).\npayoff('Romance', 'Mystery', 1, 4).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(indie), s0).\ninitially(player(chain), s0).\ninitially(role(indie,row), s0).\ninitially(role(chain,col), s0).\ninitially(control(indie), s0).\ninitially(control(chain), s0).\ninitially(default_move(_, 'Mystery'), s0).\n\n% What moves are possible for a player\npossible(move(P,'Mystery'), S):- holds(player(P), S).\npossible(move(P,'Romance'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('Mystery', 'Romance').\nopposite_move('Romance', 'Mystery').\n",
+  "game_moves": [
+    "Romance",
+    "Mystery"
+  ],
+  "game_players": [
+    "indie",
+    "chain"
+  ],
+  "default_move": "Mystery",
+  "moves": [
+    "Mystery"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

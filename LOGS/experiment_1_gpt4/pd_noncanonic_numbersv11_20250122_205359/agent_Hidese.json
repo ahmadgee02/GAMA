@@ -1,0 +1,23 @@
+{
+    "name": "Hidese",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n:- discontiguous payoff/4.\n:- discontiguous opposite_move/2.\n\n/* Game specific predicates for the Graduate Students' Collaboration Game */\n\n% Payoff matrix for the collaboration game\npayoff('share', 'share', 6, 6).\npayoff('share', 'not_share', 2, 8).\npayoff('not_share', 'share', 8, 2).\npayoff('not_share', 'not_share', 4, 4).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play.\ninitially(player(g1), s0).\ninitially(player(g2), s0).\ninitially(role(g1, row), s0).\ninitially(role(g2, col), s0).\ninitially(control(g1), s0).\ninitially(control(g2), s0).\ninitially(default_move(_, 'share'), s0).\n\n% Moves that are opposite to each other\nopposite_move('share', 'not_share').\nopposite_move('not_share', 'share').\n\n% What is possible for a player to choose\npossible(move(P, 'share'), S):- holds(player(P), S).\npossible(move(P, 'not_share'), S):- holds(player(P), S).\n\n",
+    "game_moves": [
+        "not_share",
+        "share"
+    ],
+    "game_players": [
+        "g1",
+        "g2"
+    ],
+    "default_move": "share",
+    "moves": [
+        "share"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

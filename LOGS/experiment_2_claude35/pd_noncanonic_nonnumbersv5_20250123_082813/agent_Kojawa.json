@@ -1,0 +1,23 @@
+{
+  "name": "Kojawa",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Technology Investment Game */\n\n% Payoff matrix (invest='I', don't invest='N')\npayoff('I', 'I', 3, 3).     % Both invest: moderate positive outcome\npayoff('I', 'N', 1, 4).     % P1 invests, P2 doesn't: P1 struggles, P2 gains\npayoff('N', 'I', 4, 1).     % P1 doesn't invest, P2 does: P1 gains, P2 struggles\npayoff('N', 'N', 2, 2).     % Neither invests: both save money but fall behind\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(comp1), s0).\ninitially(player(comp2), s0).\ninitially(role(comp1,row), s0).\ninitially(role(comp2,col), s0).\ninitially(control(comp1), s0).\ninitially(control(comp2), s0).\ninitially(default_move(_, 'N'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'I'), S):- holds(player(P), S).\npossible(move(P,'N'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('I', 'N').\nopposite_move('N', 'I').\n\n% When a state is final\nfinal(do(move(_P2, _M2), do(move(_P1, _M1), S))):-initial(S).\n\n% Effects of moves\neffect(did(P, M), move(P, M), _S).\nabnormal(control(P), move(P, _M), _S).\n",
+  "game_moves": [
+    "I",
+    "N"
+  ],
+  "game_players": [
+    "comp1",
+    "comp2"
+  ],
+  "default_move": "N",
+  "moves": [
+    "N"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

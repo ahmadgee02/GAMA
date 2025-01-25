@@ -1,0 +1,32 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Xunoje",
+      "tit-for-tat.",
+      7.0
+    ],
+    [
+      "Zorewe",
+      "tit-for-tat.",
+      7.0
+    ],
+    [
+      "Yodema",
+      "tit-for-tat.",
+      7.0
+    ],
+    [
+      "Biliho",
+      "tit-for-tat.",
+      7.0
+    ],
+    [
+      "Nojofe",
+      "tit-for-tat.",
+      7.0
+    ]
+  ]
+}

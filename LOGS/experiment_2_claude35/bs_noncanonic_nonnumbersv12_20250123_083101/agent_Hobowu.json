@@ -1,0 +1,23 @@
+{
+  "name": "Hobowu",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n% Payoff matrix for Movie Choice game\npayoff('Action', 'Action', 4, 2).\npayoff('RomCom', 'RomCom', 2, 4).\npayoff('Action', 'RomCom', 0, 0).\npayoff('RomCom', 'Action', 0, 0).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play\ninitially(player(p1), s0).\ninitially(player(p2), s0).\ninitially(role(p1,row), s0).\ninitially(role(p2,col), s0).\ninitially(control(p1), s0).\ninitially(control(p2), s0).\ninitially(default_move(_, 'Action'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'Action'), S):- holds(player(P), S).\npossible(move(P,'RomCom'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('Action', 'RomCom').\nopposite_move('RomCom', 'Action').\n\n% The effects of a move: if P has chosen M, then in the next state this\n% is what they did\neffect(did(P, M), move(P, M), _S).\n\n% The effects of a move: once a move is made, the player loses control\nabnormal(control(P), move(P, _M), _S).\n\n% When a state is final\nfinal(do(move(_P2, _M2), do(move(_P1, _M1), S))):-initial(S).\n\n% A legal move is a possible move where the player has control\nlegal(move(P, M), S):- possible(move(P, M), S), holds(control(P), S).\n",
+  "game_moves": [
+    "Action",
+    "RomCom"
+  ],
+  "game_players": [
+    "p1",
+    "p2"
+  ],
+  "default_move": "Action",
+  "moves": [
+    "Action"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

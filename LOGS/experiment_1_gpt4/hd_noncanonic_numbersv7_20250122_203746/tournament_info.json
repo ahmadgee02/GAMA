@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -20,
+    -20,
+    -20,
+    -20,
+    -20
+  ],
+  "winners_payoffs": [
+    [
+      "Qivevu",
+      "tit-for-tat.",
+      -20.0
+    ],
+    [
+      "Necate",
+      "tit-for-tat.",
+      -20.0
+    ],
+    [
+      "Xivegu",
+      "tit-for-tat.",
+      -20.0
+    ],
+    [
+      "Wepida",
+      "tit-for-tat.",
+      -20.0
+    ],
+    [
+      "Kahefe",
+      "tit-for-tat.",
+      -20.0
+    ]
+  ]
+}

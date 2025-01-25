@@ -1,0 +1,17 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Muxulu",
+      "tit-for-tat.",
+      12.0
+    ],
+    [
+      "Sequye",
+      "anti-tit-for-tat.",
+      12.0
+    ]
+  ]
+}

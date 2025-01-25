@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -10,
+    -10,
+    -10,
+    -10,
+    -10
+  ],
+  "winners_payoffs": [
+    [
+      "Pidebe",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Bucuha",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Sirubo",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Xaxovu",
+      "tit-for-tat.",
+      -10.0
+    ]
+  ]
+}

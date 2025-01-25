@@ -1,0 +1,23 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    12,
+    12,
+    12,
+    12,
+    12
+  ],
+  "winners_payoffs": [
+    [
+      "Weyaxe",
+      "tit-for-tat.",
+      12.0
+    ],
+    [
+      "Nuvenu",
+      "tit-for-tat.",
+      12.0
+    ]
+  ]
+}

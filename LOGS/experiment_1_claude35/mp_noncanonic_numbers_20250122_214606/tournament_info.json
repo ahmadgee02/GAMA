@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "winners_payoffs": [
+    [
+      "Muhadu",
+      "tit-for-tat.",
+      0.0
+    ],
+    [
+      "Riquse",
+      "tit-for-tat.",
+      0.0
+    ],
+    [
+      "Hevoko",
+      "tit-for-tat.",
+      0
+    ],
+    [
+      "Taqune",
+      "tit-for-tat.",
+      0.0
+    ],
+    [
+      "Tehuwa",
+      "tit-for-tat.",
+      0.0
+    ]
+  ]
+}

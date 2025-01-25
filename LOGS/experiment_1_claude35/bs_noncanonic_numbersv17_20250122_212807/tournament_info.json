@@ -1,0 +1,28 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Newowo",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Sumoxo",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Suzogi",
+      "tit-for-tat.",
+      3.0
+    ]
+  ]
+}

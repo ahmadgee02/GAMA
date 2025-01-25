@@ -1,0 +1,31 @@
+{
+  "name": "Puciju",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "correct",
+  "game_rules": "\n:- discontiguous effect/3.\n:- discontiguous abnormal/3.\n:- discontiguous initially/2.\n\n/* Game specific predicates for Interrogation Game */\n\n% Payoff matrix (higher number is better for the player)\npayoff('D', 'D', 2, 2).    % both confess: moderate sentences\npayoff('C', 'D', 0, 4).    % one silent, other confesses: heavy vs free\npayoff('D', 'C', 4, 0).    % one confesses, other silent: free vs heavy\npayoff('C', 'C', 3, 3).    % both silent: minor sentences\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(suspect1), s0).\ninitially(player(suspect2), s0).\ninitially(role(suspect1,row), s0).\ninitially(role(suspect2,col), s0).\ninitially(control(suspect1), s0).\ninitially(control(suspect2), s0).\ninitially(default_move(_, 'C'), s0).\n\n% When a state is final\nfinal(do(move(_S2, _M2), do(move(_S1, _M1), S))):-initial(S).\n\n% Legal moves\nlegal(move(S, M), State):- possible(move(S, M), State), holds(control(S), State).\n\n% Possible moves\npossible(move(S,'D'), State):- holds(player(S), State).\npossible(move(S,'C'), State):- holds(player(S), State).\n\n% Opposite moves\nopposite_move('C', 'D').\nopposite_move('D', 'C').\n\n% Effects of moves\neffect(did(S, M), move(S, M), _State).\nabnormal(control(S), move(S, _M), _State).\n\n% Final outcomes and goals\nfinally(outcome(S1,M1,U1,S2,M2,U2), State):-\n    final(State),\n    holds(role(S1, row), State),\n    holds(did(S1, M1), State),\n    holds(role(S2, col), State),\n    holds(did(S2, M2), State),\n    payoff(M1, M2, U1, U2).\n\nfinally(goal(S1, U1), State):-\n    finally(outcome(S1,_,U1,_,_,_), State).\nfinally(goal(S2, U2), State):-\n    finally(outcome(_,_,_,S2,_,U2), State).\n",
+  "game_moves": [
+    "C",
+    "D"
+  ],
+  "game_players": [
+    "suspect1",
+    "suspect2"
+  ],
+  "default_move": "C",
+  "moves": [
+    "C",
+    "C",
+    "D",
+    "D"
+  ],
+  "payoffs": [
+    3.0,
+    0.0,
+    2.0,
+    4.0
+  ],
+  "total_payoff": 9.0,
+  "trace_messages": [],
+  "attempts": 1
+}

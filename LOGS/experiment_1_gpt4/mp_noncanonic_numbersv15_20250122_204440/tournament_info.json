@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -4,
+    -4,
+    -4,
+    -4,
+    -4
+  ],
+  "winners_payoffs": [
+    [
+      "Higuse",
+      "tit-for-tat.",
+      -4.0
+    ],
+    [
+      "Rikusu",
+      "tit-for-tat.",
+      -4.0
+    ],
+    [
+      "Qosuro",
+      "tit-for-tat.",
+      -4.0
+    ],
+    [
+      "Jepere",
+      "tit-for-tat.",
+      -4.0
+    ],
+    [
+      "Kebaga",
+      "tit-for-tat.",
+      -4.0
+    ]
+  ]
+}

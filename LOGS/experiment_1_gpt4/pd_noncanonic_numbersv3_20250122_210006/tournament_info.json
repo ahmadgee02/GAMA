@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    20,
+    20,
+    20,
+    20,
+    20
+  ],
+  "winners_payoffs": [
+    [
+      "Foxose",
+      "tit-for-tat.",
+      20.0
+    ],
+    [
+      "Bexima",
+      "tit-for-tat.",
+      20.0
+    ],
+    [
+      "Racita",
+      "tit-for-tat.",
+      20.0
+    ],
+    [
+      "Cabiko",
+      "tit-for-tat.",
+      20.0
+    ],
+    [
+      "Bajaxo",
+      "tit-for-tat.",
+      20.0
+    ]
+  ]
+}

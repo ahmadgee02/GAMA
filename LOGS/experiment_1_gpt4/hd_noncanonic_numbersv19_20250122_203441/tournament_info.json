@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -10,
+    -10,
+    -10,
+    -10,
+    -10
+  ],
+  "winners_payoffs": [
+    [
+      "Renuve",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Podemo",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Daxaru",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Boxopo",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Vicisu",
+      "tit-for-tat.",
+      -10.0
+    ]
+  ]
+}

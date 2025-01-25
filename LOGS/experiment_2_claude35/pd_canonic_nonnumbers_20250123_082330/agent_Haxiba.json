@@ -1,0 +1,23 @@
+{
+  "name": "Haxiba",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n/* Game specific predicates for Interrogation Game */\n:- discontiguous effect/3.\n:- discontiguous abnormal/3.\n\n% Payoff matrix (years reduced from sentence - higher is better)\npayoff('D', 'D', 2, 2).    % both confess: moderate sentence\npayoff('C', 'D', 0, 5).    % stay silent while other confesses: heavy sentence\npayoff('D', 'C', 5, 0).    % confess while other stays silent: go free\npayoff('C', 'C', 4, 4).    % both stay silent: minor sentence\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play\ninitially(player(p1), s0).\ninitially(player(p2), s0).\ninitially(role(p1,row), s0).\ninitially(role(p2,col), s0).\ninitially(control(p1), s0).\ninitially(control(p2), s0).\ninitially(default_move(_, 'C'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'D'), S):- holds(player(P), S).   % confess\npossible(move(P,'C'), S):- holds(player(P), S).   % stay silent\n\n% Moves that are opposite to each other\nopposite_move('C', 'D').\nopposite_move('D', 'C').\n\n% The effects of a move\neffect(did(P, M), move(P, M), _S).\n\n% Player loses control after moving\nabnormal(control(P), move(P, _M), _S).\n",
+  "game_moves": [
+    "C",
+    "D"
+  ],
+  "game_players": [
+    "p1",
+    "p2"
+  ],
+  "default_move": "C",
+  "moves": [
+    "C"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

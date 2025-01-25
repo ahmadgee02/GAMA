@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -5,
+    -5,
+    -5,
+    -5,
+    -5
+  ],
+  "winners_payoffs": [
+    [
+      "Pavohe",
+      "tit-for-tat.",
+      -5.0
+    ],
+    [
+      "Jiwiri",
+      "tit-for-tat.",
+      -5.0
+    ],
+    [
+      "Tasusi",
+      "tit-for-tat.",
+      -5.0
+    ],
+    [
+      "Tigiva",
+      "tit-for-tat.",
+      -5.0
+    ]
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Qolatu",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": " \n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n:- discontiguous outcome/6.\n\n% Game specific predicates for Friends Shopping Game\n\n% Payoff matrix for Friends Shopping Game\npayoff('Elegance', 'Elegance', 3, 2).\npayoff('Chic', 'Chic', 2, 3).\npayoff('Elegance', 'Chic', 0, 0).\npayoff('Chic', 'Elegance', 0, 0).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play\ninitially(player(friend1), s0).\ninitially(player(friend2), s0).\ninitially(role(friend1, elegance_lover), s0).\ninitially(role(friend2, chic_lover), s0).\ninitially(control(friend1), s0).\ninitially(control(friend2), s0).\ninitially(default_move(_, 'Elegance'), s0).\n\n% A legal move is a possible move where the player has control (is its turn)\nlegal(move(P, M), S) :- possible(move(P, M), S), holds(control(P), S).\n\n% What is possible for a player to choose\npossible(move(P, 'Chic'), S) :- holds(player(P), S).\npossible(move(P, 'Elegance'), S) :- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('Elegance', 'Chic').\nopposite_move('Chic', 'Elegance').\n\n% Final outcome with players, Moves, and Utilities\nfinally(outcome(F1, M1, U1, F2, M2, U2), S) :-\n    final(S),\n    holds(role(F1, elegance_lover), S),\n    holds(did(F1, M1), S),\n    holds(role(F2, chic_lover), S),\n    holds(did(F2, M2), S),\n    payoff(M1, M2, U1, U2).\n\n% Goals achieved by the players\nfinally(goal(F1, U1), S) :-\n    finally(outcome(F1, _, U1, _, _, _), S).\nfinally(goal(F2, U2), S) :-\n    finally(outcome(_, _, _, F2, _, U2), S).\n",
+  "game_moves": [
+    "Chic",
+    "Elegance"
+  ],
+  "game_players": [
+    "friend1",
+    "friend2"
+  ],
+  "default_move": "Elegance",
+  "moves": [
+    "Elegance"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

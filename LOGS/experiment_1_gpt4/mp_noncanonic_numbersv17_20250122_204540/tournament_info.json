@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -4,
+    -4,
+    -4,
+    -4,
+    -4
+  ],
+  "winners_payoffs": [
+    [
+      "Bedape",
+      "tit-for-tat.",
+      -4.0
+    ],
+    [
+      "Gusufi",
+      "tit-for-tat.",
+      -4.0
+    ],
+    [
+      "Jaripu",
+      "tit-for-tat.",
+      -4.0
+    ],
+    [
+      "Vageju",
+      "tit-for-tat.",
+      -4.0
+    ],
+    [
+      "Veqopa",
+      "tit-for-tat.",
+      -4.0
+    ]
+  ]
+}

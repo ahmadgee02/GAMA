@@ -1,0 +1,23 @@
+{
+    "name": "Retani",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n\n/* Game specific predicates for Fashion Brand Game */\n\n% Payoff matrix\npayoff('SUST', 'SUST', 1, -1).\npayoff('TECH', 'TECH', 1, -1).\npayoff('SUST', 'TECH', -2, 2).\npayoff('TECH', 'SUST', -2, 2).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(niche), s0).\ninitially(player(giant), s0).\ninitially(role(niche,row), s0).\ninitially(role(giant,col), s0).\ninitially(control(niche), s0).\ninitially(control(giant), s0).\ninitially(default_move(_, 'SUST'), s0).\n\n% What moves are possible for a player\npossible(move(P,'SUST'), S):- holds(player(P), S).\npossible(move(P,'TECH'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('SUST', 'TECH').\nopposite_move('TECH', 'SUST').\n",
+    "game_moves": [
+        "SUST",
+        "TECH"
+    ],
+    "game_players": [
+        "niche",
+        "giant"
+    ],
+    "default_move": "SUST",
+    "moves": [
+        "SUST"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

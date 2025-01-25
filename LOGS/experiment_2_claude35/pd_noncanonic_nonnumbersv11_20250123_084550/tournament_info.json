@@ -1,0 +1,32 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Liceca",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Cicedi",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Foqeyu",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Yasuyu",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Nubugo",
+      "tit-for-tat.",
+      10.0
+    ]
+  ]
+}

@@ -1,0 +1,24 @@
+{
+    "name": "Roliye",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous player/3.\n:- discontiguous role/3.\n:- discontiguous control/3.\n:- discontiguous default_move/3.\n:- discontiguous possible/3.\n:- discontiguous opposite_move/2.\n:- discontiguous payoff/6.\n\n/* Game specific predicates for the celebration game */\n\n% Payoff matrix for the celebration game\npayoff('Formal Dinner', 'Formal Dinner', 2, 1).\npayoff('Picnic', 'Picnic', 1, 2).\npayoff('Separate', 'Separate', 0, 0).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play.\ninitially(player(jordan), s0).\ninitially(player(casey), s0).\ninitially(role(jordan, formal), s0).\ninitially(role(casey, picnic), s0).\ninitially(control(jordan), s0).\ninitially(control(casey), s0).\ninitially(default_move(_, 'Separate'), s0).\n\n% What is possible for a player to choose\npossible(move(P, 'Formal Dinner'), S):- holds(player(P), S).\npossible(move(P, 'Picnic'), S):- holds(player(P), S).\npossible(move(P, 'Separate'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other (conceptual, as moves are not directly opposites in this context)\nopposite_move('Formal Dinner', 'Picnic').\nopposite_move('Picnic', 'Formal Dinner').\nopposite_move('Separate', 'Separate').\n",
+    "game_moves": [
+        "Formal Dinner",
+        "Separate",
+        "Picnic"
+    ],
+    "game_players": [
+        "jordan",
+        "casey"
+    ],
+    "default_move": "Separate",
+    "moves": [
+        "Separate"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

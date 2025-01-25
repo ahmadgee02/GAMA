@@ -1,0 +1,32 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Cuhofe",
+      "tit-for-tat.",
+      11.0
+    ],
+    [
+      "Cixeho",
+      "tit-for-tat.",
+      11.0
+    ],
+    [
+      "Qelodu",
+      "tit-for-tat.",
+      11.0
+    ],
+    [
+      "Viyaqu",
+      "tit-for-tat.",
+      11.0
+    ],
+    [
+      "Nadoci",
+      "tit-for-tat.",
+      11.0
+    ]
+  ]
+}

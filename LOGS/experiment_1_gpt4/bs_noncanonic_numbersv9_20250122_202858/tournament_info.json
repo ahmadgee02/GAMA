@@ -1,0 +1,28 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Ciqilu",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Pomuyu",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Niquki",
+      "tit-for-tat.",
+      3.0
+    ]
+  ]
+}

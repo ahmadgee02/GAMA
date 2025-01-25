@@ -45,7 +45,7 @@ def main():
 	games_descriptions = [(game_file[:-4], read_file(os.path.join(GAME_DIR,game_file))) for game_file in os.listdir(GAME_DIR)]
 
 	# Step 6: Run the tournament for each LLM and each game description
-	for llm_name, llm in zip(["gpt4", "claude35"],[GPT4, Claude]):
+	for llm_name, llm in zip(["claude35"],[Claude]):#zip(["gpt4", "claude35"],[GPT4, Claude]):
 		experiment_name = "experiment_2_"+llm_name
 		for game_name, game_desc in games_descriptions:
 			agent_pool = AgentPool()

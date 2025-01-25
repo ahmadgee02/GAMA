@@ -1,0 +1,23 @@
+{
+    "name": "Xuqito",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n\n% Payoff matrix\npayoff('SMART', 'SMART', 3, -3).\npayoff('WEAR', 'WEAR', 3, -3).\npayoff('SMART', 'WEAR', -4, 4).\npayoff('WEAR', 'SMART', -4, 4).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(startup), s0).\ninitially(player(giant), s0).\ninitially(role(startup,row), s0).\ninitially(role(giant,col), s0).\ninitially(control(startup), s0).\ninitially(control(giant), s0).\ninitially(default_move(_, 'SMART'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'SMART'), S):- holds(player(P), S).\npossible(move(P,'WEAR'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('SMART', 'WEAR').\nopposite_move('WEAR', 'SMART').\n",
+    "game_moves": [
+        "WEAR",
+        "SMART"
+    ],
+    "game_players": [
+        "startup",
+        "giant"
+    ],
+    "default_move": "SMART",
+    "moves": [
+        "SMART"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

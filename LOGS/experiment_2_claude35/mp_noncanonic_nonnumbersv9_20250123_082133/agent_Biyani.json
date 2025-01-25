@@ -1,0 +1,23 @@
+{
+  "name": "Biyani",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Film Release Game */\n\n% Payoff matrix ('H' for Holiday, 'R' for Regular weekend)\npayoff('H', 'H', 3, 2).  % Both release on holiday: indie gets attention\npayoff('H', 'R', 5, 1).  % Hollywood on holiday, indie on regular\npayoff('R', 'H', 1, 3).  % Hollywood on regular, indie on holiday\npayoff('R', 'R', 2, 1).  % Both on regular weekend\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(hollywood), s0).\ninitially(player(indie), s0).\ninitially(role(hollywood,row), s0).\ninitially(role(indie,col), s0).\ninitially(control(hollywood), s0).\ninitially(control(indie), s0).\ninitially(default_move(_, 'R'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'H'), S):- holds(player(P), S).\npossible(move(P,'R'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('H', 'R').\nopposite_move('R', 'H').\n",
+  "game_moves": [
+    "R",
+    "H"
+  ],
+  "game_players": [
+    "hollywood",
+    "indie"
+  ],
+  "default_move": "R",
+  "moves": [
+    "R"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

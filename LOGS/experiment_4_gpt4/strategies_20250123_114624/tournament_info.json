@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    32,
+    16,
+    24,
+    11,
+    20
+  ],
+  "winners_payoffs": [
+    [
+      "Muyuvu",
+      "anti-default-move",
+      32.0
+    ],
+    [
+      "Weloce",
+      "anti-tit-for-tat",
+      16.0
+    ],
+    [
+      "Rihuji",
+      "best_response",
+      24.0
+    ],
+    [
+      "Mopafu",
+      "default_move",
+      11.0
+    ],
+        [
+      "Xamoju",
+      "random",
+      32.0
+    ]
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Fopote",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Luciqu",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Haviti",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Miroya",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Kegopu",
+      "tit-for-tat.",
+      3.0
+    ]
+  ]
+}

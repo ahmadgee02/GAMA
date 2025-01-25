@@ -1,0 +1,28 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  "winners_payoffs": [
+    [
+      "Luhazo",
+      "tit-for-tat.",
+      2.0
+    ],
+    [
+      "Hojugi",
+      "tit-for-tat.",
+      2.0
+    ],
+    [
+      "Juliha",
+      "tit-for-tat.",
+      2.0
+    ]
+  ]
+}

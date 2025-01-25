@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    6,
+    6,
+    6,
+    6,
+    6
+  ],
+  "winners_payoffs": [
+    [
+      "Liduro",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Qeloqu",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Ziqixo",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Bogaku",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Hureto",
+      "tit-for-tat.",
+      6.0
+    ]
+  ]
+}

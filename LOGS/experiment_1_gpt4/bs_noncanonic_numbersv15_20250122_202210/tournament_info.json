@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Qubufe",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Yatepi",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Dozuta",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Jiqevu",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Naloca",
+      "tit-for-tat.",
+      3.0
+    ]
+  ]
+}

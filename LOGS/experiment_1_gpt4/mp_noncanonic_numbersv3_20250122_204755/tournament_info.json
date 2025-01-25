@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -2,
+    -2,
+    -2,
+    -2,
+    -2
+  ],
+  "winners_payoffs": [
+    [
+      "Hoteyu",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Cotare",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Heyiyo",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Qudawo",
+      "tit-for-tat.",
+      -2.0
+    ]
+  ]
+}

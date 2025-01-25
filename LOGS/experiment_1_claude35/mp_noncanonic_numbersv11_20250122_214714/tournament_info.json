@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -2,
+    -2,
+    -2,
+    -2,
+    -2
+  ],
+  "winners_payoffs": [
+    [
+      "Kihadu",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Wigode",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Pejudi",
+      "tit-for-tat.",
+      -2.0
+    ],
+    [
+      "Satolo",
+      "tit-for-tat.",
+      -2.0
+    ]
+  ]
+}

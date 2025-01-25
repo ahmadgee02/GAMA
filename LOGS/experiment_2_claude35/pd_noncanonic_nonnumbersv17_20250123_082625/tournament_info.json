@@ -1,0 +1,32 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Bocapo",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Cefexi",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Jiruro",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Fuveyu",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Xecaqi",
+      "anti-tit-for-tat.",
+      10.0
+    ]
+  ]
+}

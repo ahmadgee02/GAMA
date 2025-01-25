@@ -1,0 +1,27 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Wogaxi",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Yuvoku",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Tohaju",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Nopahu",
+      "tit-for-tat.",
+      6.0
+    ]
+  ]
+}

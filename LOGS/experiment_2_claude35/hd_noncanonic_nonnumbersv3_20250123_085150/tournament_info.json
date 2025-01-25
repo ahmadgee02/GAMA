@@ -1,0 +1,32 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Milaxe",
+      "tit-for-tat.",
+      8.0
+    ],
+    [
+      "Jayozi",
+      "tit-for-tat.",
+      8.0
+    ],
+    [
+      "Yodibi",
+      "tit-for-tat.",
+      8.0
+    ],
+    [
+      "Jitowo",
+      "tit-for-tat.",
+      8.0
+    ],
+    [
+      "Caqore",
+      "anti-tit-for-tat.",
+      8.0
+    ]
+  ]
+}

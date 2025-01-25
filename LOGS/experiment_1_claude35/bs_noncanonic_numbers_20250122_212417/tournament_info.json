@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Tarena",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Kesofu",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Liqade",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Yizeqa",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Zayiza",
+      "tit-for-tat.",
+      3.0
+    ]
+  ]
+}

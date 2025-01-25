@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -10,
+    -10,
+    -10,
+    -10,
+    -10
+  ],
+  "winners_payoffs": [
+    [
+      "Fafiro",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Fuzate",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Rumado",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Vupaje",
+      "tit-for-tat.",
+      -10.0
+    ]
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    6,
+    6,
+    6,
+    6,
+    6
+  ],
+  "winners_payoffs": [
+    [
+      "Sujeve",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Ziqavu",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Dexano",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Tadoxu",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Vifowi",
+      "tit-for-tat.",
+      6.0
+    ]
+  ]
+}

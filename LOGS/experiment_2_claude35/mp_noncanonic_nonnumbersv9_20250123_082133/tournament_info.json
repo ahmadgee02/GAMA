@@ -1,0 +1,17 @@
+{
+  "num_agents": 9,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Wevoho",
+      "tit-for-tat.",
+      15.0
+    ],
+    [
+      "Papuxu",
+      "anti-tit-for-tat.",
+      15.0
+    ]
+  ]
+}

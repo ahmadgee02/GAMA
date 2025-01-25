@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -10,
+    -10,
+    -10,
+    -10,
+    -10
+  ],
+  "winners_payoffs": [
+    [
+      "Mucino",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Paqene",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Venogu",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Nadida",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Radobe",
+      "tit-for-tat.",
+      -10.0
+    ]
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    18,
+    18,
+    18,
+    18,
+    18
+  ],
+  "winners_payoffs": [
+    [
+      "Misuho",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Vibini",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Zecixa",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Yanuqi",
+      "tit-for-tat.",
+      18.0
+    ]
+  ]
+}

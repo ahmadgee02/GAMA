@@ -1,0 +1,23 @@
+{
+    "name": "Quhozo",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n:- discontiguous payoff/4.\n:- discontiguous opposite_move/2.\n\n% Game specific predicates for the Family Budget Negotiation\n\n% Payoff matrix for the negotiation\npayoff('hold_firm', 'hold_firm', -10, -10).\npayoff('compromise', 'hold_firm', -1, 1).\npayoff('hold_firm', 'compromise', 1, -1).\npayoff('compromise', 'compromise', 0, 0).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play.\ninitially(player(husband), s0).\ninitially(player(wife), s0).\ninitially(role(husband, row), s0).\ninitially(role(wife, col), s0).\ninitially(control(husband), s0).\ninitially(control(wife), s0).\ninitially(default_move(_, 'compromise'), s0).\n\n% A legal move is a possible move where the player has control (is its turn).\nlegal(move(P, M), S):- possible(move(P, M), S), holds(control(P), S).\n\n% What is possible for a player to choose\npossible(move(P,'hold_firm'), S):- holds(player(P), S).\npossible(move(P,'compromise'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('compromise', 'hold_firm').\nopposite_move('hold_firm', 'compromise').\n",
+    "game_moves": [
+        "hold_firm",
+        "compromise"
+    ],
+    "game_players": [
+        "husband",
+        "wife"
+    ],
+    "default_move": "compromise",
+    "moves": [
+        "compromise"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

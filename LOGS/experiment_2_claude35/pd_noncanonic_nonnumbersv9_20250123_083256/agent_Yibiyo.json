@@ -1,0 +1,23 @@
+{
+  "name": "Yibiyo",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n/* Game specific predicates for Defense Contractors Bidding Game */\n\n% Payoff matrix (compete = fair bid, fix = price fixing)\npayoff('compete', 'compete', 3, 3).  % Fair profits, maintain integrity\npayoff('compete', 'fix', 1, 5).      % Risk loss vs maximum gain\npayoff('fix', 'compete', 5, 1).      % Maximum gain vs risk loss\npayoff('fix', 'fix', 4, 4).          % High profits but legal risks\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(contractor1), s0).\ninitially(player(contractor2), s0).\ninitially(role(contractor1,row), s0).\ninitially(role(contractor2,col), s0).\ninitially(control(contractor1), s0).\ninitially(control(contractor2), s0).\ninitially(default_move(_, 'compete'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'compete'), S):- holds(player(P), S).\npossible(move(P,'fix'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('compete', 'fix').\nopposite_move('fix', 'compete').\n\n% Final state condition\nfinal(do(move(_P2, _M2), do(move(_P1, _M1), S))):- initial(S).\n",
+  "game_moves": [
+    "compete",
+    "fix"
+  ],
+  "game_players": [
+    "contractor1",
+    "contractor2"
+  ],
+  "default_move": "compete",
+  "moves": [
+    "compete"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

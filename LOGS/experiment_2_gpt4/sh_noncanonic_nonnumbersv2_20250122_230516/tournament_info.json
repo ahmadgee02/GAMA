@@ -1,0 +1,12 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Xenaye",
+      "tit-for-tat.",
+      9.0
+    ]
+  ]
+}

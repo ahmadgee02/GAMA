@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    19,
+    19,
+    19,
+    19,
+    19
+  ],
+  "winners_payoffs": [
+    [
+      "Cukuye",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Fazuti",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Rehujo",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Barote",
+      "tit-for-tat.",
+      19.0
+    ],
+    [
+      "Bojiro",
+      "tit-for-tat.",
+      19.0
+    ]
+  ]
+}

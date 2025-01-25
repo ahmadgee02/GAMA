@@ -1,0 +1,22 @@
+{
+  "num_agents": 7,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Fapoka",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Fabapa",
+      "tit-for-tat.",
+      6.0
+    ],
+    [
+      "Kawara",
+      "tit-for-tat.",
+      6.0
+    ]
+  ]
+}

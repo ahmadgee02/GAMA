@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "winners_payoffs": [
+    [
+      "Baxahu",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Daketa",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Hiyeki",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Hukiwa",
+      "tit-for-tat.",
+      3.0
+    ],
+    [
+      "Buzaha",
+      "tit-for-tat.",
+      3.0
+    ]
+  ]
+}

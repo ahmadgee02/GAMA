@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -15,
+    -15,
+    -15,
+    -15,
+    -15
+  ],
+  "winners_payoffs": [
+    [
+      "Qidaza",
+      "tit-for-tat.",
+      -15.0
+    ],
+    [
+      "Kijudo",
+      "tit-for-tat.",
+      -15.0
+    ],
+    [
+      "Tejusa",
+      "tit-for-tat.",
+      -15.0
+    ],
+    [
+      "Vogiru",
+      "tit-for-tat.",
+      -15.0
+    ]
+  ]
+}

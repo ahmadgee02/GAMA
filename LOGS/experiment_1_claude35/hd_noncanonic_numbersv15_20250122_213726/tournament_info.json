@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -10,
+    -10,
+    -10,
+    -10,
+    -10
+  ],
+  "winners_payoffs": [
+    [
+      "Reyoya",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Febeyu",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Cugiza",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Yecaza",
+      "tit-for-tat.",
+      -10.0
+    ],
+    [
+      "Lupego",
+      "tit-for-tat.",
+      -10.0
+    ]
+  ]
+}

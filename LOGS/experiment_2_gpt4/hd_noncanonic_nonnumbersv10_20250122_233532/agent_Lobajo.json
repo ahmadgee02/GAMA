@@ -1,0 +1,31 @@
+{
+  "name": "Lobajo",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "correct",
+  "game_rules": "\n:- discontiguous initial/1.\n:- discontiguous initially/2.\n:- discontiguous final/1.\n:- discontiguous legal/2.\n:- discontiguous possible/2.\n:- discontiguous opposite_move/2.\n:- discontiguous effect/3.\n:- discontiguous abnormal/3.\n:- discontiguous finally/2.\n\n/* Game specific predicates for Vendor-Retailer Negotiation */\n\n% Payoff matrix for the negotiation\n% The payoff is structured as: payoff(VendorMove, RetailerMove, VendorPayoff, RetailerPayoff)\npayoff('Hold Firm', 'Hold Firm', 0, 0).\npayoff('Compromise', 'Hold Firm', -1, 2).\npayoff('Hold Firm', 'Compromise', 2, -1).\npayoff('Compromise', 'Compromise', 1, 1).\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play.\ninitially(player(vendor), s0).\ninitially(player(retailer), s0).\ninitially(role(vendor, proposer), s0).\ninitially(role(retailer, responder), s0).\ninitially(control(vendor), s0).\ninitially(control(retailer), s0).\ninitially(default_move(_, 'Compromise'), s0).\n\n% When a state is final\nfinal(do(move(_R, _MR), do(move(_V, _MV), S))):-initial(S).\n\n% A legal move is a possible move where the player has control (is their turn).\nlegal(move(P, M), S):- possible(move(P, M), S), holds(control(P), S).\n\n% What is possible for a player to choose\npossible(move(P, 'Hold Firm'), S):- holds(player(P), S).\npossible(move(P, 'Compromise'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other.\nopposite_move('Compromise', 'Hold Firm').\nopposite_move('Hold Firm', 'Compromise').\n\n% The effects of a move: if P has chosen M, then in the next state this is what they did.\neffect(did(P, M), move(P, M), _S).\n\n% The effects of a move: once a move is made, the player loses control, i.e., cannot move anymore.\nabnormal(control(P), move(P, _M), _S).\n\n% What holds finally: the outcome with players, Moves, and Utilities.\nfinally(outcome(Vendor,MV,UV,Retailer,MR,UR), S):-\n    final(S),\n    holds(role(Vendor, proposer), S),\n    holds(did(Vendor, MV), S),\n    holds(role(Retailer, responder), S),\n    holds(did(Retailer, MR), S),\n    payoff(MV, MR, UV, UR).\n\n% Goals achieved by the players.\nfinally(goal(Vendor, UV), S):-\n    finally(outcome(Vendor,_,UV,_,_,_), S).\nfinally(goal(Retailer, UR), S):-\n    finally(outcome(_,_,_,Retailer,_,UR), S).\n\n",
+  "game_moves": [
+    "Compromise",
+    "Hold Firm"
+  ],
+  "game_players": [
+    "vendor",
+    "retailer"
+  ],
+  "default_move": "Compromise",
+  "moves": [
+    "Compromise",
+    "Compromise",
+    "Hold Firm",
+    "Hold Firm"
+  ],
+  "payoffs": [
+    1.0,
+    -1.0,
+    0.0,
+    2.0
+  ],
+  "total_payoff": 2.0,
+  "trace_messages": [],
+  "attempts": 1
+}

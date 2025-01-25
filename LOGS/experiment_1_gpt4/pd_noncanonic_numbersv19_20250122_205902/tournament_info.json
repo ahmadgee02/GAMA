@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    18,
+    18,
+    18,
+    18,
+    18
+  ],
+  "winners_payoffs": [
+    [
+      "Cicofo",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Yuroko",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Luvili",
+      "tit-for-tat.",
+      18.0
+    ],
+    [
+      "Jebuqa",
+      "tit-for-tat.",
+      18.0
+    ]
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    20,
+    20,
+    20,
+    20,
+    20
+  ],
+  "winners_payoffs": [
+    [
+      "Lopolu",
+      "tit-for-tat.",
+      20.0
+    ],
+    [
+      "Soqada",
+      "tit-for-tat.",
+      20.0
+    ],
+    [
+      "Gisane",
+      "tit-for-tat.",
+      20.0
+    ],
+    [
+      "Yuyasa",
+      "tit-for-tat.",
+      20.0
+    ],
+    [
+      "Ceqiha",
+      "tit-for-tat.",
+      20.0
+    ]
+  ]
+}

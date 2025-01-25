@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  "winners_payoffs": [
+    [
+      "Rigeho",
+      "tit-for-tat.",
+      2.0
+    ],
+    [
+      "Honumo",
+      "tit-for-tat.",
+      2.0
+    ],
+    [
+      "Gesovi",
+      "tit-for-tat.",
+      2.0
+    ],
+    [
+      "Zegeci",
+      "tit-for-tat.",
+      2.0
+    ],
+    [
+      "Cukotu",
+      "tit-for-tat.",
+      2.0
+    ]
+  ]
+}

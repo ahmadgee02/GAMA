@@ -1,0 +1,33 @@
+{
+  "num_agents": 6,
+  "num_rounds": 4,
+  "target_payoffs": [
+    32,
+    16,
+    24,
+    11,
+    20
+  ],
+  "winners_payoffs": [
+    [
+      "Hugomi",
+      "anti-default-move",
+      32.0
+    ],
+    [
+      "Zuvega",
+      "anti-tit-for-tat",
+      16.0
+    ],
+    [
+      "Yunofo",
+      "best_response",
+      24.0
+    ],
+    [
+      "Wadame",
+      "default_move",
+      11.0
+    ]
+  ]
+}

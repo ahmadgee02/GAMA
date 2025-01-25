@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -5,
+    -5,
+    -5,
+    -5,
+    -5
+  ],
+  "winners_payoffs": [
+    [
+      "Soyora",
+      "tit-for-tat.",
+      -5.0
+    ],
+    [
+      "Tisoki",
+      "tit-for-tat.",
+      -5.0
+    ],
+    [
+      "Valice",
+      "tit-for-tat.",
+      -5.0
+    ],
+    [
+      "Viruvo",
+      "tit-for-tat.",
+      -5.0
+    ],
+    [
+      "Neboxo",
+      "tit-for-tat.",
+      -5.0
+    ]
+  ]
+}

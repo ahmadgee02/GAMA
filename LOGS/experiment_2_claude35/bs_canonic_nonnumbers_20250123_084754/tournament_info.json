@@ -1,0 +1,17 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [],
+  "winners_payoffs": [
+    [
+      "Wifira",
+      "tit-for-tat.",
+      5.0
+    ],
+    [
+      "Sososo",
+      "tit-for-tat.",
+      5.0
+    ]
+  ]
+}

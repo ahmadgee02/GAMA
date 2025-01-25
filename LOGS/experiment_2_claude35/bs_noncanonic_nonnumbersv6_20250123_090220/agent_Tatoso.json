@@ -1,0 +1,23 @@
+{
+  "name": "Tatoso",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n\n/* Game specific predicates for Politicians' Bill Choice */\n\n% Payoff matrix ('H' for healthcare, 'E' for education)\npayoff('H', 'H', 4, 2).\npayoff('E', 'E', 2, 4).\npayoff('H', 'E', 0, 0).\npayoff('E', 'H', 0, 0).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(p1), s0).\ninitially(player(p2), s0).\ninitially(role(p1,row), s0).\ninitially(role(p2,col), s0).\ninitially(control(p1), s0).\ninitially(control(p2), s0).\ninitially(default_move(_, 'H'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'H'), S):- holds(player(P), S).\npossible(move(P,'E'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('H', 'E').\nopposite_move('E', 'H').\n",
+  "game_moves": [
+    "E",
+    "H"
+  ],
+  "game_players": [
+    "p1",
+    "p2"
+  ],
+  "default_move": "H",
+  "moves": [
+    "H"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

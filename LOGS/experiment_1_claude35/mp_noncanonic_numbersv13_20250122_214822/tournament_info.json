@@ -1,0 +1,18 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    -2,
+    -2,
+    -2,
+    -2,
+    -2
+  ],
+  "winners_payoffs": [
+    [
+      "Cacozu",
+      "tit-for-tat.",
+      -2.0
+    ]
+  ]
+}

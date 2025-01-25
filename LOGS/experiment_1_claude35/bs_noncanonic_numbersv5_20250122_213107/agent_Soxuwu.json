@@ -1,0 +1,23 @@
+{
+    "name": "Soxuwu",
+    "strategy_name": "tit-for-tat.",
+    "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+    "status": "runtime_error",
+    "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n:- discontiguous opposite_move/2.\n\n/* Game specific predicates for Weekend Getaway */\n\n% Payoff matrix \npayoff('mountain', 'mountain', 2, 1).\npayoff('beach', 'beach', 1, 2).\npayoff('mountain', 'beach', 0, 0).\npayoff('beach', 'mountain', 0, 0).\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(mountain_lover), s0).\ninitially(player(beach_lover), s0).\ninitially(role(mountain_lover,row), s0).\ninitially(role(beach_lover,col), s0).\ninitially(control(mountain_lover), s0).\ninitially(control(beach_lover), s0).\ninitially(default_move(_, 'mountain'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'mountain'), S):- holds(player(P), S).\npossible(move(P,'beach'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('mountain', 'beach').\nopposite_move('beach', 'mountain').\n",
+    "game_moves": [
+        "mountain",
+        "beach"
+    ],
+    "game_players": [
+        "mountain_lover",
+        "beach_lover"
+    ],
+    "default_move": "mountain",
+    "moves": [
+        "mountain"
+    ],
+    "payoffs": [],
+    "total_payoff": 0,
+    "trace_messages": [],
+    "attempts": 1
+}

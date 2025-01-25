@@ -1,0 +1,38 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    7,
+    7,
+    7,
+    7,
+    7
+  ],
+  "winners_payoffs": [
+    [
+      "Gelowe",
+      "tit-for-tat.",
+      7.0
+    ],
+    [
+      "Babuko",
+      "tit-for-tat.",
+      7.0
+    ],
+    [
+      "Feyivi",
+      "tit-for-tat.",
+      7.0
+    ],
+    [
+      "Vovuga",
+      "tit-for-tat.",
+      7.0
+    ],
+    [
+      "Cecoca",
+      "tit-for-tat.",
+      7.0
+    ]
+  ]
+}

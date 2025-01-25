@@ -1,0 +1,23 @@
+{
+  "name": "Guruzi",
+  "strategy_name": "tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, Mo):-\n    holds(last_move(O, Mo), S).",
+  "status": "runtime_error",
+  "game_rules": "\n/* Game specific predicates for Business Partners Negotiation */\n\n:- discontiguous initially/2.\n\n% Payoff matrix (compromise vs firm outcomes)\npayoff('C', 'C', 3, 3).     % Both compromise: balanced outcome\npayoff('C', 'F', 1, 4).     % P1 compromises, P2 firm: P2's strategy dominates\npayoff('F', 'C', 4, 1).     % P1 firm, P2 compromises: P1's strategy dominates\npayoff('F', 'F', 0, 0).     % Both firm: deadlock and lost opportunities\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(p1), s0).\ninitially(player(p2), s0).\ninitially(role(p1,row), s0).\ninitially(role(p2,col), s0).\ninitially(control(p1), s0).\ninitially(control(p2), s0).\ninitially(default_move(_, 'C'), s0).\n\n% What moves are possible for a player\npossible(move(P,'C'), S):- holds(player(P), S).\npossible(move(P,'F'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('C', 'F').\nopposite_move('F', 'C').\n",
+  "game_moves": [
+    "C",
+    "F"
+  ],
+  "game_players": [
+    "p1",
+    "p2"
+  ],
+  "default_move": "C",
+  "moves": [
+    "C"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 1
+}

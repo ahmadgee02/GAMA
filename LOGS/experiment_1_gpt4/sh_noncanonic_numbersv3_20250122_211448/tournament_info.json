@@ -1,0 +1,33 @@
+{
+  "num_agents": 5,
+  "num_rounds": 4,
+  "target_payoffs": [
+    10,
+    10,
+    10,
+    10,
+    10
+  ],
+  "winners_payoffs": [
+    [
+      "Nerazo",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Zayuvu",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Nidore",
+      "tit-for-tat.",
+      10.0
+    ],
+    [
+      "Tikizu",
+      "tit-for-tat.",
+      10.0
+    ]
+  ]
+}

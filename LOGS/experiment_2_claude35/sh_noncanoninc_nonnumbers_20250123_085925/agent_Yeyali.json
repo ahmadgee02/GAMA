@@ -1,0 +1,23 @@
+{
+  "name": "Yeyali",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix for Chefs' Game\npayoff('COLLAB', 'COLLAB', 5, 5).    % High reward for mutual collaboration\npayoff('INDEP', 'COLLAB', 3, 0).     % Moderate for independent, zero for collaborator\npayoff('COLLAB', 'INDEP', 0, 3).     % Zero for collaborator, moderate for independent\npayoff('INDEP', 'INDEP', 1, 1).      % Low reward for mutual independence\n\n% Initial state\ninitial(s0).\n\n% What holds initially: who is a player, their role, and whether they can play\ninitially(player(chef1), s0).\ninitially(player(chef2), s0).\ninitially(role(chef1,row), s0).\ninitially(role(chef2,col), s0).\ninitially(control(chef1), s0).\ninitially(control(chef2), s0).\ninitially(default_move(_, 'INDEP'), s0).\n\n% What is possible for a player to choose\npossible(move(P,'COLLAB'), S):- holds(player(P), S).\npossible(move(P,'INDEP'), S):- holds(player(P), S).\n\n% Moves that are opposite to each other\nopposite_move('COLLAB', 'INDEP').\nopposite_move('INDEP', 'COLLAB').\n",
+  "game_moves": [
+    "INDEP",
+    "COLLAB"
+  ],
+  "game_players": [
+    "chef1",
+    "chef2"
+  ],
+  "default_move": "INDEP",
+  "moves": [
+    "INDEP"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

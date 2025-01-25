@@ -1,0 +1,23 @@
+{
+  "name": "Zikeye",
+  "strategy_name": "anti-tit-for-tat.",
+  "strategy_rules": "select(P, O, S, M):-\n    \\+ holds(last_move(O, _LMo), S),\n    holds(default_move(P, M), S).\nselect(_P, O, S, M):-\n    holds(last_move(O, Mo), S),\n    opposite_move(Mo, M).",
+  "status": "runtime_error",
+  "game_rules": "\n:- discontiguous payoff/4.\n:- discontiguous initially/2.\n:- discontiguous possible/2.\n\n% Payoff matrix (collaborate = 'C', individual = 'I')\npayoff('C', 'C', 4, 4).    % Both collaborate: great outcome for both\npayoff('C', 'I', 1, 3).    % First collaborates, second goes individual\npayoff('I', 'C', 3, 1).    % First goes individual, second collaborates\npayoff('I', 'I', 2, 2).    % Both go individual: moderate losses\n\n% Initial state\ninitial(s0).\n\n% What holds initially\ninitially(player(p1), s0).\ninitially(player(p2), s0).\ninitially(role(p1,row), s0).\ninitially(role(p2,col), s0).\ninitially(control(p1), s0).\ninitially(control(p2), s0).\ninitially(default_move(_, 'C'), s0).\n\n% What moves are possible\npossible(move(P,'C'), S):- holds(player(P), S).\npossible(move(P,'I'), S):- holds(player(P), S).\n\n% Opposite moves\nopposite_move('C', 'I').\nopposite_move('I', 'C').\n",
+  "game_moves": [
+    "I",
+    "C"
+  ],
+  "game_players": [
+    "p1",
+    "p2"
+  ],
+  "default_move": "C",
+  "moves": [
+    "C"
+  ],
+  "payoffs": [],
+  "total_payoff": 0,
+  "trace_messages": [],
+  "attempts": 0
+}

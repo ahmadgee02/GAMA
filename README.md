@@ -87,20 +87,8 @@ max_attempts = 5
 ```bash
 GAMA/
 ├── DATA/
-│   ├── AGENTS/
-│   ├── CONFIG/
-│   ├── EVAL/
-│   ├── GAMES/
-│   ├── MISC/
-│   ├── PROMPTS/
-│   ├── STRATEGIES/
-│   └── STRATEGY_DESCRIPTIONS/
 ├── LOGS/
 ├── experiments/
-|   ├── experiment1.py
-|   ├── experiment2.py
-|   ├── experiment3.py
-|   └── experiment4.py
 ├── lms/
 │   |── gpt4.py
 │   └── claude.py/

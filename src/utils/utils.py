@@ -20,6 +20,13 @@ class Mode(Enum):
     RULES_PATH = "rules_path"
     AUTOFORMALIZATION = "autoformalization"
 
+
+def normalize_path(path) -> str:
+	"""
+	Converts a relative path to an absolute path and applies os-specific path separators.
+	"""
+	return os.path.abspath(os.path.normpath(path))
+
 def generate_syllable() -> str:
 	"""
 	Generates a random syllable using a combination of consonants and vowels.

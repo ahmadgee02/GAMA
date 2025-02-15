@@ -27,9 +27,9 @@ class Validator:
 		self.target_payoffs = pd.read_csv(payoffs_file)
 		self.validators = self.get_validators(validators_dir)
 		self.constraints_only = constraints_only
-		self.solver_path = "../../src/solver/solver.pl"  # game-independent part of the solver
-		self.strategy = "../../DATA/STRATEGIES/tit-for-tat.pl"  # strategy
-		self.general_agent_file = "../../DATA/MISC/general_agent.pl"
+		self.solver_path = "../src/solver/solver.pl"  # game-independent part of the solver
+		self.strategy = "../DATA/STRATEGIES/tit-for-tat.pl"  # strategy
+		self.general_agent_file = "../DATA/MISC/general_agent.pl"
 		self.solver = None
 		self.result_headers = ['filename', 'agent_name', 'status', 'tournament', 'constraints', 'final', 'synt_correct', 'run_correct', 'sem_correct', 'attempts', 'trace']
 		self.results = []

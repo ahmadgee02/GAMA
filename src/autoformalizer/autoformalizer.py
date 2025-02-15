@@ -57,7 +57,7 @@ class Autoformalizer:
 		"""
 		self.feedback_prompt = prompt
 
-	def autoformalize(self, agent, parser, trace_processor):
+	def autoformalize(self, agent, parser, trace_processor, clear_context=True):
 		"""
 		Performs the autoformalization process to generate syntactically correct game rules.
 
@@ -73,7 +73,8 @@ class Autoformalizer:
 		    RuntimeError: If the status is unknown during the autoformalization loop.
 		"""
 		# Clear the LLM's context and reset attempts.
-		self.llm.clear_context()
+		if clear_context:
+			self.llm.clear_context()
 		self.attempts = 0
 		status = "initial"
 		lines = None

@@ -9,6 +9,7 @@ A Python and Prolog-based simulator that enables users to create, simulate, and 
 ## 📑 Table of Contents
 
 - ✨ [Features](#-features)
+- 🤖 [Agent Model](#-agent-model)
 - 🚀 [Getting Started](#-getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)

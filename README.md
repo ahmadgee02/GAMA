@@ -1,6 +1,10 @@
 # 🤖 GAMA: Generative Agents for Multi-agent Autoformalization
 
-A Python and Prolog-based tournament simulator that enables users to create, simulate, and analyze game-theoretic tournaments using autoformalizing agents. The project supports game-theoric experiments and includes tools for validating autoformalized Prolog programs. Currently, it supports 2x2 simultaneous-move games, but its modular architecture allows for extensions to other types of games. 
+A Python and Prolog-based simulator that enables users to create, simulate, and analyze strategic interactions using autoformalizing agents. The project supports game-theoric experiments and includes tools for validating autoformalized Prolog programs. Currently, it supports 2x2 simultaneous-move games, but its modular architecture allows for extensions to other types of games. 
+
+<p align="center">
+  <img src="assets/gama.png" width="600">
+</p>
 
 ## 📑 Table of Contents
 
@@ -20,6 +24,12 @@ A Python and Prolog-based tournament simulator that enables users to create, sim
 - **Configurable Tournament Parameters**: Easily customize the number of agents, rounds, and target payoffs.
 - **Results Logging**: Automatically log tournament results for analysis.
 - **Modular Design**: Easily extendable and modifiable for other types of games.
+
+## 🤖 Agent Model
+
+<p align="center">
+  <img src="assets/agent_model.png" width="400">
+</p>
 
 ## 🚀 Getting Started
 
@@ -90,7 +100,7 @@ GAMA/
 ├── LOGS/
 ├── experiments/
 ├── lms/
-│   |── gpt4.py
+│   │── gpt4.py
 │   └── claude.py/
 ├── src/
 │   ├── agent

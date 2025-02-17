@@ -143,7 +143,8 @@ You can refer to [unit_tests](unit_tests) for examples.
 ## 🛠️ Built With
 - Python 🐍
 - SWI-Prolog ⚙️
-- OpenAI GPT
+- OpenAI GPT 🤖
+- Anthropic's Claude 🤖
 
 ## 👥 Authors
 

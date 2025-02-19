@@ -75,16 +75,16 @@ A sample configuration file is located at `unit_tests/CONFIG/test_config.ini`:
 
 ```ini
 [Paths]
-GAME_DIR = ./DATA/GAMES/
-OUT_DIR = ./LOGS/
-SOLVER_PATH = ../src/solver/solver.pl
-GAME_TEMPLATE_PATH = ../DATA/PROMPTS/game_prompt_template.txt
-STRATEGY_TEMPLATE_PATH = ../DATA/PROMPTS/strategy_prompt_template.txt
-FEEDBACK_TEMPLATE_PATH = ../DATA/PROMPTS/feedback_prompt_template.txt
-STRATEGY_PATH = ../DATA/STRATEGIES/tit-for-tat.pl
-STRATEGY_DESCRIPTION = ../DATA/STRATEGY_DESCRIPTIONS/default_move.txt
-GAME_PATH = ./DATA/sample_game_rules.pl
-AGENT_JSON = ./LOGS/agent_Jekuti.json
+GAME_DIR = unit_tests/DATA/GAMES/
+OUT_DIR = unit_tests/LOGS/
+SOLVER_PATH = src/solver/solver.pl
+GAME_TEMPLATE_PATH = DATA/PROMPTS/game_prompt_template.txt
+STRATEGY_TEMPLATE_PATH = DATA/PROMPTS/strategy_prompt_template.txt
+FEEDBACK_TEMPLATE_PATH = DATA/PROMPTS/feedback_prompt_template.txt
+STRATEGY_PATH = DATA/STRATEGIES/tit-for-tat.pl
+STRATEGY_DESCRIPTION = DATA/STRATEGY_DESCRIPTIONS/default_move.txt
+GAME_PATH = unit_tests/DATA/sample_game_rules.pl
+AGENT_JSON = unit_tests/LOGS/agent_Jekuti.json
 
 [Params]
 num_agents = 2
@@ -92,6 +92,8 @@ num_rounds = 4
 target_payoffs = 3;23
 max_attempts = 5
 ```
+
+Paths should be relative to the project's root directory.
 
 ## 🗂️ Project Structure
 

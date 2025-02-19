@@ -2,7 +2,7 @@ import configparser
 import logging
 from src.agent.agent import Agent
 from src.utils.data_object import DataObject
-from src.utils.utils import AgentStatus, Mode, read_file
+from src.utils.utils import AgentStatus, Mode, read_file, normalize_path
 from src.utils.setup_logger import logger
 import os
 import unittest
@@ -13,19 +13,19 @@ class TestAgentCreation(unittest.TestCase):
 		# Step 1: Read configuration
 		logging.debug('Test')
 		self.config = configparser.ConfigParser()
-		self.config.read(os.path.normpath("./CONFIG/test_config.ini"))
+		self.config.read(normalize_path("unit_tests/CONFIG/test_config.ini"))
 
 		# Step 2: Extract configuration parameters
-		self.GAME_DIR = os.path.normpath(self.config.get("Paths", "GAME_DIR"))
+		self.GAME_DIR = normalize_path(self.config.get("Paths", "GAME_DIR"))
 		self.OUT_DIR = self.config.get("Paths", "OUT_DIR")
 		if not os.path.exists(self.OUT_DIR):
 			os.makedirs(self.OUT_DIR)
 
-		self.game_template_path = os.path.normpath(self.config.get("Paths", "GAME_TEMPLATE_PATH"))
-		self.strategy_template_path = os.path.normpath(self.config.get("Paths", "STRATEGY_TEMPLATE_PATH"))
-		self.feedback_template_path = os.path.normpath(self.config.get("Paths", "FEEDBACK_TEMPLATE_PATH"))
-		self.game_path = os.path.normpath(self.config.get("Paths", "GAME_PATH"))
-		self.strategy_path = os.path.normpath(self.config.get("Paths", "STRATEGY_PATH"))
+		self.game_template_path = normalize_path(self.config.get("Paths", "GAME_TEMPLATE_PATH"))
+		self.strategy_template_path = normalize_path(self.config.get("Paths", "STRATEGY_TEMPLATE_PATH"))
+		self.feedback_template_path = normalize_path(self.config.get("Paths", "FEEDBACK_TEMPLATE_PATH"))
+		self.game_path = normalize_path(self.config.get("Paths", "GAME_PATH"))
+		self.strategy_path = normalize_path(self.config.get("Paths", "STRATEGY_PATH"))
 		self.game_rules = read_file(self.game_path)
 		self.strategy_rules = read_file(self.strategy_path)
 
@@ -90,7 +90,7 @@ class TestAgentCreation(unittest.TestCase):
 		"""Test that loading agent from json works correctly."""
 		logger.debug("Test that loading agent from json works correctly.")
 
-		agent_json = os.path.normpath(self.config.get("Paths", "AGENT_JSON"))
+		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
 		agent = Agent(agent_json=agent_json, autoformalization_on=False)
 
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
@@ -100,7 +100,7 @@ class TestAgentCreation(unittest.TestCase):
 		"""Test that loading agent from json and game rules from a path works correctly."""
 		logger.debug("Test that loading agent from json and game rules from a path works correctly.")
 
-		agent_json = os.path.normpath(self.config.get("Paths", "AGENT_JSON"))
+		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
 		agent = Agent(agent_json=agent_json, autoformalization_on=False)
 		game_data = DataObject(rules_path=self.game_path, mode=Mode.RULES_PATH)
 		agent.set_game(game_data)
@@ -112,7 +112,7 @@ class TestAgentCreation(unittest.TestCase):
 		"""Test that loading agent from json and game and strategy rules from a path works correctly."""
 		logger.debug("Test that loading agent from json and game and strategy rules from a path works correctly.")
 
-		agent_json = os.path.normpath(self.config.get("Paths", "AGENT_JSON"))
+		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
 		agent = Agent(agent_json=agent_json, autoformalization_on=False)
 		game_data = DataObject(rules_path=self.game_path, mode=Mode.RULES_PATH)
 		agent.set_game(game_data)
@@ -126,7 +126,7 @@ class TestAgentCreation(unittest.TestCase):
 		"""Test that loading agent from json and game autoformalization works correctly."""
 		logger.debug("Test that loading agent from json and game autoformalization works correctly.")
 
-		agent_json = os.path.normpath(self.config.get("Paths", "AGENT_JSON"))
+		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
 		agent = Agent(agent_json=agent_json, max_attempts=5)
 
 		game_description = read_file(os.path.join(self.GAME_DIR, "bs_canonic_numbers.txt"))
@@ -142,9 +142,9 @@ class TestAgentCreation(unittest.TestCase):
 		"""Test that loading agent from json and strategy autoformalization works correctly."""
 		logger.debug("Test that loading agent from json and strategy autoformalization works correctly.")
 
-		agent_json = os.path.normpath(self.config.get("Paths", "AGENT_JSON"))
+		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
 		agent = Agent(agent_json=agent_json)
-		strategy_description_path = os.path.normpath(self.config.get("Paths", "STRATEGY_DESCRIPTION"))
+		strategy_description_path = normalize_path(self.config.get("Paths", "STRATEGY_DESCRIPTION"))
 		strategy_description = read_file(strategy_description_path)
 		prompt = read_file(self.strategy_template_path).format(strategy_description=strategy_description)
 		strategy_data = DataObject(nl_description=strategy_description, instruction_prompt=prompt,

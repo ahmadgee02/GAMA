@@ -1,13 +1,11 @@
 import unittest
 import itertools
-import os
-import copy
 from src.environment.environment import Environment
 from src.agent.agent import Agent
 from src.environment.agent_pool import AgentPool
 import logging
 from src.utils.setup_logger import logger
-from src.utils.utils import generate_agent_name, Mode
+from src.utils.utils import generate_agent_name, Mode, normalize_path
 from src.utils.data_object import DataObject
 
 
@@ -19,8 +17,8 @@ class TestTournament(unittest.TestCase):
 		# Path to test configuration or JSON files
 		logging.info('Test')
 		logger.setLevel(level=logging.INFO)
-		self.agent_json_path = os.path.normpath("./LOGS/agent_Jekuti.json")
-		self.logdir = "./LOGS"
+		self.agent_json_path = normalize_path("unit_tests/LOGS/agent_Jekuti.json")
+		self.logdir = normalize_path("unit_tests/LOGS")
 
 		# Number of rounds and dummy matchmaker
 		self.num_rounds = 4
@@ -80,7 +78,7 @@ class TestTournament(unittest.TestCase):
 		tournament.play_tournament()
 
 		# Log the results
-		tournament_dir = "./LOGS"
+		tournament_dir = self.logdir
 		success = tournament.log_tournament(tournament_dir, tournament_name)
 		self.assertEqual(True, success)
 		self.agent_pool.clean_agents()
@@ -95,7 +93,7 @@ class TestTournament(unittest.TestCase):
 		for i in range(3):
 			agent = Agent(agent_json=self.agent_json_path, autoformalization_on=False)
 			agent.name = generate_agent_name(3)
-			game_data = DataObject(rules_path="../DATA/MISC/general_agent.pl", mode=Mode.RULES_PATH)
+			game_data = DataObject(rules_path=normalize_path("unit_tests/DATA/MISC/bos_agent.pl"), mode=Mode.RULES_PATH)
 			agent.set_game(game_data)
 			self.agent_pool.add_agent(agent)
 
@@ -109,7 +107,7 @@ class TestTournament(unittest.TestCase):
 			clone.name = generate_agent_name(3)
 
 			game_data = DataObject(rules_string=agent.game.game_rules, mode=Mode.RULES_STRING)
-			strategy_data = DataObject(rules_path="../DATA/STRATEGIES/anti-tit-for-tat.pl", mode=Mode.RULES_PATH)
+			strategy_data = DataObject(rules_path=normalize_path("DATA/STRATEGIES/anti-tit-for-tat.pl"), mode=Mode.RULES_PATH)
 			clone.set_game(game_data)
 			clone.set_strategy(strategy_data)
 
@@ -135,7 +133,7 @@ class TestTournament(unittest.TestCase):
 		winners = tournament.get_winners()
 
 		# Log the results
-		tournament_dir = "./LOGS"
+		tournament_dir = self.logdir
 		tournament.log_tournament(tournament_dir, "bs_test_tournament")
 
 		self.assertTrue(len(winners) == 3, "Tournament must have at least one winner.")

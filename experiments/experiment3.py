@@ -3,7 +3,7 @@ import configparser
 from src.agent.agent import Agent
 from src.environment.agent_pool import AgentPool
 from src.environment.environment import Environment
-from src.utils.utils import Mode, generate_agent_name
+from src.utils.utils import Mode, generate_agent_name, normalize_path
 from src.utils.data_object import DataObject
 import logging
 import os
@@ -20,15 +20,15 @@ def main():
 	config = configparser.ConfigParser()
 
 	# Step 1: Read configuration
-	config.read(os.path.normpath("../DATA/CONFIG/experiment_3.ini"))
+	config.read(normalize_path("DATA/CONFIG/experiment_3.ini"))
 
 	# Step 2: Extract configuration parameters
 	OUT_DIR = config.get("Paths", "OUT_DIR")
 	if not os.path.exists(OUT_DIR):
 		os.makedirs(OUT_DIR)
 
-	strategies_path = os.path.normpath(config.get("Paths", "STRATEGIES_PATH"))
-	agents_path = os.path.normpath(config.get("Paths", "AGENTS_PATH"))
+	strategies_path = normalize_path(config.get("Paths", "STRATEGIES_PATH"))
+	agents_path = normalize_path(config.get("Paths", "AGENTS_PATH"))
 	num_rounds = config.getint("Params", "num_rounds")
 
 	# Step 3: Read agents and strategies

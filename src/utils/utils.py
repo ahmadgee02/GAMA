@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import random
 import re
 from src.utils.setup_logger import logger
@@ -21,11 +22,14 @@ class Mode(Enum):
     AUTOFORMALIZATION = "autoformalization"
 
 
-def normalize_path(path) -> str:
-	"""
-	Converts a relative path to an absolute path and applies os-specific path separators.
-	"""
-	return os.path.abspath(os.path.normpath(path))
+def normalize_path(path: str) -> str:
+    """
+    Converts a relative path to an absolute path using the project's root directory.
+    """
+    base_dir = Path(__file__).resolve().parents[2]
+    path = Path(path)
+
+    return str(path.resolve()) if path.is_absolute() else str((base_dir / path).resolve())
 
 def generate_syllable() -> str:
 	"""

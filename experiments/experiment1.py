@@ -2,7 +2,7 @@ import configparser
 from src.agent.agent import Agent
 from src.environment.environment import Environment
 from src.environment.agent_pool import AgentPool
-from src.utils.utils import read_file, Mode, generate_agent_name
+from src.utils.utils import read_file, Mode, normalize_path
 from src.utils.data_object import DataObject
 from lms.gpt4 import GPT4
 from lms.claude import Claude
@@ -23,18 +23,18 @@ def main():
 	config = configparser.ConfigParser()
 
 	# Step 1: Read configuration
-	config.read(os.path.normpath("../DATA/CONFIG/experiment_1.ini"))
+	config.read(normalize_path("DATA/CONFIG/experiment_1.ini"))
 
 	# Step 2: Extract input and output paths
-	GAME_DIR = os.path.normpath(config.get("Paths", "GAME_DIR"))
+	GAME_DIR = normalize_path(config.get("Paths", "GAME_DIR"))
 	OUT_DIR = config.get("Paths", "OUT_DIR")
 	if not os.path.exists(OUT_DIR):
 		os.makedirs(OUT_DIR)
 
 	# Step 3: Extract file paths
-	template_path = os.path.normpath(config.get("Paths", "TEMPLATE_PATH"))
-	feedback_template_path = os.path.normpath(config.get("Paths", "FEEDBACK_TEMPLATE_PATH"))
-	strategy_path = os.path.normpath(config.get("Paths", "STRATEGY"))
+	template_path = normalize_path(config.get("Paths", "TEMPLATE_PATH"))
+	feedback_template_path = normalize_path(config.get("Paths", "FEEDBACK_TEMPLATE_PATH"))
+	strategy_path = normalize_path(config.get("Paths", "STRATEGY"))
 
 	# Step 4: Extract experiment parameters
 	num_agents = config.getint("Params", "num_agents")
@@ -42,7 +42,7 @@ def main():
 	max_attempts = config.getint("Params", "max_attempts")
 
 	# Step 5: Load game descriptions
-	games_payoffs = pd.read_csv("../DATA/MISC/payoff_sums_adjusted.csv")
+	games_payoffs = pd.read_csv(normalize_path("DATA/MISC/payoff_sums_adjusted.csv"))
 
 	# Step 6: Run the tournament for each LLM and each game description
 	for llm_name, llm in zip(["gpt4", "claude35"],[GPT4, Claude]):
@@ -70,7 +70,7 @@ def main():
 			for i in range(valid_agents_num):
 				agent = agent_pool.valid_agents[i]
 				clone_game_data = DataObject(rules_string=agent.game.game_rules, mode=Mode.RULES_STRING)
-				clone_strategy_data = DataObject(rules_path="../DATA/STRATEGIES/anti-tit-for-tat.pl", mode=Mode.RULES_PATH)
+				clone_strategy_data = DataObject(rules_path=normalize_path("DATA/STRATEGIES/anti-tit-for-tat.pl"), mode=Mode.RULES_PATH)
 				clone = Agent(game_data=clone_game_data, strategy_data=clone_strategy_data, autoformalization_on=False)
 				agent_pool.add_agent(clone)
 

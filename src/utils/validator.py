@@ -2,7 +2,7 @@ import os
 import json
 import pandas as pd
 from src.solver.solver import Solver
-from src.utils.utils import read_file
+from src.utils.utils import read_file, normalize_path
 import re
 
 
@@ -27,9 +27,9 @@ class Validator:
 		self.target_payoffs = pd.read_csv(payoffs_file)
 		self.validators = self.get_validators(validators_dir)
 		self.constraints_only = constraints_only
-		self.solver_path = "../src/solver/solver.pl"  # game-independent part of the solver
-		self.strategy = "../DATA/STRATEGIES/tit-for-tat.pl"  # strategy
-		self.general_agent_file = "../DATA/MISC/general_agent.pl"
+		self.solver_path = normalize_path("src/solver/solver.pl")  # game-independent part of the solver
+		self.strategy = normalize_path("DATA/STRATEGIES/tit-for-tat.pl")  # strategy
+		self.general_agent_file = normalize_path("DATA/MISC/general_agent.pl")
 		self.solver = None
 		self.result_headers = ['filename', 'agent_name', 'status', 'tournament', 'constraints', 'final', 'synt_correct', 'run_correct', 'sem_correct', 'attempts', 'trace']
 		self.results = []
@@ -149,7 +149,7 @@ class Validator:
 			validator = self.validators[game_type]
 			self.solver = Solver(read_file(self.solver_path), game_rules, read_file(self.strategy))
 			self.solver.consult_prolog_file(validator)
-			self.solver.consult_prolog_file("../../DATA/MISC/unique_payoffs.pl")
+			self.solver.consult_prolog_file(normalize_path("DATA/MISC/unique_payoffs.pl"))
 			#matrix = self.matrices[filename]
 			matrix = self.solver.get_variable_values("list_unique_payoffs(X).", 1)[0]
 			print(matrix)

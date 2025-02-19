@@ -3,6 +3,7 @@ import os
 import logging
 from configparser import ConfigParser
 from src.agent.agent import Agent
+from src.utils.utils import normalize_path
 import json
 
 
@@ -11,15 +12,15 @@ class TestAgentMindFunctions(unittest.TestCase):
 		# Step 1: Read configuration
 		logging.debug('Setting up TestAgentMindFunctions')
 		self.config = ConfigParser()
-		self.config.read(os.path.normpath("./CONFIG/test_config.ini"))
+		self.config.read(normalize_path("unit_tests/CONFIG/test_config.ini"))
 
 		# Step 2: Extract configuration parameters
-		self.GAME_DIR = os.path.normpath(self.config.get("Paths", "GAME_DIR"))
+		self.GAME_DIR = normalize_path(self.config.get("Paths", "GAME_DIR"))
 		self.OUT_DIR = self.config.get("Paths", "OUT_DIR")
 		if not os.path.exists(self.OUT_DIR):
 			os.makedirs(self.OUT_DIR)
 
-		self.agent_json = os.path.normpath(self.config.get("Paths", "AGENT_JSON"))
+		self.agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
 		self.agent = Agent(agent_json=self.agent_json, autoformalization_on=False)  # Initialize Agent
 
 	def tearDown(self):

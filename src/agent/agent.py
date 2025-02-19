@@ -9,7 +9,7 @@ from src.solver.solver import Solver
 from src.utils.setup_logger import logger
 from src.utils.data_object import DataObject
 from src.utils.base_lm import BaseLM
-from src.utils.utils import AgentStatus, Mode, generate_agent_name, read_file, parse_axioms, process_trace, set_default
+from src.utils.utils import AgentStatus, Mode, generate_agent_name, read_file, parse_axioms, process_trace, set_default, normalize_path
 from typing import Optional
 
 
@@ -58,7 +58,7 @@ class Agent:
 		self.game = Game()
 
 		# Load the solver logic and initialize the solver.
-		solver_string = read_file("../src/solver/solver.pl")
+		solver_string = read_file(normalize_path("src/solver/solver.pl"))
 		self.solver = Solver(solver_string)
 
 		# Set status

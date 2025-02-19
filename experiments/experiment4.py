@@ -3,7 +3,7 @@ import configparser
 from src.agent.agent import Agent
 from src.environment.agent_pool import AgentPool
 from src.environment.environment import Environment
-from src.utils.utils import read_file, Mode, generate_agent_name
+from src.utils.utils import read_file, Mode, generate_agent_name, normalize_path
 from src.utils.data_object import DataObject
 from lms.gpt4 import GPT4
 from lms.claude import Claude
@@ -21,7 +21,7 @@ def main():
 	config = configparser.ConfigParser()
 
 	# Step 1: Read configuration
-	config.read(os.path.normpath("../DATA/CONFIG/experiment_4.ini"))
+	config.read(normalize_path("DATA/CONFIG/experiment_4.ini"))
 
 	# Step 2: Extract configuration parameters
 	OUT_DIR = config.get("Paths", "OUT_DIR")
@@ -29,10 +29,10 @@ def main():
 		os.makedirs(OUT_DIR)
 
 	# Extract file paths
-	strategies_path = os.path.normpath(config.get("Paths", "STRATEGIES_PATH"))
-	agent_json = os.path.normpath(config.get("Paths", "AGENT_PATH"))
-	feedback_template_path = os.path.normpath(config.get("Paths", "FEEDBACK_TEMPLATE_PATH"))
-	strategy_template_path = os.path.normpath(config.get("Paths", "STRATEGY_PROMPT"))
+	strategies_path = normalize_path(config.get("Paths", "STRATEGIES_PATH"))
+	agent_json = normalize_path(config.get("Paths", "AGENT_PATH"))
+	feedback_template_path = normalize_path(config.get("Paths", "FEEDBACK_TEMPLATE_PATH"))
+	strategy_template_path = normalize_path(config.get("Paths", "STRATEGY_PROMPT"))
 
 	# Extract experiment parameters
 	num_rounds = config.getint("Params", "num_rounds")

@@ -3,6 +3,7 @@ import json
 import pandas as pd
 from src.solver.solver import Solver
 from src.utils.utils import read_file, normalize_path
+import logging
 import re
 
 
@@ -29,7 +30,7 @@ class Validator:
 				matrices = json.load(file)
 			self.matrices = matrices
 			self.target_payoffs = self.process_json_to_dataframe(matrices_file)
-		self.validators = self.get_validators(validators_dir)
+		self.validators = self.get_validators(normalize_path(validators_dir))
 		self.constraints_only = constraints_only
 		self.solver_path = normalize_path("src/solver/solver.pl")  # game-independent part of the solver
 		self.strategy = normalize_path("DATA/STRATEGIES/tit-for-tat.pl")  # strategy
@@ -47,6 +48,8 @@ class Validator:
 								'mp': [('H', 'H'), ('H', 'T'), ('T', 'T'), ('T', 'H')],
 								'sh': [('S', 'S'), ('S', 'H'), ('H', 'H'), ('H', 'S')],
 								'hd': [('S', 'S'), ('S', 'D'), ('D', 'D'), ('D', 'S')]}
+		self.logger = logging.getLogger('Validator')
+		self.logger.setLevel(level=logging.DEBUG)
 
 	def process_json_to_dataframe(self, json_path):
 		"""
@@ -147,16 +150,10 @@ class Validator:
 		for predicate in payoff_matrix_variables:
 			result = self.solver.get_variable_values(predicate)
 			target_sequence += result
-		print((actual_sequence, target_sequence))
 		same = self.compare_sequences(actual_sequence, target_sequence)
 		return same
 
 	def fill_numbers(self, matrix, game_type):
-		matrix_joined = []
-		# for pair in matrix:
-		# 	matrix_joined += pair
-		# matrix_unique = list(set(matrix_joined))
-		# ms = sorted(matrix_unique, reverse=True)
 		ms = sorted(matrix, reverse=True)
 		if game_type in ['pd', 'sh', 'hd']:
 			return f"{game_type}({ms[0]},{ms[1]},{ms[2]},{ms[3]},C,D)."
@@ -174,9 +171,7 @@ class Validator:
 			self.solver = Solver(read_file(self.solver_path), game_rules, read_file(self.strategy))
 			self.solver.consult_prolog_file(validator)
 			self.solver.consult_prolog_file(normalize_path("DATA/MISC/unique_payoffs.pl"))
-			#matrix = self.matrices[filename]
 			matrix = self.solver.get_variable_values("list_unique_payoffs(X).", 1)[0]
-			print(matrix)
 			predicate = self.fill_numbers(matrix, game_type)
 			values = self.solver.get_variable_values(predicate)
 		except Exception as e:
@@ -190,93 +185,99 @@ class Validator:
 
 	def validate_all(self):
 		"""
-		Validates auto-formalized code.
+		Validates autoformalized code.
 
+		Returns:
+			pd.DataFrame: Validation results.
 		Raises:
 			ValueError: If any validation fails.
 		"""
-		validator_types = list(self.validators.keys())
+		validator_types = set(self.validators.keys())
+
 		for i, agent_dir in enumerate(os.listdir(self.agents_dir)):
-			print("Instance", i, agent_dir)
+			self.logger.debug(f"Instance {i} {agent_dir}")
 			game_type = agent_dir[:2]
 
-			if game_type in validator_types:
-				agent_path = os.listdir(os.path.join(self.agents_dir, agent_dir))
-				for agent in agent_path:
-					# get filename and name
-					filename = '_'.join(agent_dir.split('_')[:3]) + '.txt'
-					name = agent[6:-5]
-					tournament_status = True
-					if not self.constraints_only:
-						if self.target_payoffs is not None:
-							target_payoff = self.target_payoffs.loc[
-							self.target_payoffs['Game File'] == filename, 'Payoff'].values[0]
+			if game_type not in validator_types:
+				raise ValueError(f"{game_type} not in validators!")
 
-					# parse status and rules
-					with open(os.path.join(self.agents_dir, agent_dir, agent), 'r') as file:
-						if "agent" in agent:  # skip tournament.json
-							print("Validating agent ", name)
-							result_row = [filename, name]
-							data = json.load(file)
-							status = data['status']
-							result_row += [status]
-							if status != 'correct':
-								print("Agent ", name, " is ", status)
-								synt_correct = False if status == "syntactic_error" else True
-								result_row += [False, False, False, synt_correct, False, False]
-								self.results.append(result_row)
+			agent_path = os.listdir(os.path.join(self.agents_dir, agent_dir))
 
-							else:
-								# validate total payoff
-								if not self.constraints_only:
-									if self.target_payoffs is not None:
-										total_payoff = data['total_payoff']
-										if total_payoff != target_payoff:
-											print("Agent ", name, " did not achieve target payoff")
-											tournament_status = False
+			for agent in agent_path:
+				if "agent" not in agent:
+					continue  # Skip non-agent files
 
-										# If the total target payoff is correct, we validate the sequence
-										else:
-											actual_sequence = data['payoffs']
-											self.solver = Solver(read_file(self.solver_path), read_file(self.general_agent_file),
-																 read_file(self.strategy))
-											payoff_matrix = self.generate_payoff_array(filename)
-											# load payoff matrix specific for the game
-											for predicate in payoff_matrix:
-												self.solver.apply_predicate(predicate)
+				filename = '_'.join(agent_dir.split('_')[:3]) + '.txt'
+				name = agent[6:-5]
+				result_row = [filename, name]
+				tournament_status = True
 
-											same = self.compare_payoff_sequence(filename, actual_sequence)
-											if not same: # may still be valid if default move different, we need to shift by two
-												same = self.compare_payoff_sequence(filename, actual_sequence,2)
-											print("Agent ", name, " achieved target payoff sequence:", same)
-											tournament_status = same
+				with open(os.path.join(self.agents_dir, agent_dir, agent), 'r') as file:
+					self.logger.debug(f"Validating agent: {name}")
+					data = json.load(file)
+					status = data.get('status', 'unknown')
+					result_row.append(status)
 
-								else:
-									tournament_status = False
-								result_row += [tournament_status]
+					synt_correct = status != "syntactic_error"
+					if status != 'correct':
+						self.logger.debug(f"Agent {name} is {status}")
+						result_row += [False, False, False, synt_correct, False, False]
+						self.results.append(result_row)
+						continue
 
-								# validate constraints
-								game_rules = data['game_rules']
-								constraint_status = self.check_constraints(game_type, game_rules)
-								print("Agent ", name, " satisfies constraints")
-								result_row += [constraint_status]
+					# If syntactically correct, validate further
+					if not self.constraints_only and self.target_payoffs is not None:
+						target_payoff = self._get_target_payoff(filename)
+						total_payoff = data.get('total_payoff')
 
-								result_row += [tournament_status&constraint_status]
+						if total_payoff != target_payoff:
+							self.logger.debug(f"Agent {name} did not achieve target payoff")
+							tournament_status = False
+						else:
+							tournament_status = self._validate_sequence(filename, data.get('payoffs'))
 
-								synt_correct = True if status == "correct" else False
-								run_correct = True if status == "correct" else False
-								if not self.constraints_only and self.target_payoffs is not None:
-									sem_correct = tournament_status&constraint_status
-								elif not self.constraints_only and not self.target_payoffs is not None:
-									sem_correct = "N/A"
-								elif self.constraints_only:
-									sem_correct = constraint_status
+					elif not self.constraints_only:
+						tournament_status = False
 
-								result_row += [synt_correct, run_correct, sem_correct]
+					result_row.append(tournament_status)
 
-							result_row += [max(1,data['attempts']), data['trace_messages']]
+					# Validate constraints
+					game_rules = data.get('game_rules', [])
+					constraint_status = self.check_constraints(game_type, game_rules)
+					self.logger.debug(f"Agent {name} satisfies constraints")
+					result_row.append(constraint_status)
 
-							self.results.append(result_row)
+					combined_status = tournament_status and constraint_status
+					result_row.append(combined_status)
 
-		df = pd.DataFrame(self.results, columns=self.result_headers)
-		return df
+					run_correct = status == "correct"
+					if not self.constraints_only and self.target_payoffs is not None:
+						sem_correct = combined_status
+					elif not self.constraints_only:
+						sem_correct = "N/A"
+					else:
+						sem_correct = constraint_status
+
+					result_row += [synt_correct, run_correct, sem_correct]
+					result_row += [max(1, data.get('attempts', 1)), data.get('trace_messages', [])]
+
+					self.results.append(result_row)
+
+		return pd.DataFrame(self.results, columns=self.result_headers)
+
+	def _get_target_payoff(self, filename):
+		return self.target_payoffs.loc[
+			self.target_payoffs['Game File'] == filename, 'Payoff'].values[0]
+
+	def _validate_sequence(self, filename, actual_sequence):
+		self.solver = Solver(
+			read_file(self.solver_path),
+			read_file(self.general_agent_file),
+			read_file(self.strategy)
+		)
+		for predicate in self.generate_payoff_array(filename):
+			self.solver.apply_predicate(predicate)
+
+		if self.compare_payoff_sequence(filename, actual_sequence):
+			return True
+		return self.compare_payoff_sequence(filename, actual_sequence, shift=2)

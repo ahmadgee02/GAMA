@@ -1,7 +1,7 @@
 import unittest
+import logging
 from src.utils.utils import normalize_path
 from src.utils.validator import Validator
-
 
 class ValidatorTournament(unittest.TestCase):
 	def setUp(self):
@@ -9,6 +9,7 @@ class ValidatorTournament(unittest.TestCase):
 		Set up the testing environment by preparing agent JSON data and initializing required variables.
 		"""
 		# Path to test configuration or JSON files
+		logging.debug('Test')
 		self.agents_directory = normalize_path("unit_tests/TEST_RESULTS")
 		self.matrices_filepath = normalize_path("unit_tests/DATA/MISC/matrices.json")
 		self.validators_dir = normalize_path("DATA/EVAL")

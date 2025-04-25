@@ -9,17 +9,25 @@ class ValidatorTournament(unittest.TestCase):
 		Set up the testing environment by preparing agent JSON data and initializing required variables.
 		"""
 		# Path to test configuration or JSON files
-		agents_directory = normalize_path("unit_tests/TEST_RESULTS")
-		matrices_filepath = normalize_path("unit_tests/DATA/MISC/matrices.json")
-		payoffs_filepath = normalize_path("unit_tests/DATA/MISC/payoff_sums_adjusted.csv")
-		validators_dir = normalize_path("DATA/EVAL")
-		self.validator = Validator(agents_directory, matrices_filepath, payoffs_filepath, validators_dir)
+		self.agents_directory = normalize_path("unit_tests/TEST_RESULTS")
+		self.matrices_filepath = normalize_path("unit_tests/DATA/MISC/matrices.json")
+		self.validators_dir = normalize_path("DATA/EVAL")
 
-	def test_validator(self):
+	def test_validator_matrices(self):
 		"""
-		Test that a tournament runs correctly with agents loaded from JSON files.
+		Test that a validator runs correctly with payoffs loaded from JSON files.
 		"""
-		df = self.validator.validate_all()
+		validator = Validator(self.agents_directory, self.matrices_filepath, self.validators_dir)
+		df = validator.validate_all()
+		print(df)
+		self.assertIsNotNone(df)
+
+	def test_validator_no_matrices(self):
+		"""
+		Test that a validator runs correctly without payoffs loaded from JSON files.
+		"""
+		validator = Validator(self.agents_directory, None, self.validators_dir)
+		df = validator.validate_all()
 		print(df)
 		self.assertIsNotNone(df)
 

@@ -11,7 +11,7 @@ class Validator:
 	A class to validate auto-formalized games.
 	"""
 
-	def __init__(self, agents_dir: str, matrices_file: str, payoffs_file: str, validators_dir: str, constraints_only=False):
+	def __init__(self, agents_dir: str, matrices_file: str, validators_dir: str, constraints_only=False):
 		"""
 		Initializes the Validator with the given directory and file paths.
 
@@ -21,10 +21,14 @@ class Validator:
 			validators_dir (str): Path to the directory containing validators.
 		"""
 		self.agents_dir = agents_dir
-		with open(matrices_file, 'r') as file:
-			matrices = json.load(file)
-		self.matrices = matrices
-		self.target_payoffs = pd.read_csv(payoffs_file)
+		self.matrices = None
+		self.target_payoffs = None
+		if matrices_file:
+			matrices_file = normalize_path(matrices_file)
+			with open(matrices_file, 'r') as file:
+				matrices = json.load(file)
+			self.matrices = matrices
+			self.target_payoffs = self.process_json_to_dataframe(matrices_file)
 		self.validators = self.get_validators(validators_dir)
 		self.constraints_only = constraints_only
 		self.solver_path = normalize_path("src/solver/solver.pl")  # game-independent part of the solver
@@ -43,6 +47,26 @@ class Validator:
 								'mp': [('H', 'H'), ('H', 'T'), ('T', 'T'), ('T', 'H')],
 								'sh': [('S', 'S'), ('S', 'H'), ('H', 'H'), ('H', 'S')],
 								'hd': [('S', 'S'), ('S', 'D'), ('D', 'D'), ('D', 'S')]}
+
+	def process_json_to_dataframe(self, json_path):
+		"""
+		Processes a JSON file to extract game file names and calculate payoffs.
+
+		Args:
+			json_path (str): Path to the JSON file.
+
+		Returns:
+			pd.DataFrame: DataFrame with columns 'Game File' and 'Payoff'.
+		"""
+		with open(json_path, 'r') as file:
+			data = json.load(file)
+
+		records = []
+		for game_file, tuples in data.items():
+			payoff = sum(pair[0] for pair in tuples)
+			records.append({'Game File': game_file, 'Payoff': payoff})
+
+		return pd.DataFrame(records)
 
 	def get_validators(self, validators_dir):
 		validators_list = list(os.listdir(validators_dir))
@@ -182,10 +206,11 @@ class Validator:
 					# get filename and name
 					filename = '_'.join(agent_dir.split('_')[:3]) + '.txt'
 					name = agent[6:-5]
+					tournament_status = True
 					if not self.constraints_only:
-						print(filename, self.target_payoffs)
-						target_payoff = self.target_payoffs.loc[
-						self.target_payoffs['Game File'] == filename, 'Row Player Payoff Sum'].values[0]
+						if self.target_payoffs is not None:
+							target_payoff = self.target_payoffs.loc[
+							self.target_payoffs['Game File'] == filename, 'Payoff'].values[0]
 
 					# parse status and rules
 					with open(os.path.join(self.agents_dir, agent_dir, agent), 'r') as file:
@@ -204,26 +229,27 @@ class Validator:
 							else:
 								# validate total payoff
 								if not self.constraints_only:
-									total_payoff = data['total_payoff']
-									if total_payoff != target_payoff:
-										print("Agent ", name, " did not achieve target payoff")
-										tournament_status = False
+									if self.target_payoffs is not None:
+										total_payoff = data['total_payoff']
+										if total_payoff != target_payoff:
+											print("Agent ", name, " did not achieve target payoff")
+											tournament_status = False
 
-									# If the total target payoff is correct, we validate the sequence
-									else:
-										actual_sequence = data['payoffs']
-										self.solver = Solver(read_file(self.solver_path), read_file(self.general_agent_file),
-															 read_file(self.strategy))
-										payoff_matrix = self.generate_payoff_array(filename)
-										# load payoff matrix specific for the game
-										for predicate in payoff_matrix:
-											self.solver.apply_predicate(predicate)
+										# If the total target payoff is correct, we validate the sequence
+										else:
+											actual_sequence = data['payoffs']
+											self.solver = Solver(read_file(self.solver_path), read_file(self.general_agent_file),
+																 read_file(self.strategy))
+											payoff_matrix = self.generate_payoff_array(filename)
+											# load payoff matrix specific for the game
+											for predicate in payoff_matrix:
+												self.solver.apply_predicate(predicate)
 
-										same = self.compare_payoff_sequence(filename, actual_sequence)
-										if not same: # may still be valid if default move different, we need to shift by two
-											same = self.compare_payoff_sequence(filename, actual_sequence,2)
-										print("Agent ", name, " achieved target payoff sequence:", same)
-										tournament_status = same
+											same = self.compare_payoff_sequence(filename, actual_sequence)
+											if not same: # may still be valid if default move different, we need to shift by two
+												same = self.compare_payoff_sequence(filename, actual_sequence,2)
+											print("Agent ", name, " achieved target payoff sequence:", same)
+											tournament_status = same
 
 								else:
 									tournament_status = False
@@ -239,9 +265,11 @@ class Validator:
 
 								synt_correct = True if status == "correct" else False
 								run_correct = True if status == "correct" else False
-								if not self.constraints_only:
+								if not self.constraints_only and self.target_payoffs is not None:
 									sem_correct = tournament_status&constraint_status
-								else:
+								elif not self.constraints_only and not self.target_payoffs is not None:
+									sem_correct = "N/A"
+								elif self.constraints_only:
 									sem_correct = constraint_status
 
 								result_row += [synt_correct, run_correct, sem_correct]

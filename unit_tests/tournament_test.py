@@ -79,7 +79,7 @@ class TestTournament(unittest.TestCase):
 
 		# Log the results
 		tournament_dir = self.logdir
-		success = tournament.log_tournament(tournament_dir, tournament_name)
+		success, _ = tournament.log_tournament(tournament_dir, tournament_name)
 		self.assertEqual(True, success)
 		self.agent_pool.clean_agents()
 

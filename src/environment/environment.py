@@ -166,4 +166,4 @@ class Environment:
 		for agent in agents:
 			agent.save(tournament_dir)
 
-		return True
+		return True, tournament_dir

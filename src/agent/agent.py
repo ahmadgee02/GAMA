@@ -112,7 +112,7 @@ class Agent:
 		"""
 		Releases Prolog solver thread.
 		"""
-		self.solver.release_prolog_thread()
+		self.solver.release()
 
 	def _init_from_data(self, game_data: DataObject, strategy_data: DataObject):
 		"""
@@ -309,15 +309,15 @@ class Agent:
 		Returns:
 			bool: True if both possible moves and player names are successfully extracted, False otherwise.
 		"""
-		possible_moves = self.solver.get_possible_moves()
-		player_names = self.solver.get_player_names()
+		moves_success, possible_moves = self.solver.get_possible_moves()
+		names_success, player_names = self.solver.get_player_names()
 
-		if player_names:
+		if names_success:
 			self.game.set_players(player_names)
-		if possible_moves:
+		if moves_success:
 			self.game.set_possible_moves(list(set(possible_moves)))
 
-		return (possible_moves is not None) and (possible_moves is not None)
+		return names_success and moves_success
 
 	def reload_solver(self):
 		"""

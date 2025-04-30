@@ -71,15 +71,18 @@ class Mind:
 		# Step 2: Calculate payoff using the solver
 		opponent_move = self.agent.memory.opponent_moves[-1]
 		opponent_name = self.agent.game.game_players[1]
-		payoff = self.agent.solver.calculate_payoff(self.agent.game.game_players[0], opponent_name,
+		payoff_success, payoff = self.agent.solver.calculate_payoff(self.agent.game.game_players[0], opponent_name,
 													self.agent.memory.moves[-1], opponent_move)
-		if payoff is None:
+		if not payoff_success:
+			# TODO re-formalize
 			self.agent.status = AgentStatus.RUNTIME_ERROR
 			logger.debug(f"Payoff not calculated!")
 			return False
 
 		# Step 3: Update the solver state with the opponent's last move
-		if not self.agent.solver.update_opponent_last_move(opponent_name, opponent_move):
+		update_success, _ = self.agent.solver.update_opponent_last_move(opponent_name, opponent_move)
+		if not update_success:
+			#TODO re-formalize
 			self.agent.status = AgentStatus.RUNTIME_ERROR
 			logger.debug(f"Opponent's last move not updated!")
 			return False
@@ -113,8 +116,9 @@ class Mind:
 		logger.debug(f"Agent {self.agent.name} with strategy {self.agent.strategy_name} is making a move.")
 
 		# Step 1: Attempt to get a move using the solver
-		move = self.agent.solver.select_move(agent_name)
-		if move:
+		success, move = self.agent.solver.select_move(agent_name)
+		if success:
+			#TODO re-formalize
 			self.agent.memory.moves.append(move)
 			logger.info(f"Agent {self.agent.name} with strategy {self.agent.strategy_name} made move: {move}")
 			return move

@@ -54,7 +54,8 @@ class TestAgentMindFunctions(unittest.TestCase):
 
 		success = self.agent.mind.think()  # Use the Mind instance within Agent
 		payoff = self.agent.memory.payoffs[-1]
-		last_move = self.agent.solver.get_variable_values(f"holds(last_move({self.agent.game.game_players[1]}, {opponent_move}), s0).", 1)
+		result = self.agent.solver.engine.query(f"holds(last_move({self.agent.game.game_players[1]}, {opponent_move}), s0).", 1)
+		last_move = result.data
 
 		self.assertTrue(success, "The revise method should successfully update the solver and state.")
 		self.assertEqual(1, payoff, "Payoff should be equal to 1")

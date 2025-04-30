@@ -148,8 +148,8 @@ class Validator:
 		payoff_matrix_variables = self.generate_payoff_array(filename, variables=True, shift=shift)
 		target_sequence = []
 		for predicate in payoff_matrix_variables:
-			result = self.solver.get_variable_values(predicate)
-			target_sequence += result
+			result = self.solver.engine.query(predicate)
+			target_sequence += result.data
 		same = self.compare_sequences(actual_sequence, target_sequence)
 		return same
 
@@ -169,11 +169,13 @@ class Validator:
 		try:
 			validator = self.validators[game_type]
 			self.solver = Solver(read_file(self.solver_path), game_rules, read_file(self.strategy))
-			self.solver.consult_prolog_file(validator)
-			self.solver.consult_prolog_file(normalize_path("DATA/MISC/unique_payoffs.pl"))
-			matrix = self.solver.get_variable_values("list_unique_payoffs(X).", 1)[0]
+			self.solver.consult(validator)
+			self.solver.consult(normalize_path("DATA/MISC/unique_payoffs.pl"))
+			result = self.solver.engine.query("list_unique_payoffs(X).", 1)
+			matrix = result.data[0]
 			predicate = self.fill_numbers(matrix, game_type)
-			values = self.solver.get_variable_values(predicate)
+			result = self.solver.engine.query(predicate)
+			values = result.data
 		except Exception as e:
 			print(f"Could not validate constraints: {e}")
 			return False
@@ -276,7 +278,7 @@ class Validator:
 			read_file(self.strategy)
 		)
 		for predicate in self.generate_payoff_array(filename):
-			self.solver.apply_predicate(predicate)
+			self.solver.engine.query(predicate)
 
 		if self.compare_payoff_sequence(filename, actual_sequence):
 			return True

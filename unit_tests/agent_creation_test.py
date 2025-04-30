@@ -75,7 +75,7 @@ class TestAgentCreation(unittest.TestCase):
 	def test_strategy_autofomalization(self):
 		"""Test that autoformalization of strategy rules works correctly."""
 		logger.debug("Test that autoformalization of strategy rules works correctly.")
-		strategy_description_path = os.path.normpath(self.config.get("Paths", "STRATEGY_DESCRIPTION"))
+		strategy_description_path = normalize_path(self.config.get("Paths", "STRATEGY_DESCRIPTION"))
 		strategy_description = read_file(strategy_description_path)
 		prompt = read_file(self.strategy_template_path).format(strategy_description=strategy_description)
 		strategy_data = DataObject(nl_description=strategy_description, instruction_prompt=prompt,

@@ -30,6 +30,7 @@ class PrologEngine:
             thread_creator: A callable that returns a new Prolog thread.
         """
 		self.thread = thread_creator()
+		self._var_counter = 0
 
 	def consult(self, file_path: str) -> QueryResult:
 		"""
@@ -62,9 +63,9 @@ class PrologEngine:
 		"""
 		try:
 			raw_result = self.thread.query(predicate)
-			values = []
+			result_status = bool(raw_result)
 
-			if raw_result:
+			if result_status:
 				if isinstance(raw_result, list):
 					extracted = (list(entry.values())[0] for entry in raw_result if entry)
 					values = list(extracted)
@@ -72,11 +73,15 @@ class PrologEngine:
 						values = values[:count]
 				else:
 					values = raw_result
+				return QueryResult(success=result_status, data=values)
 
-			return QueryResult(success=True, data=values)
+			else:
+				error = f"Error executing predicate {predicate}"
+				logger.error(error)
+				return QueryResult(success=result_status, error=error)
 
 		except Exception as e:
-			logger.error(f"Error querying predicate: {predicate}", exc_info=True)
+			logger.error(f"Error querying predicate: {predicate}: {e}")
 			return QueryResult(success=False, error=str(e))
 
 	def stop(self):

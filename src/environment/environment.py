@@ -132,7 +132,7 @@ class Environment:
 			List[Agent]: A list of agents with the highest payoff.
 		"""
 		max_payoff = max(agent.mind.get_total_payoff() for agent in self.agent_pool.valid_agents)
-		return [agent for agent in self.agent_pool.valid_agents if agent.mind.get_total_payoff() == max_payoff]
+		return [agent for agent in self.agent_pool.valid_agents if agent.mind.get_total_payoff(log=False) == max_payoff]
 
 	def log_tournament(
 			self,

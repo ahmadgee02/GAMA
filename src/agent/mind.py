@@ -128,7 +128,7 @@ class Mind:
 		self.agent.status = AgentStatus.RUNTIME_ERROR
 		return None
 
-	def get_total_payoff(self) -> float:
+	def get_total_payoff(self, log=True) -> float:
 		"""
 		Get the total payoff accumulated by the agent.
 
@@ -136,5 +136,6 @@ class Mind:
 			float: The total sum of payoffs.
 		"""
 		total = sum(self.agent.memory.payoffs)
-		logger.info(f"Total payoff for agent {self.agent.name}: {total}")
+		if log:
+			logger.info(f"Total payoff for agent {self.agent.name} with strategy {self.agent.strategy_name}: {total}")
 		return total

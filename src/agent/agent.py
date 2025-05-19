@@ -235,10 +235,21 @@ class Agent:
 				self.strategy_name = strategy_object.name
 			elif strategy_object.rules_path is not None:
 				# Extract the strategy name from the file path.
-				self.strategy_name = strategy_object.rules_path.split(os.path.sep)[-1][:-2]
+				self.strategy_name = strategy_object.rules_path.split(os.path.sep)[-1][:-3]
 
 		# Return whether the strategy setup was successful and the current status.
 		return self.status == AgentStatus.CORRECT, self.status
+
+	def clone(self, agent_json_path, strategy_path="DATA/STRATEGIES/anti-tit-for-tat.pl"):
+		clone = Agent(agent_json=agent_json_path, autoformalization_on=False)  # load a dummy agent from json file
+		clone.name = generate_agent_name(3)
+
+		game_data = DataObject(rules_string=self.game.game_rules, mode=Mode.RULES_STRING)  # copy the game formalization to the clone
+		strategy_data = DataObject(rules_path=normalize_path(strategy_path), mode=Mode.RULES_PATH)  # the clone should use the anti-tit-for-tat strategy
+		clone.set_game(game_data)
+		clone.set_strategy(strategy_data)
+
+		return clone
 
 	def _process_data_object(self, data_object: DataObject, reload_solver=True):
 		"""
@@ -335,8 +346,8 @@ class Agent:
 		"""
 		if self.game.game_players is not None:
 			if len(self.game.game_players) > 0:
-				default_move = self.solver.get_default_move(self.game.game_players[0])
-				if default_move:
+				success, default_move = self.solver.get_default_move(self.game.game_players[0])
+				if success:
 					self.game.default_move = default_move[0]
 					return True
 
@@ -450,3 +461,18 @@ class Agent:
 		strategy_data = DataObject(rules_string=agent_log["strategy_rules"], mode=Mode.RULES_STRING)
 
 		return game_data, strategy_data
+
+	def print_game(self, payoffs_only=False):
+		if payoffs_only:
+			for line in self.game.game_rules.splitlines():
+				if line.startswith("payoff("):
+					print(line)
+		else:
+			print(self.game.game_rules)
+
+	def print_strategy(self):
+		print(self.game.strategy_rules)
+
+	def describe(self):
+		moves = ", ".join(self.game.game_moves)
+		print(f"Agent {self.name} with strategy {self.strategy_name.replace('.','')}, moves {moves}, and a default move {self.game.default_move}")

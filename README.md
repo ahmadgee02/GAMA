@@ -68,6 +68,10 @@ To use GPT-4 used by default in the framework, the OpenAI API key has to be stor
 
    - [Download SWI-Prolog](https://www.swi-prolog.org/Download.html) and follow the installation [instructions](https://wwu-pi.github.io/tutorials/lectures/lsp/010_install_swi_prolog.html) for your operating system.    
 
+### Tutorial
+
+The tutorial is available [here](https://github.com/dicelab-rhul/GAMA/blob/main/tutorial/Tutorial.ipynb) and can be executed both locally and in Colab: 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dicelab-rhul/GAMA/blob/main/tutorial/Tutorial.ipynb)
 
 ## ⚙️ Experiment Configuration
 

@@ -1,7 +1,7 @@
 import unittest
 import logging
-from src.utils.utils import normalize_path
-from src.utils.validator import Validator
+from magif.utils.utils import normalize_path
+from magif.utils.validator import Validator
 
 class ValidatorTournament(unittest.TestCase):
 	def setUp(self):

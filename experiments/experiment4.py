@@ -1,10 +1,10 @@
 import itertools
 import configparser
-from src.agent.agent import Agent
-from src.environment.agent_pool import AgentPool
-from src.environment.environment import Environment
-from src.utils.utils import read_file, Mode, generate_agent_name, normalize_path
-from src.utils.data_object import DataObject
+from magif.agent.agent import Agent
+from magif.environment.agent_pool import AgentPool
+from magif.environment.environment import Environment
+from magif.utils.utils import read_file, Mode, generate_agent_name, normalize_path
+from magif.utils.data_object import DataObject
 from lms.gpt4 import GPT4
 from lms.claude import Claude
 import logging

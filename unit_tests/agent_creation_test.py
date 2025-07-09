@@ -1,9 +1,9 @@
 import configparser
 import logging
-from src.agent.agent import Agent
-from src.utils.data_object import DataObject
-from src.utils.utils import AgentStatus, Mode, read_file, normalize_path
-from src.utils.setup_logger import logger
+from magif.agent.agent import Agent
+from magif.utils.data_object import DataObject
+from magif.utils.utils import AgentStatus, Mode, read_file, normalize_path
+from magif.utils.setup_logger import logger
 import os
 import unittest
 

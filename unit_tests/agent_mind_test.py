@@ -2,8 +2,8 @@ import unittest
 import os
 import logging
 from configparser import ConfigParser
-from src.agent.agent import Agent
-from src.utils.utils import normalize_path
+from magif.agent.agent import Agent
+from magif.utils.utils import normalize_path
 import json
 
 

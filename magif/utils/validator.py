@@ -1,8 +1,8 @@
 import os
 import json
 import pandas as pd
-from src.solver.solver import Solver
-from src.utils.utils import read_file, normalize_path
+from magif.solver.solver import Solver
+from magif.utils.utils import read_file, normalize_path
 import logging
 import re
 
@@ -32,7 +32,7 @@ class Validator:
 			self.target_payoffs = self.process_json_to_dataframe(matrices_file)
 		self.validators = self.get_validators(normalize_path(validators_dir))
 		self.constraints_only = constraints_only
-		self.solver_path = normalize_path("src/solver/solver.pl")  # game-independent part of the solver
+		self.solver_path = normalize_path("magif/solver/solver.pl")  # game-independent part of the solver
 		self.strategy = normalize_path("DATA/STRATEGIES/tit-for-tat.pl")  # strategy
 		self.general_agent_file = normalize_path("DATA/MISC/general_agent.pl")
 		self.solver = None

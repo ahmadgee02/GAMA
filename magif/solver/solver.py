@@ -1,7 +1,7 @@
-from src.solver.engine import PrologEngine
-from src.solver.prolog_validator import PrologValidator
-from src.solver.game_logic import GameSolver
-from src.solver.solver_utils import file_writer
+from magif.solver.engine import PrologEngine
+from magif.solver.prolog_validator import PrologValidator
+from magif.solver.game_logic import GameSolver
+from magif.solver.solver_utils import file_writer
 from swiplserver import PrologMQI
 from typing import Any, Optional, Tuple
 

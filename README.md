@@ -1,6 +1,8 @@
-# 🤖 GAMA: Generative Agents for Multi-agent Autoformalization
+# 🪄 MAGiF: Mulit-Agent Generative Formalization
 
-A Python and Prolog-based simulator that enables users to create, simulate, and analyze strategic interactions using autoformalizing agents. The project supports game-theoric experiments and includes tools for validating autoformalized Prolog programs. Currently, it supports 2x2 simultaneous-move games, but its modular architecture allows for extensions to other types of games. 
+(formerly GAMA)
+
+A Python and Prolog-based simulator that enables users to create, simulate, and analyze strategic interactions using autoformalizing agents. The project supports game-theoric experiments and includes tools for validating autoformalized Prolog programs. Currently, it supports 2x2 simultaneous-move games, but its modular architecture allows for extensions to other types of games.
 
 <p align="center">
   <img src="assets/gama.png" width="600">
@@ -43,7 +45,7 @@ Make sure you have the following installed:
 - SWI-Prolog (for solving game strategies)
 - Git (for cloning the repository)
 
-To use GPT-4 used by default in the framework, the OpenAI API key has to be stored in an environment variable. To use an alternative LLM, an interface provided by [LLM class](src/base_llm.py) has to be implemented. 
+To use GPT-4 used by default in the framework, the OpenAI API key has to be stored in an environment variable. To use an alternative LLM, an interface provided by [LLM class](magif/base_llm.py) has to be implemented. 
 
 ### Installation
 
@@ -55,13 +57,19 @@ To use GPT-4 used by default in the framework, the OpenAI API key has to be stor
 
 2. **Create a Virtual Environment**
     ```bash
-    python3 -m venv gama-env
-    source gama-env/bin/activate  # On Windows, use `gama-env\Scripts\activate`
+    python3 -m venv magif-env
+	source magif-env/bin/activate  # On Windows, use `magif-env\Scripts\activate`
     ```
 
-3. **Install Dependencies**
+3. **Install**
+	Install in editable mode:
     ```bash
-    pip install -r requirements.txt
+   	pip install -e .
+    ```
+    
+    Alternatively, if you just want to install the runtime dependencies listed in requirements.txt:
+    ```bash
+   	pip install -r requirements.txt
     ```
     
 4. **Install SWI-Prolog**:
@@ -81,7 +89,7 @@ A sample configuration file is located at `unit_tests/CONFIG/test_config.ini`:
 [Paths]
 GAME_DIR = unit_tests/DATA/GAMES/
 OUT_DIR = unit_tests/LOGS/
-SOLVER_PATH = src/solver/solver.pl
+SOLVER_PATH = magif/solver/solver.pl
 GAME_TEMPLATE_PATH = DATA/PROMPTS/game_prompt_template.txt
 STRATEGY_TEMPLATE_PATH = DATA/PROMPTS/strategy_prompt_template.txt
 FEEDBACK_TEMPLATE_PATH = DATA/PROMPTS/feedback_prompt_template.txt
@@ -109,7 +117,7 @@ GAMA/
 ├── lms/
 │   │── gpt4.py
 │   └── claude.py/
-├── src/
+├── magif/
 │   ├── agent
 │   │   ├── agent.py
 │   │   ├── memory.py
@@ -132,7 +140,9 @@ GAMA/
 │   │   ├── utils.py
 │   │   └── validator.py
 ├── LICENSE
+├── pyproject.toml
 ├── README.md
+├── setup.py
 └── requirements.txt
 ```
 

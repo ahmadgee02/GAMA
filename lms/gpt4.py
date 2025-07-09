@@ -1,5 +1,5 @@
-from src.utils.base_lm import BaseLM
-from src.utils.setup_logger import logger
+from magif.utils.base_lm import BaseLM
+from magif.utils.setup_logger import logger
 from openai import OpenAI
 from typing import List, Optional, Dict
 

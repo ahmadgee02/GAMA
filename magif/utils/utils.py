@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 import random
 import re
-from src.utils.setup_logger import logger
+from magif.utils.setup_logger import logger
 from typing import Any, Dict, List, Optional, Union, TYPE_CHECKING
 from enum import Enum
 

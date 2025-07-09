@@ -1,5 +1,5 @@
 from typing import Optional
-from src.utils.utils import Mode
+from magif.utils.utils import Mode
 
 
 class DataObject:

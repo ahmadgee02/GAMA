@@ -3,8 +3,8 @@ import io
 import os
 import logging
 from typing import Tuple
-from src.solver.engine import PrologEngine
-from src.utils.setup_logger import logger
+from magif.solver.engine import PrologEngine
+from magif.utils.setup_logger import logger
 
 @dataclass
 class ValidationResult:

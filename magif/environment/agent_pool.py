@@ -1,5 +1,5 @@
-from src.agent.agent import Agent
-from src.utils.utils import AgentStatus
+from magif.agent.agent import Agent
+from magif.utils.utils import AgentStatus
 
 
 class AgentPool:

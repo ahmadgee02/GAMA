@@ -1,5 +1,5 @@
-from src.utils.setup_logger import logger
-from src.utils.utils import AgentStatus
+from magif.utils.setup_logger import logger
+from magif.utils.utils import AgentStatus
 from typing import Optional
 
 

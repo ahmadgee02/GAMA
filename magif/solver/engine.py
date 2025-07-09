@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from src.utils.setup_logger import logger
+from magif.utils.setup_logger import logger
 from typing import Any, Optional
 
 @dataclass

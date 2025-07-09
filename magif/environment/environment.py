@@ -2,9 +2,9 @@ import json
 import os
 from datetime import datetime
 from typing import List, Tuple
-from src.agent.agent import Agent
-from src.utils.setup_logger import logger
-from src.utils.utils import set_default
+from magif.agent.agent import Agent
+from magif.utils.setup_logger import logger
+from magif.utils.utils import set_default
 
 
 class Environment:

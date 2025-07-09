@@ -1,7 +1,7 @@
-from src.utils.base_lm import BaseLM
+from magif.utils.base_lm import BaseLM
 from lms.gpt4 import GPT4
 from typing import Optional
-from src.utils.utils import AgentStatus
+from magif.utils.utils import AgentStatus
 
 
 class Autoformalizer:

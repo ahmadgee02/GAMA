@@ -1,12 +1,12 @@
 import unittest
 import itertools
-from src.environment.environment import Environment
-from src.agent.agent import Agent
-from src.environment.agent_pool import AgentPool
+from magif.environment.environment import Environment
+from magif.agent.agent import Agent
+from magif.environment.agent_pool import AgentPool
 import logging
-from src.utils.setup_logger import logger
-from src.utils.utils import generate_agent_name, Mode, normalize_path
-from src.utils.data_object import DataObject
+from magif.utils.setup_logger import logger
+from magif.utils.utils import generate_agent_name, Mode, normalize_path
+from magif.utils.data_object import DataObject
 
 
 class TestTournament(unittest.TestCase):

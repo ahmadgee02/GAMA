@@ -1,4 +1,4 @@
-from src.solver.engine import PrologEngine
+from magif.solver.engine import PrologEngine
 from typing import Any, Tuple
 
 

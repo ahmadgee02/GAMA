@@ -1,15 +1,15 @@
 import json
 from lms.gpt4 import GPT4
 import os.path
-from src.game.game import Game
-from src.agent.mind import Mind
-from src.agent.memory import Memory
-from src.autoformalizer.autoformalizer import Autoformalizer
-from src.solver.solver import Solver
-from src.utils.setup_logger import logger
-from src.utils.data_object import DataObject
-from src.utils.base_lm import BaseLM
-from src.utils.utils import AgentStatus, Mode, generate_agent_name, read_file, parse_axioms, process_trace, set_default, normalize_path
+from magif.game.game import Game
+from magif.agent.mind import Mind
+from magif.agent.memory import Memory
+from magif.autoformalizer.autoformalizer import Autoformalizer
+from magif.solver.solver import Solver
+from magif.utils.setup_logger import logger
+from magif.utils.data_object import DataObject
+from magif.utils.base_lm import BaseLM
+from magif.utils.utils import AgentStatus, Mode, generate_agent_name, read_file, parse_axioms, process_trace, set_default, normalize_path
 from typing import Optional
 
 
@@ -58,7 +58,7 @@ class Agent:
 		self.game = Game()
 
 		# Load the solver logic and initialize the solver.
-		solver_string = read_file(normalize_path("src/solver/solver.pl"))
+		solver_string = read_file(normalize_path("magif/solver/solver.pl"))
 		self.solver = Solver(solver_string)
 
 		# Set status

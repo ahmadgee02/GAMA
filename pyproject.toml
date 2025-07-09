@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "magif"
+version = "0.1.0"
+description = "Mulit-Agent Generative Formalization"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+
+authors = [
+  { name = "Agnieszka Mensfelt" },
+  { name = "Kostas Stathis" },
+  { name = "Vince Trencsenyi" }
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
+dependencies = [
+    "swiplserver~=1.0.2",
+    "pandas~=2.2.1"
+]
+
+[tool.setuptools]
+package-dir = { "" = "." }
+
+[tool.setuptools.packages.find]
+where = ["."]

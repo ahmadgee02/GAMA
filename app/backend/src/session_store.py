@@ -1,0 +1,22 @@
+from typing import Dict
+from uuid import uuid4
+from magif.agent.agent import Agent
+
+class SessionManager:
+    def __init__(self):
+        self.sessions = {}
+
+    def create_session(self, websocket):
+        self.sessions[websocket] = {}
+
+    def set_session(self, websocket, key, value):
+        if websocket not in self.sessions:
+            raise TypeError("Session does not exists")
+
+        self.sessions[websocket][key] = value
+
+    def get_session(self, websocket):
+        return self.sessions.setdefault(websocket, {})
+
+# Single global instance
+session_manager = SessionManager()

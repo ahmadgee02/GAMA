@@ -11,7 +11,7 @@ from magif.utils.data_object import DataObject
 from magif.utils.base_lm import BaseLM
 from magif.utils.utils import AgentStatus, Mode, generate_agent_name, read_file, parse_axioms, process_trace, set_default, normalize_path
 from typing import Optional
-
+from fastapi import WebSocket
 
 class Agent:
 	"""
@@ -30,6 +30,7 @@ class Agent:
 	    strategy_name (str): Name of the strategy used by the agent (default: "unnamed_strategy").
 	    moves (list): List of moves made by the agent during the game.
 	    payoffs (list): List of payoffs received by the agent in different rounds.
+		websocket (WebSocket): A websocket instance to send messages to UI.
 	"""
 
 	def __init__(self,
@@ -38,7 +39,8 @@ class Agent:
 				 llm: Optional[BaseLM] = GPT4,
 				 max_attempts: Optional[int] = 1,
 				 agent_json: Optional[str] = None,
-				 autoformalization_on: Optional[bool] = True):
+				 autoformalization_on: Optional[bool] = True,
+				 websocket: Optional[WebSocket] = None):
 		"""
 		Initializes an Agent instance with game and strategy data or a JSON configuration.
 
@@ -49,6 +51,8 @@ class Agent:
 		    max_attempts (Optional[int]): Maximum number of attempts for autoformalization attempts (default is 1).
 		    agent_json (Optional[str]): Path to a JSON file for initialization.
 		    autoformalization_on (Optional[bool]): Flag to enable autoformalization functionality (default is True).
+			websocket (WebSocket): A websocket instance to send messages to UI.
+
 
 		Raises:
 		    ValueError: If neither the required data nor the JSON configuration is provided.
@@ -56,6 +60,7 @@ class Agent:
 		# Initialize memory and game objects to manage state.
 		self.memory = Memory()
 		self.game = Game()
+		self.websocket = websocket
 
 		# Load the solver logic and initialize the solver.
 		solver_string = read_file(normalize_path("magif/solver/solver.pl"))
@@ -80,6 +85,28 @@ class Agent:
 			self._init_from_data(game_data, strategy_data)
 		else:
 			raise ValueError("Invalid arguments provided. Either provide game_data and strategy_data, or agent_json.")
+
+	async def send_message(self):
+		game = self.game
+
+		agent_log = {
+			"name": self.name,
+			"strategy_name": self.strategy_name,
+			"strategy_rules": game.strategy_rules,
+			"status": self.status.value,
+			"game_rules": game.game_rules,
+			"game_moves": game.game_moves,
+			"game_players": game.game_players,
+			"default_move": game.default_move,
+			"moves": self.memory.moves,
+			"payoffs": self.memory.payoffs,
+			"total_payoff": self.mind.get_total_payoff(),
+			# "trace_messages": trace_messages,
+			# "attempts": attempts
+		}
+
+		if self.websocket:
+			await self.websocket.send_text(str(agent_log))
 
 	@classmethod
 	def from_data(cls, game_data: DataObject, strategy_data: DataObject):

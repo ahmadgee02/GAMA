@@ -37,14 +37,6 @@ const ChatBox: FC<Props> = (props) => {
 
             sendDescription(description);
 
-            dispatch(
-                setMessageHistory({
-                    role: "user",
-                    text: description,
-                    heading: "Description",
-                })
-            )
-
             dispatch(setDescription(description));
             actions.resetForm()
         },
@@ -63,7 +55,7 @@ const ChatBox: FC<Props> = (props) => {
                         placeholder="Write a description..."
                         className="block w-full resize-none px-3 py-1.5 text-base placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                         onChange={handleChange}
-                        value={values.description}
+                        value={"Two employees are working on a joint project and must decide whether to share all their innovative ideas or keep some to themselves for credit. If both share openly, the project flourishes and they achieve great results, earning joint recognition. If one shares while the other withholds, the sharer contributes more but feels exploited, while the withholder benefits more and gains more recognition. If neither shares openly, the project suffers, and they both receive mediocre evaluations."}
                     />
 
                     {/* Spacer element to match the height of the toolbar */}

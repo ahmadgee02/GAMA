@@ -17,6 +17,9 @@ class SessionManager:
 
     def get_session(self, websocket):
         return self.sessions.setdefault(websocket, {})
+    
+    def remove_session(self, websocket):
+        self.sessions.pop(websocket, None) 
 
 # Single global instance
 session_manager = SessionManager()

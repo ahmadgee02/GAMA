@@ -3,14 +3,13 @@ import { FC } from 'react'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAppDispatch } from "@/app/store/hooks";
-import { addPrompt } from "@/app/store/redux/pageSlice"
+import { addIncontextExample } from "@/app/store/redux/pageSlice"
 import Modal from '../common/Modal';
-import IncotextExampleForm from './PromptForm';
+import IncotextExampleForm from './IncotextExampleForm';
 
 interface Props {
     open: boolean;
     setOpen: (open: boolean) => void;
-    type: string;
 }
 
 // validation schema
@@ -21,7 +20,9 @@ const validationSchema = Yup.object({
     shortDescription: Yup.string()
         .required("Short description is required"),
     description: Yup.string()
-        .required("Description is required")
+        .required("Description is required"),
+    type: Yup.string()
+        .required("Type is required")
 });
 
 const initialValues = {
@@ -29,10 +30,11 @@ const initialValues = {
     shortDescription: "",
     description: "",
     isEnabled: true,
+    type: ""
 }
 
 const AddIncontextExample: FC<Props> = (props) => {
-    const { open, setOpen, type } = props;
+    const { open, setOpen } = props;
     const dispatch = useAppDispatch();
 
     const formik = useFormik({
@@ -41,7 +43,7 @@ const AddIncontextExample: FC<Props> = (props) => {
         onSubmit: async (values, actions) => {
             setOpen(false)
 
-            const res = await dispatch(addPrompt({ ...values, type }));
+            const res = await dispatch(addIncontextExample(values));
 
             if (res) {
                 actions.resetForm();
@@ -59,7 +61,7 @@ const AddIncontextExample: FC<Props> = (props) => {
 
     return (
         <Modal open={open} onClose={onClose}>
-            <IncotextExampleForm onClose={onClose} formik={formik} type={type} />
+            <IncotextExampleForm onClose={onClose} formik={formik} />
         </Modal>
     )
 }

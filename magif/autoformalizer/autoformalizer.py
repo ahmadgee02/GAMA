@@ -2,7 +2,7 @@ from magif.utils.base_lm import BaseLM
 from lms.gpt4 import GPT4
 from typing import Optional
 from magif.utils.utils import AgentStatus
-
+from magif.utils.setup_logger import logger
 
 class Autoformalizer:
 	"""
@@ -98,7 +98,10 @@ class Autoformalizer:
 					raise RuntimeError(f"Unknown status {status}")
 
 			# Query the language model with the generated prompt.
+			logger.debug(f"Prompting LLM with: {prompt}")
 			response = self.llm.prompt(prompt)
+			# logger.debug(f"LLM response: ==> {response}")
+
 
 			try:
 				# Parse the response into formalized rules.
@@ -110,6 +113,7 @@ class Autoformalizer:
 
 			# Validate the generated rules using the solver.
 			correct, trace = agent.solver.validate(rules)
+			logger.debug(f"Validation result autoformatlization: ===>  {correct}, trace: {trace}")
 			if correct:
 				status = AgentStatus.CORRECT
 				break

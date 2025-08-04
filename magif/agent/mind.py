@@ -1,7 +1,7 @@
 from magif.utils.setup_logger import logger
 from magif.utils.utils import AgentStatus
 from typing import Optional
-
+import json
 
 class Mind:
 	"""
@@ -27,7 +27,7 @@ class Mind:
 		"""
 		self.agent = agent
 
-	def observe(self, opponent_move):
+	async def observe(self, opponent_move):
 		"""
 		Observe the opponent move in the current round and add it to memory.
 
@@ -35,14 +35,29 @@ class Mind:
 			opponent_move (str): The move made by the opponent in the current round.
 		"""
 		if not self.agent.solver:
-			logger.debug(f"Agent {self.agent.name} cannot update payoff due to an uninitialized solver.")
+			await self.send_message(f"Agent {self.agent.name} cannot update payoff due to an uninitialized solver.", logger.debug)
 			self.agent.status = AgentStatus.RUNTIME_ERROR
 			return False
 
 		# Log the opponent's move
 		self.agent.memory.opponent_moves.append(opponent_move)
-
-	def think(self):
+  
+	async def send_message(self, message: str, logger):
+		logger(message)
+      
+		if self.agent.websocket:
+			await self.agent.websocket.send_text(
+				json.dumps({
+					"type": "data",
+					"data": json.dumps({
+         				"Agent": message
+             		})
+				})
+			)
+   
+		return
+   
+	async def think(self):
 		"""
 		Revise the agent's state based on the most recent moves and update its solver.
 
@@ -60,12 +75,12 @@ class Mind:
 		"""
 		if not self.agent.memory.moves or not self.agent.memory.opponent_moves or not self.agent.game.game_players:
 			self.agent.status = AgentStatus.RUNTIME_ERROR
-			logger.debug(f"Memory of moves or player names not initialised!")
+			await self.send_message(f"Memory of moves or player names not initialised!", logger.debug)
 			return None
 		if len(self.agent.memory.moves) < 1 or len(self.agent.memory.opponent_moves) < 1 or len(
 				self.agent.game.game_players) < 2:
 			self.agent.status = AgentStatus.RUNTIME_ERROR
-			logger.debug(f"Memory of moves or player names not too short!")
+			await self.send_message(f"Memory of moves or player names not too short!", logger.debug)
 			return None
 
 		# Step 2: Calculate payoff using the solver
@@ -76,7 +91,7 @@ class Mind:
 		if not payoff_success:
 			# TODO re-formalize
 			self.agent.status = AgentStatus.RUNTIME_ERROR
-			logger.debug(f"Payoff not calculated!")
+			await self.send_message(f"Payoff not calculated!", logger.debug)
 			return False
 
 		# Step 3: Update the solver state with the opponent's last move
@@ -84,15 +99,15 @@ class Mind:
 		if not update_success:
 			#TODO re-formalize
 			self.agent.status = AgentStatus.RUNTIME_ERROR
-			logger.debug(f"Opponent's last move not updated!")
+			await self.send_message(f"Opponent's last move not updated!", logger.debug)
 			return False
 
 		# Step 4: Log the successful update and store the payoff
 		self.agent.memory.payoffs.append(payoff)
-		logger.info(f"Agent {self.agent.name} received payoff: {payoff} and logged opponent's move: {opponent_move}")
+		await self.send_message(f"Agent {self.agent.name} received payoff: {payoff} and logged opponent's move: {opponent_move}", logger.info)
 		return True
 
-	def act(self):
+	async def act(self):
 		"""
         The agent makes a move in the tournament.
 
@@ -103,32 +118,32 @@ class Mind:
         	Optional[str]: The move selected by the agent, or None if no valid move is made.
         """
 		if not self.agent.solver:
-			logger.debug(f"Agent {self.agent.name} is unable to play due to an uninitialized solver.")
+			# await self.send_message()
 			self.agent.status = AgentStatus.RUNTIME_ERROR
 			return None
 
 		if not self.agent.game.game_players:
-			logger.debug(f"Agent {self.agent.name} is unable to play due to lack of players names.")
+			await self.send_message(f"Agent {self.agent.name} is unable to play due to lack of players names.", logger.debug)
 			self.agent.status = AgentStatus.RUNTIME_ERROR
 			return None
 
 		agent_name = self.agent.game.game_players[0]
-		logger.debug(f"Agent {self.agent.name} with strategy {self.agent.strategy_name} is making a move.")
+		await self.send_message(f"Agent {self.agent.name} with strategy {self.agent.strategy_name} is making a move.", logger.debug)
 
 		# Step 1: Attempt to get a move using the solver
 		success, move = self.agent.solver.select_move(agent_name)
 		if success:
 			#TODO re-formalize
 			self.agent.memory.moves.append(move)
-			logger.info(f"Agent {self.agent.name} with strategy {self.agent.strategy_name} made move: {move}")
+			await self.send_message(f"Agent {self.agent.name} with strategy {self.agent.strategy_name} made move: {move}", logger.info)
 			return move
 
 		# If no move is selected, log the error and update status
-		logger.debug(f"Agent {self.agent.name} did not select a move!")
+		await self.send_message(f"Agent {self.agent.name} did not select a move!", logger.debug)
 		self.agent.status = AgentStatus.RUNTIME_ERROR
 		return None
 
-	def get_total_payoff(self, log=True) -> float:
+	async def get_total_payoff(self, log=True) -> float:
 		"""
 		Get the total payoff accumulated by the agent.
 

@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import { local_storage_web_key } from "@/app/utils/constants";
 import { isExpired, decodeToken } from "react-jwt";
 import { User } from "@/app/types";
+import { setAuthToken } from "@/app/services/core/httpService";
 
 const ProtectedRouteLayout = (props: any) => {
     const router = useRouter()
@@ -33,7 +34,7 @@ const ProtectedRouteLayout = (props: any) => {
             if (isMyTokenExpired) {
                 dispatch(logout(router))
             }
-
+            setAuthToken(token);
             dispatch(setUser(myDecodedToken));
         } else {
             dispatch(logout(router))

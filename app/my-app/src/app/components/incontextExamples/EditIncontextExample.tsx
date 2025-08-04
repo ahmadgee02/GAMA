@@ -4,15 +4,14 @@ import { FC, useEffect } from 'react'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { editPrompt, selectPromptById } from "@/app/store/redux/pageSlice";
+import { editIncontextExample, selectIncontextExamples } from "@/app/store/redux/pageSlice";
 import Modal from '../common/Modal';
-import PromptForm from './PromptForm';
+import IncotextExampleForm from './IncotextExampleForm';
 
 interface Props {
     open: boolean;
     setOpen: (open: string) => void;
-    promptId: string;
-    type: string;
+    incontextExampleId: string;
 }
 
 // validation schema
@@ -24,6 +23,8 @@ const validationSchema = Yup.object({
         .required("Short description is required"),
     description: Yup.string()
         .required("Description is required"),
+    type: Yup.string()
+        .required("Type is required")
 });
 
 const initialValues = {
@@ -31,12 +32,13 @@ const initialValues = {
     shortDescription: "",
     description: "",
     isEnabled: true,
+    type: ""
 }
 
 const EditIncontextExample: FC<Props> = (props) => {
-    const { open, setOpen, promptId, type } = props;
+    const { open, setOpen, incontextExampleId } = props;
     const dispatch = useAppDispatch();
-    const prompt = useAppSelector(selectPromptById(promptId));
+    const incontextExamples = useAppSelector(selectIncontextExamples);
 
     const formik = useFormik({
         initialValues,
@@ -44,12 +46,12 @@ const EditIncontextExample: FC<Props> = (props) => {
         onSubmit: async (values, actions) => {
             setOpen(null!)
 
-            const res = await dispatch(editPrompt({...values, type }, promptId));
+            const res = await dispatch(editIncontextExample(values, incontextExampleId));
 
             if (res) {
                 actions.resetForm()
             } else {
-                setOpen(promptId)
+                setOpen(incontextExampleId)
             }
         },
     });
@@ -57,14 +59,17 @@ const EditIncontextExample: FC<Props> = (props) => {
     const { setFieldValue } = formik
 
     useEffect(() => {
+        const incontextExample = incontextExamples.find(incontextExample => incontextExample._id === incontextExampleId);
 
-        if (prompt) {
-            setFieldValue("name", prompt.name);
-            setFieldValue("shortDescription", prompt.shortDescription);
-            setFieldValue("description", prompt.description);
-            setFieldValue("isEnabled", prompt.isEnabled);
+
+        if (incontextExample) {
+            setFieldValue("name", incontextExample.name);
+            setFieldValue("shortDescription", incontextExample.shortDescription);
+            setFieldValue("type", incontextExample.type);
+            setFieldValue("description", incontextExample.description);
+            setFieldValue("isEnabled", incontextExample.isEnabled);
         }
-    }, [promptId])
+    }, [incontextExampleId])
 
     const onClose = () => {
         setOpen(null!);
@@ -73,7 +78,7 @@ const EditIncontextExample: FC<Props> = (props) => {
 
     return (
         <Modal open={open} onClose={onClose}>
-            <PromptForm onClose={onClose} formik={formik} type={type} />
+            <IncotextExampleForm onClose={onClose} formik={formik} />
         </Modal>
     )
 }

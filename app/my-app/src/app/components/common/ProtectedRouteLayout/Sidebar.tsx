@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import {
     Dialog,
     DialogBackdrop,
@@ -14,10 +14,14 @@ import {
     XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { classNames } from "@/app/utils";
+import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
+import { getAllAgentsHistory, selectAgentHistory } from '@/app/store/redux/pageSlice';
 
 const navigation = [
     { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
-    { name: 'Prompts', href: '/prompts', icon: FolderIcon, current: false },
+    { name: 'Incontext Examples', href: '/incontext-examples', icon: FolderIcon, current: false },
+    { name: 'Games', href: '/prompt/game', icon: FolderIcon, current: false },
+    { name: 'Stratergies', href: '/prompt/stratergy', icon: FolderIcon, current: false },
     { name: 'Users', href: '/users', icon: FolderIcon, current: false }
 ];
 
@@ -34,6 +38,14 @@ interface Props {
 
 const Sidebar: FC<Props> = (props) => {
     const { sidebarOpen, setSidebarOpen } = props;
+    const dispatch = useAppDispatch();
+    const agentHistory = useAppSelector(selectAgentHistory);
+
+    useEffect(() => {
+        dispatch(getAllAgentsHistory())
+    }, [])
+
+    console.log("agentHistory", agentHistory)
 
     return (
         <>
@@ -163,21 +175,21 @@ const Sidebar: FC<Props> = (props) => {
                             <li>
                                 <div className="text-xs/6 font-semibold">History</div>
                                 <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                    {teams.map((team) => (
-                                        <li key={team.name}>
+                                    {agentHistory.map(({ _id, agentData }) => (
+                                        <li key={agentData.name}>
                                             <a
-                                                href={team.href}
+                                                href={`/agents/${_id}`}
                                                 className={classNames(
-                                                    team.current
+                                                    true  // need to fix
                                                         ? 'bg-gray-800 text-white'
                                                         : 'hover:bg-gray-800 hover:text-white',
                                                     'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
                                                 )}
                                             >
                                                 <span className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
-                                                    {team.initial}
+                                                    {agentData.name[0]}
                                                 </span>
-                                                <span className="truncate">{team.name}</span>
+                                                <span className="truncate">{agentData.name}</span>
                                             </a>
                                         </li>
                                     ))}

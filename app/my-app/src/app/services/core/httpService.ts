@@ -4,14 +4,17 @@ import toast from 'react-hot-toast';
 // Global Axios Settings
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 axios.defaults.headers.post["Content-Type"] = "application/json";
-// axios.defaults.timeout = 10000;
+axios.defaults.timeout = 10000;
 
 axios.interceptors.response.use(
   (value) => Promise.resolve(value),
   (error) => {
     console.info('API response error', error.response.data);
-    const errormsg = typeof (error.response.data.detail === 'string') ?
-          error.response.data.detail : error.response.data.detail[0]
+    const errordetails = typeof (error.response.data.detail) === 'string' ?
+      error.response.data.detail : error.response.data.detail[0]
+    
+    const errormsg = typeof (errordetails) === 'string' ? errordetails : errordetails.msg || errordetails.message || errordetails.error;
+
     toast.error(errormsg)
     return Promise.reject(error);
   }

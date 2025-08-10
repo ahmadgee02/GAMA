@@ -12,14 +12,11 @@ import ChatUI from "@/app/components/chat/ChatUI";
 const AgentHistory: FC = () => {
     const dispatch = useAppDispatch();
     const { slug } = useParams();
-    
     const loading = useAppSelector(selectLoading);
 
     useEffect(() => {
         dispatch(getAgentsHistory(slug?.toString() || ""));
     }, [])
-
-    console.log({ loading })
 
     return (
         <ProtectedRouteLayout>

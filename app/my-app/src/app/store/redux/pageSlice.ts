@@ -1,12 +1,12 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState, AppDispatch } from '../index'
-import type { User, IncontextExample, RegisterUser, AddIncontextExample, Prompt, AddPrompt, Agent, AgentHistory } from "@/app/types"
+import type { User, IncontextExample, RegisterUser, AddIncontextExample, Prompt, AddPrompt, AgentHistory } from "@/app/types";
+import { IncontextType } from "@/app/types";
 import { registerUserService, getAllUsersService, deleteUserService, editUserService } from "@/app/services/userService";
 import { addIncontextExampleService, getAllIncontextExamplesService, deleteIncontextExampleService, editIncontextExampleService } from "@/app/services/IncontextExampleService";
 import { addPromptService, getAllPromptsService, deletePromptService, editPromptService } from "@/app/services/PromptService";
-import { getAgentService, getAllAgentsService } from '@/app/services/AgentService';
-import { setAgent } from './chatSlice';
+import { getAllAgentsService, deleteAgentService, downloadAgentsJson } from '@/app/services/AgentService';
 
 // Define a type for the slice state
 interface AuthState {
@@ -72,7 +72,13 @@ export const pageSlice = createSlice({
         },
         setAgentHistory: (state, action: PayloadAction<AgentHistory[]>) => {
             state.agentHistory = action.payload
-        }
+        },
+        addNewAgent: (state, action: PayloadAction<AgentHistory>) => {
+            state.agentHistory = [action.payload, ...state.agentHistory]
+        },
+        setdeleteAgent: (state, action: PayloadAction<string>) => {
+            state.agentHistory = state.agentHistory.filter(agent => agent._id !== action.payload);
+        },
     },
 })
 
@@ -80,7 +86,7 @@ export const {
     setLoading,
     setUsers, setRegisterUser, setEditUser, setdeleteUser,
     setIncontextExamples, setNewIncontextExample, setEditIncontextExample, setdeleteIncontextExample,
-    setPrompts, setNewPrompt, setEditPrompt, setdeletePrompt, setAgentHistory
+    setPrompts, setNewPrompt, setEditPrompt, setdeletePrompt, setAgentHistory, addNewAgent, setdeleteAgent
 } = pageSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
@@ -89,6 +95,17 @@ export const selectIncontextExamples = (state: RootState) => state.page.incontex
 export const selectPrompts = (state: RootState) => state.page.prompts;
 export const selectLoading = (state: RootState) => state.page.loading;
 export const selectAgentHistory = (state: RootState) => state.page.agentHistory;
+
+export const selectPrioritizedAgentHistory = createSelector(
+    [selectAgentHistory],
+    (agentHistory) => {
+        return [...agentHistory].sort((a, b) => {
+            if (a.agentData.status === "correct" && b.agentData.status !== "correct") return 1;
+            if (a.agentData.status !== "correct" && b.agentData.status === "correct") return -1;
+            return 0;
+        });
+    }
+);
 
 export const selectEnabledIncontextExamples = createSelector([selectIncontextExamples], (IncontextExamples) => {
     return IncontextExamples.filter(incontextExamples => incontextExamples.isEnabled)
@@ -104,7 +121,7 @@ export const selectPromptById = (promptId: string) => createSelector([selectProm
 
 
 export const selectIncontextExamplesById = (state: RootState, incontextExamplesId: string) =>
-  state.page.incontextExamples.find(incontextExamples => incontextExamples._id === incontextExamplesId);
+    state.page.incontextExamples.find(incontextExamples => incontextExamples._id === incontextExamplesId);
 
 export const selectStrategies = createSelector([selectPrompts], (prompts) => {
     return prompts.filter(prompt => prompt.type === "stratergy" && prompt.isEnabled);
@@ -115,15 +132,15 @@ export const selectGames = createSelector([selectPrompts], (prompts) => {
 })
 
 export const selectIncontextGameExamples = createSelector([selectIncontextExamples], (incontextExamples) => {
-    return incontextExamples.filter(example => example.type === "game"  && example.isEnabled);
+    return incontextExamples.filter(example => example.type === IncontextType.Game && example.isEnabled);
 })
 
 export const selectIncontextStratergyExamples = createSelector([selectIncontextExamples], (incontextExamples) => {
-    return incontextExamples.filter(example => example.type === "stratergy"  && example.isEnabled);
+    return incontextExamples.filter(example => example.type === IncontextType.Stratergy && example.isEnabled);
 })
 
 export const selectIncontextGameStratergyExamples = createSelector([selectIncontextExamples], (incontextExamples) => {
-    return incontextExamples.filter(example => example.type === "game_stratergy"  && example.isEnabled);
+    return incontextExamples.filter(example => example.type === IncontextType.GameStratergy && example.isEnabled);
 })
 
 
@@ -161,7 +178,7 @@ export const getAllUsers = () => async (dispatch: AppDispatch) => {
 export const deleteUser = (userId: string) => async (dispatch: AppDispatch) => {
     dispatch(setLoading(true))
     await deleteUserService(userId);
-    
+
     dispatch(setLoading(false))
     dispatch(setdeleteUser(userId));
 }
@@ -250,3 +267,27 @@ export const getAllAgentsHistory = () => async (dispatch: AppDispatch) => {
     dispatch(setAgentHistory(agents));
 }
 
+export const deleteAgent = (agentId: string) => async (dispatch: AppDispatch) => {
+    dispatch(setLoading(true))
+    await deleteAgentService(agentId);
+
+    dispatch(setLoading(false))
+    dispatch(setdeleteAgent(agentId));
+}
+
+
+export const exportAgents = () => async (disptch: AppDispatch) => {
+
+    const data = await downloadAgentsJson();
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'agents.json');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+}

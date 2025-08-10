@@ -2,9 +2,14 @@ from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from pydantic.functional_validators import BeforeValidator
 from typing import Optional
 from typing_extensions import Annotated
+from enum import Enum
 
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
+class IncontextType(str, Enum):
+    game = "Game"
+    stratergy = "Stratergy"
+    game_stratergy = "Game & Stratergy"
 
 class AgentDataModel(BaseModel):
     name: str = Field(..., description="The name of the agent.  e.g. Game or Strategy")
@@ -19,11 +24,17 @@ class AgentDataModel(BaseModel):
     traceMessages: list[str] = Field(..., description="The error logs list of the code validations.")
     attempts: int = Field(..., description="the number of attempts it mate to correct the code.")
 
+class ExtraDataModel(BaseModel):
+    heading: str
+    text: str | list[str]
+    type: Optional[str] = None
+    
 class MessageModel(BaseModel):
-    text: str
+    text: str | list[str]
     heading: str
     role: str
-    
+    data: Optional[list[ExtraDataModel]] = []
+    type: Optional[str] = None
     
 class AgentModel(BaseModel):
     """

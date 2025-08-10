@@ -1,4 +1,4 @@
-import type { AgentHistory  } from "@/app/types"
+import type { AgentHistory } from "@/app/types"
 import http from "./core/httpService";
 
 export const getAgentService = async (agentId: string): Promise<AgentHistory> => {
@@ -19,7 +19,7 @@ export const getAllAgentsService = async (): Promise<AgentHistory[]> => {
     }
 }
 
-export const deleteagentService = async (agentId: string): Promise<boolean> => {
+export const deleteAgentService = async (agentId: string): Promise<boolean> => {
     try {
         await http.delete(`/agents/${agentId}`);
         return true;
@@ -27,3 +27,12 @@ export const deleteagentService = async (agentId: string): Promise<boolean> => {
         return false;
     }
 }
+
+export const downloadAgentsJson = async () => {
+    try {
+        const response = await http.get('/agents/export', { responseType: 'json' });
+        return response.data;;
+    } catch (error) {
+        return false;
+    }
+};

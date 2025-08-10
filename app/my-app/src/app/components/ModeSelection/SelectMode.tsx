@@ -1,39 +1,51 @@
 'use client'
 
-import { FC, useState, useMemo } from 'react'
+import { FC, useMemo } from 'react'
 import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
 import GameMode from './GameMode';
 import StratergyMode from './StratergyMode';
 import GameStratergyMode from './GameStratergyMode';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
+import { selectMode, setAgentLoaded, setMode } from '@/app/store/redux/chatSlice';
+import { Mode } from '@/app/types';
 
 interface Props {
     setStartChat: (start: boolean) => void;
 }
 
 const SelectMode: FC<Props> = (props) => {
+    const dispatch = useAppDispatch();
     const { setStartChat } = props;
-    const [mode, setMode] = useState<string>("");
+    const mode = useAppSelector(selectMode);
 
     const SelectComponent = useMemo(() => {
-        if (mode === "Game") {
+        if (mode === Mode.Game) {
             return GameMode;
         }
-        else if (mode === "Stratergy") {
+        else if (mode === Mode.Stratergy) {
             return StratergyMode;
         }
-        else if (mode === "Game & Strategy") {
+        else if (mode === Mode.Game_Stratergy) {
             return GameStratergyMode;
         }
     }, [mode]);
 
-    const modes = ["Game", "Stratergy", "Game & Strategy"]
+    const setModeHandle = (mode: Mode) => {
+        dispatch(setMode(mode))
+        dispatch(setAgentLoaded(true))
+    }
 
+    const modes = [
+        Mode.Game,
+        Mode.Stratergy,
+        Mode.Game_Stratergy
+    ]
 
     return (
         <div className='items-center min-h-screen'>
             <div className='max-w-sm mx-auto '>
-                <Listbox value={mode} onChange={setMode}>
+                <Listbox value={mode} onChange={setModeHandle}>
                     <Label className="block text-large">Select Mode</Label>
                     <div className="relative mt-2">
                         <ListboxButton className="grid w-full cursor-default grid-cols-1 rounded-md bg-gray-900 py-1.5 pr-2 pl-3 text-left sm:text-sm/6">

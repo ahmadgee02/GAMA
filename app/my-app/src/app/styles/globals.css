@@ -49,3 +49,11 @@ table {
 .chat {
   background: var(--bg-elevated-secondary);
 } 
+
+.chat-code {
+  height: 300px;
+}
+
+.ReactCollapse--collapse {
+  transition: height 500ms;
+}

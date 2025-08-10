@@ -148,7 +148,7 @@ class Agent:
 		"""
 
 		self.solver.game_rules = prolog_code
-		trace = self._load_rules(prolog_code, reload_solver=True)
+		trace = self._load_rules(prolog_code, reload_solver=False)
 		logger.debug(f"Rules Loaded: => { self.status }")
   
 		if self.status != AgentStatus.CORRECT:
@@ -156,7 +156,7 @@ class Agent:
 			processed_trace = process_trace(trace, prolog_code)
 			return self.status, processed_trace
 
-		return self.status, []
+		return self.status.value, []
 
 	async def user_interaction(self, move: str):
 		"""

@@ -1,18 +1,15 @@
 // CodeEditor.tsx
 import React, { useEffect, useRef, FC } from 'react';
 import Editor, { useMonaco, OnMount } from '@monaco-editor/react';
-import Modal from '../common/Modal';
-// import * as monaco from 'monaco-editor';
 
 interface Props {
-    isOpen: boolean
-    value?: string;
-    onCancel: () => void;
-    onSave: (code: string) => void;
+    value: string;
+    readOnly?: boolean;
+    onChange?: (code: string | undefined) => void;
 }
 
 const CodeEditor: FC<Props> = (props) => {
-    const { isOpen, value, onCancel, onSave } = props;
+    const { value, onChange, readOnly = false } = props;
     const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
     const monacoInstance = useMonaco();
 
@@ -126,45 +123,18 @@ const CodeEditor: FC<Props> = (props) => {
         });
     };
 
-    if (!monacoInstance) {
-        return <></>
-    }
-
-    const handleSave = () => {
-        if (editorRef.current) {
-            const code = editorRef.current.getValue();
-            onSave(code);
-            onCancel();
-        }
-    }
+    if (!monacoInstance) { return }
 
     return (
-        <Modal open={isOpen} onClose={()=> onCancel()}>
-            Proglog Code Editor
-            <Editor
-                height="600px"
-                defaultLanguage="prolog"
-                defaultValue={value}
-                onMount={handleEditorDidMount}
-            />
-
-            <div className="mt-6 flex items-center justify-end gap-x-6">
-                <button
-                    onClick={onCancel}
-                    type="button"
-                    className="cursor-pointer text-sm/6 font-semibold text-white">
-                    Cancel
-                </button>
-
-                <button
-                    onClick={handleSave}
-                    type="submit"
-                    className="cursor-pointer rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                >
-                    Save
-                </button>
-            </div>
-        </Modal>
+        <Editor
+            height="100%"
+            defaultLanguage="prolog"
+            defaultValue={value}
+            onMount={handleEditorDidMount}
+            onChange={onChange}
+            theme='vs-dark'
+            options={{ readOnly }}
+        />
     );
 };
 

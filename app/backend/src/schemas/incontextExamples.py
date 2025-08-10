@@ -3,9 +3,9 @@ from typing import Optional
 from enum import Enum
 
 class IncontextType(str, Enum):
-    game = "game"
-    stratergy = "stratergy"
-    game_stratergy = "game_stratergy"
+    game = "Game"
+    stratergy = "Stratergy"
+    game_stratergy = "Game & Stratergy"
 
 class IncontextExampleAdd(BaseModel):
     name: str

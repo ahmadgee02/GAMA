@@ -82,7 +82,7 @@ const IncontextExamples: FC = () => {
                                                         {example.name}
                                                     </td>
                     
-                                                    <td className="px-3 py-4 text-sm ">{truncate(example.description,100)}</td>
+                                                    <td className="px-3 py-4 text-sm ">{example.shortDescription}</td>
                                                     <td className="px-3 py-4 text-sm">
                                                         {example.type}
                                                     </td>

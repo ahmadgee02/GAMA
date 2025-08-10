@@ -1,7 +1,7 @@
 export enum IncontextType {
-    Game = "game",
-    Stratergy = "stratergy",
-    GameStratergy = "game_stratergy"
+    Game = "Game",
+    Stratergy = "Stratergy",
+    GameStratergy = "Game & Stratergy"
 }
 
 export interface IncontextExample {

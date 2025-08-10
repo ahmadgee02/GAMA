@@ -1,14 +1,14 @@
 'use client'
 
-import { FC, useState, useMemo } from 'react'
+import { FC } from 'react'
 import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
 import { useAppSelector, useAppDispatch } from "@/app/store/hooks";
-import { selectStrategies, selectIncontextStratergyExamples, selectGames } from "@/app/store/redux/pageSlice"
+import { selectIncontextStratergyExamples, selectGames } from "@/app/store/redux/pageSlice"
 import { setIncontextExample, selectIncontextExample, selectPrompt, setPrompt } from "@/app/store/redux/chatSlice"
 import { IncontextExample, Prompt } from '@/app/types';
 
-const StratergyMode: FC = (props) => {
+const StratergyMode: FC = () => {
     const dispatch = useAppDispatch();
     const games = useAppSelector(selectGames);
     const incontextStratergyExamples = useAppSelector(selectIncontextStratergyExamples);
@@ -80,14 +80,6 @@ const StratergyMode: FC = (props) => {
                         </ListboxOptions>
                     </div>
                 </Listbox>
-
-                <button
-                    type="button"
-                    className="mt-4 w-full cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    // onClick={() => setAddOpen(true)}
-                >
-                    Start
-                </button>
             </div>
     )
 }

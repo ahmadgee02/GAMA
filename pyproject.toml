@@ -7,7 +7,7 @@ name = "magif"
 version = "0.1.0"
 description = "Mulit-Agent Generative Formalization"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 license = {text = "MIT"}
 
 authors = [
@@ -24,7 +24,7 @@ classifiers = [
 
 dependencies = [
     "swiplserver~=1.0.2",
-    "pandas~=2.2.1"
+    "pandas~=2.2.2"
 ]
 
 [tool.setuptools]

@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useState, useMemo } from 'react'
+import { FC } from 'react'
 import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
 import { useAppSelector, useAppDispatch } from "@/app/store/hooks";
@@ -8,7 +8,7 @@ import { selectStrategies, selectIncontextGameExamples } from "@/app/store/redux
 import { setIncontextExample, selectIncontextExample, selectPrompt, setPrompt } from "@/app/store/redux/chatSlice"
 import { IncontextExample, Prompt } from '@/app/types';
 
-const GameMode: FC = (props) => {
+const GameMode: FC = () => {
     const dispatch = useAppDispatch();
     const stratergies = useAppSelector(selectStrategies);
     const incontextGameExamples = useAppSelector(selectIncontextGameExamples);

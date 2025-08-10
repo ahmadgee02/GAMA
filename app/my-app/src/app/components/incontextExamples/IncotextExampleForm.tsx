@@ -2,6 +2,7 @@
 import { FC } from 'react'
 import { useFormik, ErrorMessage, Field, FormikProvider } from "formik";
 import ErrMsg from "@/app/components/common/form/ErrMsg";
+import { IncontextType } from '@/app/types';
 
 interface Props {
     formik: ReturnType<typeof useFormik<any>>;
@@ -12,6 +13,12 @@ const IncotextExampleForm: FC<Props> = (props) => {
     const { formik, onClose } = props;
 
     const { values, handleChange, handleSubmit } = formik
+
+    const incontextTypes = [
+        IncontextType.Game,
+        IncontextType.Stratergy,
+        IncontextType.GameStratergy
+    ]
 
     return (
         <FormikProvider value={formik}>
@@ -52,9 +59,10 @@ const IncotextExampleForm: FC<Props> = (props) => {
                                         onChange={handleChange}
                                         value={values.type}
                                     >
-                                        <option value="game" className=" bg-gray-900 ">Game</option>
-                                        <option value="stratergy" className=" bg-gray-900 ">Stratergy</option>
-                                        <option value="game_stratergy" className="bg-gray-900 ">Game & Stratergy</option>
+                                        <option value="" className=" bg-gray-900"></option>
+                                        {incontextTypes.map(type => 
+                                            <option key={type} value={type} className="bg-gray-900">{type}</option>
+                                        )}
                                     </Field>
 
                                     <ErrorMessage name={"type"} component={ErrMsg} />

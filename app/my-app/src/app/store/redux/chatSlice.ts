@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { AppDispatch, RootState } from '../index'
-import type { Prompt, Message, IncontextExample, Agent } from "@/app/types"
+import type { Prompt, Message, IncontextExample, Agent, Mode } from "@/app/types"
 import { getAgentService } from '@/app/services/AgentService';
 
 // Define a type for the slice state
@@ -11,7 +11,9 @@ interface ChatState {
     messages: Message[],
     incontextExample: IncontextExample,
     prompt: Prompt,
-    agent: Agent
+    agent: Agent,
+    mode: Mode,
+    agentLoaded: boolean
 }
 
 // Define the initial state using that type
@@ -21,7 +23,9 @@ const initialState: ChatState = {
     incontextExample: null!,
     description: '',
     messages: [],
-    agent: null!
+    agent: null!,
+    mode: null!,
+    agentLoaded: false
 }
 
 export const chatSlice = createSlice({
@@ -49,11 +53,17 @@ export const chatSlice = createSlice({
         },
         setAgent: (state, action: PayloadAction<Agent>) => {
             state.agent = action.payload
+        },
+        setMode: (state, action: PayloadAction<Mode>) => {
+            state.mode = action.payload
+        },
+        setAgentLoaded: (state, action: PayloadAction<boolean>) => {
+            state.agentLoaded = action.payload
         }
     },
 })
 
-export const { setLoading, setPrompt, setDescription, setMessageHistory, setIncontextExample, setAgent, setMessageHistory2 } = chatSlice.actions
+export const { setLoading, setPrompt, setDescription, setMessageHistory, setIncontextExample, setAgent, setMessageHistory2, setMode, setAgentLoaded } = chatSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectLoading = (state: RootState) => state.chat.loading
@@ -61,7 +71,9 @@ export const selectPrompt = (state: RootState) => state.chat.prompt;
 export const selectIncontextExample = (state: RootState) => state.chat.incontextExample;
 export const selectDescription = (state: RootState) => state.chat.description;
 export const selectMessagesHistory = (state: RootState) => state.chat.messages;
-export const selectAgent  = (state: RootState) => state.chat.agent;
+export const selectAgent = (state: RootState) => state.chat.agent;
+export const selectMode = (state: RootState) => state.chat.mode;
+export const selectAgentLoaded = (state: RootState) => state.chat.agentLoaded;
 
 export default chatSlice.reducer;
 

@@ -95,7 +95,7 @@ const ChatBox: FC<Props> = (props) => {
                                 className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
                                 disabled={!description}
                             >
-                                Chat
+                                Autoformalize
                             </button>
                         </div>
                     </div>

@@ -60,8 +60,10 @@ const ChatScreen: FC = () => {
                     <AgentMessage message={msg} key={index} />
                 ))}
                 {loading && (
-                    <div className=" flex justify-center items-center">
-                        <div className="my-8 animate-spin rounded-full h-16 w-16 border-b-2 border-white"></div>
+                    <div className="flex items-center justify-center mt-12">
+                        <p className="text-xl font-medium animate-bounce transform transition-transform duration-500 ease-in-out">
+                            Agent is autoformazlizing the description.
+                        </p>
                     </div>
                 )}
                 {/* <div ref={messagesEndRef} /> */}

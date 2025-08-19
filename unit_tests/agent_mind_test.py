@@ -21,7 +21,8 @@ class TestAgentMindFunctions(unittest.TestCase):
 			os.makedirs(self.OUT_DIR)
 
 		self.agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
-		self.agent = Agent(agent_json=self.agent_json, autoformalization_on=False)  # Initialize Agent
+		self.agent = Agent(autoformalization_on=False)  # Initialize Agent
+		self.agent.initialize(agent_json=self.agent_json)
 
 	def tearDown(self):
 		self.agent.release_solver()

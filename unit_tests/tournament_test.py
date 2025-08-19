@@ -32,7 +32,8 @@ class TestTournament(unittest.TestCase):
 		Helper method to load agents from JSON files and add them to the agent pool.
 		"""
 		for i in range(3):
-			agent = Agent(agent_json=self.agent_json_path, autoformalization_on=False)
+			agent = Agent(autoformalization_on=False)
+			agent.initialize(agent_json=self.agent_json_path)
 			agent.name = generate_agent_name(3)
 			self.agent_pool.add_agent(agent)
 
@@ -91,7 +92,8 @@ class TestTournament(unittest.TestCase):
 
 		# Load agent data from JSON files
 		for i in range(3):
-			agent = Agent(agent_json=self.agent_json_path, autoformalization_on=False)
+			agent = Agent(autoformalization_on=False)
+			agent.initialize(agent_json=self.agent_json_path)
 			agent.name = generate_agent_name(3)
 			game_data = DataObject(rules_path=normalize_path("unit_tests/DATA/MISC/bos_agent.pl"), mode=Mode.RULES_PATH)
 			agent.set_game(game_data)
@@ -103,7 +105,8 @@ class TestTournament(unittest.TestCase):
 		# Add copies of an agent with tat-for-tit strategy
 		for i in range(agents_num):
 			agent = self.agent_pool.valid_agents[i]
-			clone = Agent(agent_json=self.agent_json_path, autoformalization_on=False)
+			clone = Agent(autoformalization_on=False)
+			clone.initialize(agent_json=self.agent_json_path)
 			clone.name = generate_agent_name(3)
 
 			game_data = DataObject(rules_string=agent.game.game_rules, mode=Mode.RULES_STRING)

@@ -33,21 +33,15 @@ class Agent:
 	"""
 
 	def __init__(self,
-				 game_data: Optional[DataObject] = None,
-				 strategy_data: Optional[DataObject] = None,
 				 llm: Optional[BaseLM] = GPT4,
 				 max_attempts: Optional[int] = 1,
-				 agent_json: Optional[str] = None,
 				 autoformalization_on: Optional[bool] = True):
 		"""
-		Initializes an Agent instance with game and strategy data or a JSON configuration.
+		Initializes an empty Agent.
 
 		Args:
-		    game_data (Optional[DataObject]): The game data for initialization.
-		    strategy_data (Optional[DataObject]): The strategy data for initialization.
 		    llm (Optional[BaseLM]): The language model used for autoformalization (default is GPT4).
 		    max_attempts (Optional[int]): Maximum number of attempts for autoformalization attempts (default is 1).
-		    agent_json (Optional[str]): Path to a JSON file for initialization.
 		    autoformalization_on (Optional[bool]): Flag to enable autoformalization functionality (default is True).
 
 		Raises:
@@ -69,9 +63,25 @@ class Agent:
 		self.max_attempts = max_attempts
 		self.autoformalizer = Autoformalizer(llm, max_attempts=max_attempts) if self.autoformalization_on else None
 
+		self.mind = None
+		self.strategy_name = "unnamed_strategy"
+
+	def initialize(self,
+				   game_data: Optional[DataObject] = None,
+				   strategy_data: Optional[DataObject] = None,
+				   agent_json: Optional[str] = None
+				   ):
+		"""
+		Initializes an Agent instance with game and strategy data or a JSON configuration.
+
+		Args:
+		    game_data (Optional[DataObject]): The game data for initialization.
+		    strategy_data (Optional[DataObject]): The strategy data for initialization.
+		    agent_json (Optional[str]): Path to a JSON file for initialization.
+		"""
+
 		# Initialize the agent's mind for decision-making and set default strategy name.
 		self.mind = Mind(self)
-		self.strategy_name = "unnamed_strategy"
 
 		# Initialize the agent either from a JSON file or provided data.
 		if agent_json is not None:
@@ -81,8 +91,8 @@ class Agent:
 		else:
 			raise ValueError("Invalid arguments provided. Either provide game_data and strategy_data, or agent_json.")
 
-	@classmethod
-	def from_data(cls, game_data: DataObject, strategy_data: DataObject):
+
+	def from_data(self, game_data: DataObject, strategy_data: DataObject):
 		"""
 		Creates an Agent instance using game and strategy data.
 
@@ -93,10 +103,10 @@ class Agent:
 		Returns:
 		    Agent: An initialized Agent instance.
 		"""
-		return cls(game_data=game_data, strategy_data=strategy_data)
+		self.initialize(game_data=game_data, strategy_data=strategy_data)
 
-	@classmethod
-	def from_json(cls, agent_json: str):
+
+	def from_json(self, agent_json: str):
 		"""
 		Creates an Agent instance using a JSON configuration file.
 
@@ -106,7 +116,7 @@ class Agent:
 		Returns:
 		    Agent: An initialized Agent instance.
 		"""
-		return cls(agent_json=agent_json)
+		self.initialize(agent_json=agent_json)
 
 	def release_solver(self):
 		"""

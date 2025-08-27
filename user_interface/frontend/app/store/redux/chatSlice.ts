@@ -59,11 +59,14 @@ export const chatSlice = createSlice({
         },
         setAgentLoaded: (state, action: PayloadAction<boolean>) => {
             state.agentLoaded = action.payload
-        }
+        },
+        updateAgentGameRules: (state, action: PayloadAction<string>) => {
+            state.agent.gameRules = action.payload
+        },
     },
 })
 
-export const { setLoading, setPrompt, setDescription, setMessageHistory, setIncontextExample, setAgent, setMessageHistory2, setMode, setAgentLoaded } = chatSlice.actions
+export const { setLoading, setPrompt, setDescription, setMessageHistory, setIncontextExample, setAgent, setMessageHistory2, setMode, setAgentLoaded, updateAgentGameRules } = chatSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectLoading = (state: RootState) => state.chat.loading

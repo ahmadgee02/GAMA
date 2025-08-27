@@ -78,9 +78,10 @@ const ChatBox: FC<Props> = (props) => {
                     </div>
                     <div className="flex items-center text-indigo-600 justify-between space-x-3 px-2 py-2 sm:px-3">
                         <div className="flex">
-                            <div className='px-2 font-extrabold'>
-                                Example: {example?.name}
+                            {example && <div className='px-2 font-extrabold'>
+                                Example: {example.name}
                             </div>
+                            }
 
                             {prompt &&
                                 <div className='px-2 border-l-1 border-white font-extrabold'>
@@ -92,7 +93,7 @@ const ChatBox: FC<Props> = (props) => {
                         <div className="shrink-0">
                             <button
                                 type="submit"
-                                className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                                className="cursor-pointer inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
                                 disabled={!description}
                             >
                                 Autoformalize

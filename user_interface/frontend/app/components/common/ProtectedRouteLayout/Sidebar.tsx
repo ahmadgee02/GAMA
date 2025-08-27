@@ -19,13 +19,14 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { getAllAgentsHistory, selectPrioritizedAgentHistory, deleteAgent, exportAgents } from '@/store/redux/pageSlice';
 import { usePathname } from 'next/navigation'
 import DeleteModal from "@/components/common/DeleteModal";
+import { isUserAdmin } from '@/store/redux/authSlice';
 
 const navigation = [
-    { name: 'Dashboard', href: '/', icon: HomeIcon },
-    { name: 'Incontext Examples', href: '/incontext-examples', icon: FolderIcon },
-    { name: 'Games', href: '/prompt/game', icon: FolderIcon },
-    { name: 'Stratergies', href: '/prompt/stratergy', icon: FolderIcon },
-    { name: 'Users', href: '/users', icon: FolderIcon }
+    { name: 'Dashboard', href: '/', icon: HomeIcon, adminPage: false },
+    { name: 'Incontext Examples', href: '/incontext-examples', icon: FolderIcon, adminPage: false  },
+    { name: 'Games', href: '/prompt/game', icon: FolderIcon, adminPage: false  },
+    { name: 'Stratergies', href: '/prompt/stratergy', icon: FolderIcon, adminPage: false  },
+    { name: 'Users', href: '/users', icon: FolderIcon, adminPage: true  }
 ];
 
 interface Props {
@@ -38,6 +39,7 @@ const Sidebar: FC<Props> = (props) => {
     const dispatch = useAppDispatch();
     const agentHistory = useAppSelector(selectPrioritizedAgentHistory);
     const pathname = usePathname()
+    const isAdmin = useAppSelector(isUserAdmin)
 
     const [deleteOpen, setDeleteOpen] = useState<string>(null!);
 
@@ -90,7 +92,7 @@ const Sidebar: FC<Props> = (props) => {
                                 <ul role="list" className="flex flex-1 flex-col gap-y-7">
                                     <li>
                                         <ul role="list" className="-mx-2 space-y-1">
-                                            {navigation.map((item) => (
+                                            {navigation.filter(item => isAdmin || !item.adminPage).map((item) => (
                                                 <li key={item.name}>
                                                     <a
                                                         href={item.href}
@@ -113,13 +115,13 @@ const Sidebar: FC<Props> = (props) => {
                                         <div className="text-xs/6 font-semibold text-gray-400">Incorrect Agent History</div>
                                         <ul role="list" className="-mx-2 mt-2 space-y-1">
                                             {agentHistory.map(({ _id, agentData }) => (
-                                                <li key={_id} className='flex items-center justify-between'>
+                                                <li key={_id} className='flex items-center justify-between hover:bg-gray-800 hover:text-white'>
                                                     <a
                                                         href={`/agent/${_id}`}
                                                         className={classNames(
                                                             pathname === `/agents/${_id}`
                                                                 ? 'bg-gray-800 text-white'
-                                                                : 'text-gray-400 hover:bg-gray-800 hover:text-white',
+                                                                : 'text-gray-400 ',
                                                             'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
                                                         )}
                                                     >
@@ -128,7 +130,7 @@ const Sidebar: FC<Props> = (props) => {
                                                         </span>
                                                         <span className="truncate">{agentData.name}</span>
                                                     </a>
-                                                    <TrashIcon onClick={() => onTrashIconClick(_id)} aria-hidden="true" className="ml-auto cursor-pointer size-6 shrink-0 flex-end" />
+                                                    {isAdmin && <TrashIcon onClick={() => onTrashIconClick(_id)} aria-hidden="true" className="ml-auto cursor-pointer size-6 shrink-0 flex-end" />}
                                                 </li>
                                             ))}
                                         </ul>
@@ -164,7 +166,7 @@ const Sidebar: FC<Props> = (props) => {
                         <ul role="list" className="flex flex-1 flex-col gap-y-7">
                             <li>
                                 <ul role="list" className="-mx-2 space-y-1">
-                                    {navigation.map((item) => (
+                                    {navigation.filter(item => isAdmin || !item.adminPage).map((item) => (
                                         <li key={item.name}>
                                             <a
                                                 href={item.href}
@@ -201,7 +203,7 @@ const Sidebar: FC<Props> = (props) => {
                                                 </span>
                                                 <span className="truncate">{agentData.name}</span>
                                             </a>
-                                            <TrashIcon onClick={() => onTrashIconClick(_id)} aria-hidden="true" className="ml-auto cursor-pointer size-6 shrink-0 flex-end" />
+                                            {isAdmin && <TrashIcon onClick={() => onTrashIconClick(_id)} aria-hidden="true" className="ml-auto cursor-pointer size-6 shrink-0 flex-end" />}
                                         </li>
                                     ))}
                                 </ul>

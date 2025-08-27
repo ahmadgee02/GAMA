@@ -1,6 +1,8 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import CodeEditor from './CodeEditor';
 import Modal from '../common/Modal';
+import { useAppDispatch } from "@/store/hooks";
+import { updateAgentGameRules } from '../../store/redux/chatSlice';
 
 interface Props {
     isOpen: boolean
@@ -10,15 +12,21 @@ interface Props {
 }
 
 const GameRuleEditModal: FC<Props> = (props) => {
+    const dispatch = useAppDispatch();
     const { isOpen, value, onCancel, onSave } = props;
-    const [code, setCode] = useState(value || undefined);
+    const [code, setCode] = useState<string | undefined>(undefined);
 
     const handleSave = () => {
         if (code) {
             onSave(code);
+            dispatch(updateAgentGameRules(code))
             onCancel();
         }
     };
+
+    useEffect(() => {
+        setCode(value)
+    }, [value])
 
     return (
         <Modal open={isOpen} onClose={() => onCancel()}>
@@ -26,7 +34,7 @@ const GameRuleEditModal: FC<Props> = (props) => {
             <div style={{
                 height: `600px`
             }}>
-                <CodeEditor value={value} onChange={setCode} />
+                {isOpen && <CodeEditor value={value} onChange={setCode} />}
             </div>
             <div className="mt-6 flex items-center justify-end gap-x-6">
                 <button

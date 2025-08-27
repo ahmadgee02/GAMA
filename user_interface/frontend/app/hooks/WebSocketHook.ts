@@ -163,6 +163,7 @@ const WebSocketHook = () => {
                     role: Role.User,
                     text: code,
                     heading: "Edit Prolog Code",
+                    type: ExtraDataType.Code
                 })
             )
 

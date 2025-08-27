@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState, AppDispatch } from '../index'
 import type { User, loginData } from "@/types"
-import { loginService } from '@/services/authService'
-import { local_storage_web_key } from "@/utils/constants"
+import { loginService } from '@/services/AuthService'
+import { local_storage_web_key } from "@/utils/Constants"
 import { decodeToken } from "react-jwt";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 
@@ -39,6 +39,7 @@ export const { setUser, setLoading } = authSlice.actions
 // Other code such as selectors can use the imported `RootState` type
 export const selectUser = (state: RootState) => state.auth.user
 export const selectLoading = (state: RootState) => state.auth.loading
+export const isUserAdmin = (state: RootState) => state.auth.user?.isAdmin
 
 export default authSlice.reducer
 

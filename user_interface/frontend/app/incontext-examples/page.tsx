@@ -8,10 +8,11 @@ import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { selectLoading, selectIncontextExamples, getAllIncontextExamples, deleteIncontextExample } from "@/store/redux/pageSlice"
 import Loading from "@/components/common/Loading";
 import DeleteModal from "@/components/common/DeleteModal";
-import { truncate } from "@/utils"
+import { isUserAdmin } from "@/store/redux/authSlice";
 
 const IncontextExamples: FC = () => {
     const dispatch = useAppDispatch();
+    const isAdmin = useAppSelector(isUserAdmin)
 
     const [addOpen, setAddOpen] = useState(false);
     const [editOpen, setEditOpen] = useState<string>(null!);
@@ -39,15 +40,17 @@ const IncontextExamples: FC = () => {
                         <div className="sm:flex-auto">
                             <h1 className="text-base font-semibold">Incontext Examples</h1>
                         </div>
-                        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                            <button
-                                type="button"
-                                className="cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                onClick={() => setAddOpen(true)}
-                            >
-                                Add Example
-                            </button>
-                        </div>
+                        {isAdmin &&
+                            <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                                <button
+                                    type="button"
+                                    className="cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    onClick={() => setAddOpen(true)}
+                                >
+                                    Add Example
+                                </button>
+                            </div>
+                        }
                     </div>
 
                     <div className="mt-8 flow-root">
@@ -69,9 +72,10 @@ const IncontextExamples: FC = () => {
                                                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold">
                                                     Enabled
                                                 </th>
-                                                <th scope="col" className="pr-4 pl-3 py-3 sm:pr-6 text-right text-sm font-semibold">
+                                                {isAdmin && <th scope="col" className="pr-4 pl-3 py-3 sm:pr-6 text-right text-sm font-semibold">
                                                     Actions
                                                 </th>
+                                                }
                                             </tr>
                                         </thead>
 
@@ -102,15 +106,18 @@ const IncontextExamples: FC = () => {
                                                         </div>
 
                                                     </td>
-                                                    <td className="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
-                                                        <span onClick={() => setEditOpen(example._id)} className="cursor-pointer text-indigo-600 hover:text-indigo-900 mr-2">
-                                                            Edit
-                                                        </span>
+                                                    {isAdmin &&
+                                                        <td className="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
+                                                            <span
+                                                                onClick={() => setEditOpen(example._id)} className="cursor-pointer text-indigo-600 hover:text-indigo-900 mr-2">
+                                                                Edit
+                                                            </span>
 
-                                                        <span onClick={() => setDeleteOpen(example._id)} className="cursor-pointer text-red-600 hover:text-red-900">
-                                                            Delete
-                                                        </span>
-                                                    </td>
+                                                            <span onClick={() => setDeleteOpen(example._id)} className="cursor-pointer text-red-600 hover:text-red-900">
+                                                                Delete
+                                                            </span>
+                                                        </td>
+                                                    }
                                                 </tr>
                                             ))}
                                         </tbody>

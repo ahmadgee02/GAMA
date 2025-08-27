@@ -147,14 +147,15 @@ class Agent:
 		Iterate through the rules of the solver, game, and strategy.
 		"""
 
-		self.solver.game_rules = prolog_code
-		trace = self._load_rules(prolog_code, reload_solver=False)
+		self.game.game_rules = prolog_code
+		self.solver.game_string = self.game.game_rules
+    
+		trace = self._load_rules(prolog_code, reload_solver=True)
 		logger.debug(f"Rules Loaded: => { self.status }")
   
 		if self.status != AgentStatus.CORRECT:
-			logger.debug(f"Prolog code loaded:===> { trace }")
 			processed_trace = process_trace(trace, prolog_code)
-			return self.status, processed_trace
+			return self.status.value, processed_trace
 
 		return self.status.value, []
 
@@ -170,7 +171,7 @@ class Agent:
 		await self.mind.observe(move)
 		await self.mind.think()
   
-		logger.debug(f"User interaction recorded: {move}")
+		logger.debug(f"User interaction recorded: { move }")
   
 	def release_solver(self):
 		"""

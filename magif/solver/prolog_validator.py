@@ -66,7 +66,7 @@ class PrologValidator:
 			# Check log output for additional errors
 			if is_valid:
 				trace = self._check_logs_for_errors(log_capture)
-				if trace:
+				if trace is not None:
 					is_valid = False
 
 		except Exception as e:
@@ -101,12 +101,15 @@ class PrologValidator:
 		Args:
 			log_capture_string (io.StringIO): The log capture object.
 		"""
+		trace = None
+  
 		log_contents = log_capture_string.getvalue()
 		if log_contents:
 			if len(log_contents) > 0:
-				self.valid = False
-				self.trace = log_contents.strip()
-				logger.error(f"Prolog error from logs: {self.trace}")
+				trace = log_contents.strip()
+				logger.error(f"Prolog error from logs: {trace}")
+    
+		return trace
 
 	def _cleanup_logging(self, handler: logging.Handler):
 		"""

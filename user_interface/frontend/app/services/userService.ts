@@ -1,5 +1,5 @@
 import type { User, RegisterUser } from "@/types"
-import http from "./core/httpService";
+import http from "./core/HttpService";
 // import { delay } from "@/utils"
 
 export const getAllUsersService = async (): Promise<User[]> => {

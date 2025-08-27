@@ -12,7 +12,7 @@ import type { loginData } from "../types";
 import { useForm, SubmitHandler } from "react-hook-form"
 import Loading from "../components/common/Loading";
 import { useRouter } from 'next/navigation';
-import { local_storage_web_key } from "@/utils/constants";
+import { local_storage_web_key } from "@/utils/Constants";
 import { isExpired, decodeToken } from "react-jwt";
 import { User } from "@/types";
 

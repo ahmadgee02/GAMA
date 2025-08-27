@@ -1,23 +1,27 @@
 'use client'
 import { useState, useEffect } from "react";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
     setUser,
-    logout
+    logout,
+    isUserAdmin
 } from "@/store/redux/authSlice";
 // import { useRouter } from 'next/navigation'
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useRouter } from 'next/navigation';
-import { local_storage_web_key } from "@/utils/constants";
+import { local_storage_web_key } from "@/utils/Constants";
 import { isExpired, decodeToken } from "react-jwt";
 import { User } from "@/types";
-import { setAuthToken } from "@/services/core/httpService";
+import { setAuthToken } from "@/services/core/HttpService";
+import { usePathname } from 'next/navigation'
 
 const ProtectedRouteLayout = (props: any) => {
     const router = useRouter()
     const dispatch = useAppDispatch();
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const isAdmin = useAppSelector(isUserAdmin)
+    const pathname = usePathname()
 
     useEffect(() => {
         const token = localStorage.getItem(local_storage_web_key);
@@ -35,6 +39,14 @@ const ProtectedRouteLayout = (props: any) => {
             dispatch(logout(router))
         }
     }, []);
+
+    useEffect(() => {
+        const AdminRoutes = ["/users"];
+
+        if (!isAdmin && AdminRoutes.includes(pathname)) {
+            router.push("/")
+        }
+    }, [isAdmin])
 
     return (
         <div>

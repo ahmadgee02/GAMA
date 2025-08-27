@@ -4,8 +4,8 @@ from bson.objectid import ObjectId
 from bson.errors import InvalidId
 from .auth import get_current_user
 
-from ..models.IncontextExample import IncontextExampleModel
-from ..schemas.incontextExamples import IncontextExampleAdd, IncontextExampleUpdate
+from ..models import IncontextExampleModel
+from ..schemas.incontext_examples import IncontextExampleAdd, IncontextExampleUpdate
 from ..database import incontext_example_collection
 from ..logger import logging
 

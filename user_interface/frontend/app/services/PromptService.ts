@@ -1,5 +1,5 @@
 import type { Prompt, AddPrompt } from "@/types"
-import http from "./core/httpService";
+import http from "./core/HttpService";
 
 export const getAllPromptsService = async (): Promise<Prompt[]> => {
     try {

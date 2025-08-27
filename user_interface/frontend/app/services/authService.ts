@@ -1,5 +1,5 @@
 import type { loginData, loginResponse } from "@/types"
-import http from "./core/httpService";
+import http from "./core/HttpService";
 
 export const loginService = async (data: loginData): Promise<loginResponse> => {
   try {

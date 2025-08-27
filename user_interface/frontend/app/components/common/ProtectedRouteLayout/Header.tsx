@@ -17,7 +17,7 @@ import {
 } from "@/store/redux/authSlice";
 
 const userNavigation = [
-    { name: 'Your profile', href: '#' },
+    { name: 'Change Password', href: '/password' },
     // { name: 'Sign out', href: '#' },
 ]
 
@@ -53,7 +53,7 @@ const Header: FC<Props> = (props) => {
                 <div className="flex items-center gap-x-4 lg:gap-x-6">
                     {/* Profile dropdown */}
                     <Menu as="div" className="relative">
-                        <MenuButton className="relative flex items-center">
+                        <MenuButton className="relative flex items-center cursor-pointer">
                             <span className="absolute -inset-1.5" />
                             <span className="sr-only">Open user menu</span>
                             <img
@@ -85,7 +85,7 @@ const Header: FC<Props> = (props) => {
                             <MenuItem>
                                 <a
                                     onClick={onSignout}
-                                    className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                                    className="cursor-pointer block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
                                 >
                                     Sign out
                                 </a>

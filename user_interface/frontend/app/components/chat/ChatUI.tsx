@@ -1,4 +1,4 @@
-import { useState, FC, useEffect } from 'react';
+import { useState, FC, useEffect, useRef } from 'react';
 import ChatBox from './ChatBox';
 import WebSocketHook from "@/hooks/WebSocketHook"
 import { selectPrompt, selectIncontextExample, selectMessagesHistory, selectDescription, selectLoading, selectAgent, selectMode, selectAgentLoaded } from '../../store/redux/chatSlice';
@@ -16,7 +16,7 @@ const ChatScreen: FC = () => {
     const messages = useAppSelector(selectMessagesHistory);
     const agent = useAppSelector(selectAgent);
     const mode = useAppSelector(selectMode);
-    // const messagesEndRef = useRef(null);
+    const messagesEndRef = useRef(null);
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaveAgentOpen, setIsSaveAgentOpen] = useState(false);
 
@@ -42,9 +42,9 @@ const ChatScreen: FC = () => {
         }
     }, [])
 
-    // useEffect(() => {
-    //     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    // }, [messages]);
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
 
 
 
@@ -66,7 +66,7 @@ const ChatScreen: FC = () => {
                         </p>
                     </div>
                 )}
-                {/* <div ref={messagesEndRef} /> */}
+                <div ref={messagesEndRef} />
             </div>
             {(!description && !agent) &&
                 <div className="sticky bottom-0 p-4">

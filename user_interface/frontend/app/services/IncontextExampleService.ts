@@ -1,5 +1,5 @@
 import type { IncontextExample, AddIncontextExample } from "@/types"
-import http from "./core/httpService";
+import http from "./core/HttpService";
 
 export const getAllIncontextExamplesService = async (): Promise<IncontextExample[]> => {
     try {

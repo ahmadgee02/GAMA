@@ -1,5 +1,5 @@
 import type { AgentHistory } from "@/types"
-import http from "./core/httpService";
+import http from "./core/HttpService";
 
 export const getAgentService = async (agentId: string): Promise<AgentHistory> => {
     try {

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.responses import JSONResponse
-from ..models.agent import AgentModel, AgentDataModel
+from ..models.agent import AgentModel
 from ..database import incontext_example_collection, prompt_collection, agent_collection
 from ..logger import logging
 from ..session_store import session_manager
@@ -212,13 +212,11 @@ async def websocket_endpoint(
                     return
                 
                 status, trace = agent.iterate_rules(prolog_code)
-                logger.info(f"Iteration result: {status}, trace: {trace}")
                 
                 message = {
-                    "type": "info",
+                    "type": "data",
                     "data": json.dumps({
-                        "status": str(status),
-                        "trace": str(trace),
+                        "Status": f"{status}" + (f", {trace}" if trace else "")
                     })
                 }
                 

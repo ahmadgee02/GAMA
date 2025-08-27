@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState, AppDispatch } from '../index'
 import type { User, IncontextExample, RegisterUser, AddIncontextExample, Prompt, AddPrompt, AgentHistory } from "@/types";
 import { IncontextType } from "@/types";
-import { registerUserService, getAllUsersService, deleteUserService, editUserService } from "@/services/userService";
+import { registerUserService, getAllUsersService, deleteUserService, editUserService } from "@/services/UserService";
 import { addIncontextExampleService, getAllIncontextExamplesService, deleteIncontextExampleService, editIncontextExampleService } from "@/services/IncontextExampleService";
 import { addPromptService, getAllPromptsService, deletePromptService, editPromptService } from "@/services/PromptService";
 import { getAllAgentsService, deleteAgentService, downloadAgentsJson } from '@/services/AgentService';

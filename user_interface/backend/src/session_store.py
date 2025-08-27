@@ -1,7 +1,3 @@
-from typing import Dict
-from uuid import uuid4
-from magif.agent.agent import Agent
-
 class SessionManager:
     def __init__(self):
         self.sessions = {}

@@ -1,7 +1,7 @@
 'use client'
 import ProtectedRouteLayout from "@/components/common/ProtectedRouteLayout"
 import ChatUI from "@/components/chat/ChatUI";
-import SelectMode from "@/components/ModeSelection/SelectMode";
+import SelectMode from "@/components/modeSelection/SelectMode";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { selectLoading, getAllIncontextExamples, getAllPrompts } from "@/store/redux/pageSlice"
 import { FC, useEffect, useState } from "react";

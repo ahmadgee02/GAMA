@@ -2,8 +2,8 @@
 
 import { FC, useEffect, useState } from "react";
 import ProtectedRouteLayout from "@/components/common/ProtectedRouteLayout"
-import AddStratergy from "@/components/Prompts/AddPrompt";
-import EditStratergy from "@/components/Prompts/EditPrompt";
+import AddStratergy from "@/components/prompts/AddPrompt";
+import EditStratergy from "@/components/prompts/EditPrompt";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { selectLoading, selectStratergies, getAllStratergies, deleteStratergy } from "@/store/redux/pageSlice"
 import Loading from "@/components/common/Loading";

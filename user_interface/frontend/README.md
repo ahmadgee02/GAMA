@@ -2,17 +2,97 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### Installation
+
+1. **Clone the Repository**
+    ```bash
+    https://github.com/ahmadgee02/GAMA.git
+    cd GAMA/user_interface/frontend
+    ```
+2. **Install the Runtime Dependencies**
+    ```bash
+   	npm install
+    # or
+    yarn install
+    ```
+
+3.  **Run the development server**
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+    
+## ⚙️ Environment Variables (.env)
+
+```ini
+[Paths]
+NEXT_PUBLIC_API_URL="GAMA Gateway Server URL"
+NEXT_PUBLIC_SOCKET_URL="Agent Socket URL"
+```
+
+## 🗂️ Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+frontend/
+├── public/
+├── app/
+│   ├── agents/
+│   │   └── page.tsx
+│   ├── components
+│   │   ├── chat
+│   │   ├── common
+│   │   ├── intentextExamples
+│   │   ├── ModeSelection
+│   │   ├── Prompts
+│   │   └── users
+│   ├── games/
+│   │   └── page.tsx
+│   ├── hooks/
+│   │   └── WebSocketHook.ts
+│   ├── incontext-examples/
+│   │   └── page.tsx
+│   ├── login/
+│   │   └── page.tsx
+│   ├── prompt/
+│   │   └── page.tsx
+│   ├── users/
+│   │   └── page.tsx
+│   ├── services/
+│   │   ├── core/
+│   │   │   └── HttpService.tsx
+│   │   ├── AgentService.tsx
+│   │   ├── AuthService.tsx
+│   │   ├── IncontextExampleService.ts
+│   │   ├── PromptService.ts
+│   │   └── UserService.tsx
+│   ├── store
+│   │   ├── redux
+│   │   │   ├── authSlice.ts
+│   │   │   ├── chatSlice.ts
+│   │   │   ├── errorSlice.ts
+│   │   │   └── pageSlice.ts
+│   │   ├── auth.ts
+│   │   ├── hooks.ts
+│   │   ├── index.ts
+│   │   └── rootReducer.ts
+│   ├── utils
+│   │   ├── Contants.ts
+│   │   └── index.ts
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── StoreProvider.tsx
+├── .env
+├── .env.sample
+├── .gitignore
+├── eslint.config.mjs
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+└── tsconfig.json
+```/
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

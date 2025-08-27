@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState, AppDispatch } from '../index'
 import type { User, loginData } from "@/types"
-import { loginService } from '@/services/authService'
-import { local_storage_web_key } from "@/utils/constants"
+import { loginService } from '@/services/AuthService'
+import { local_storage_web_key } from "@/utils/Constants"
 import { decodeToken } from "react-jwt";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 

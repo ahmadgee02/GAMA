@@ -190,12 +190,10 @@ async def websocket_endpoint(
                     game_data = DataObject(name=prompt_name, rules_string=prompt_description, mode=Mode.RULES_STRING)
   
   
-                agent = Agent(game_data, strategy_data, max_attempts=5, websocket=websocket)
-                # agent_json = normalize_path("tutorial/DATA/AGENT/agent_Sonina.json")
-                # logger.info(f"agent_json => { agent_json }")
-                # agent = Agent(agent_json_path=agent_json, autoformalization_on=False, websocket=websocket)
-
-                await agent.send_message()
+                agent = Agent(max_attempts=5, websocket=websocket)
+                await agent.initialize(game_data, strategy_data)
+                
+                await agent.send_agent()
 
                 session_manager.set_session(websocket, "agent", agent)
 
@@ -211,7 +209,7 @@ async def websocket_endpoint(
                     
                     return
                 
-                status, trace = agent.iterate_rules(prolog_code)
+                status, trace = await agent.iterate_rules(prolog_code)
                 
                 message = {
                     "type": "data",

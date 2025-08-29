@@ -1,8 +1,7 @@
 import { ExtraDataType, Message } from "@/types";
-import { FC, useMemo, useState } from "react";
+import { FC, useState } from "react";
 import { Collapse } from 'react-collapse';
 import CodeEditor from "./CodeEditor";
-
 
 interface Props {
     message: Message;
@@ -11,23 +10,6 @@ interface Props {
 const AgentMessage: FC<Props> = (props) => {
     const { message } = props;
     const [collapsed, setCollaped] = useState<boolean>(false)
-
-    // const { isStatusCorrect, moves } = useMemo(() => {
-    //     if (message.data) {
-    //         return {
-    //             isStatusCorrect: message.data["status"] === "correct",
-    //             moves: message.data["game_moves"].split(",") || []
-    //         };
-    //     }
-
-    //     return {
-    //         isStatusCorrect: false,
-    //         moves: []
-    //     }
-    // }, [message.data])
-
-    // console.log("isStatusCorrect", isStatusCorrect, message?.data?.["status"]);
-
 
     return (
         <>
@@ -62,7 +44,7 @@ const AgentMessage: FC<Props> = (props) => {
                 <Collapse checkTimeout={1000} isOpened={collapsed}>
 
                     {message.data?.map(msg => (
-                        <div className='mt-4'>
+                        <div key={msg.heading} className='mt-4'>
                             <div className='ml-2'>{msg.heading}</div>
 
                             {msg.type === ExtraDataType.Code ? (

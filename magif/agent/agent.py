@@ -34,23 +34,16 @@ class Agent:
 	"""
 
 	def __init__(self,
-				 game_data: Optional[DataObject] = None,
-				 strategy_data: Optional[DataObject] = None,
 				 llm: Optional[BaseLM] = GPT4,
 				 max_attempts: Optional[int] = 1,
-				 agent_json: Optional[str] = None,
-				 agent_json_path: Optional[object]= None,
 				 autoformalization_on: Optional[bool] = True,
 				 websocket: Optional[WebSocket] = None):
 		"""
-		Initializes an Agent instance with game and strategy data or a JSON configuration.
+		Initializes an empty Agent.
 
 		Args:
-		    game_data (Optional[DataObject]): The game data for initialization.
-		    strategy_data (Optional[DataObject]): The strategy data for initialization.
 		    llm (Optional[BaseLM]): The language model used for autoformalization (default is GPT4).
 		    max_attempts (Optional[int]): Maximum number of attempts for autoformalization attempts (default is 1).
-		    agent_json (Optional[str]): Path to a JSON file for initialization.
 		    autoformalization_on (Optional[bool]): Flag to enable autoformalization functionality (default is True).
 			websocket (WebSocket): A websocket instance to send messages to UI.
 
@@ -75,9 +68,26 @@ class Agent:
 		self.max_attempts = max_attempts
 		self.autoformalizer = Autoformalizer(llm, max_attempts=max_attempts) if self.autoformalization_on else None
 
+		self.mind = None
+		self.strategy_name = "unnamed_strategy"
+
+	async def initialize(self,
+				   game_data: Optional[DataObject] = None,
+				   strategy_data: Optional[DataObject] = None,
+				   agent_json: Optional[str] = None,
+       			   agent_json_path: Optional[str] = None
+				   ):
+		"""
+		Initializes an Agent instance with game and strategy data or a JSON configuration.
+
+		Args:
+		    game_data (Optional[DataObject]): The game data for initialization.
+		    strategy_data (Optional[DataObject]): The strategy data for initialization.
+		    agent_json (Optional[str]): Path to a JSON file for initialization.
+		"""
+
 		# Initialize the agent's mind for decision-making and set default strategy name.
 		self.mind = Mind(self)
-		self.strategy_name = "unnamed_strategy"
 
 		# Initialize the agent either from a JSON file or provided data.
 		if agent_json_path is not None:
@@ -85,11 +95,24 @@ class Agent:
 		elif agent_json is not None:
 			self._init_from_json(agent_json=agent_json)
 		elif game_data is not None and strategy_data is not None:
-			self._init_from_data(game_data, strategy_data)
+			await self._init_from_data(game_data, strategy_data)
 		else:
 			raise ValueError("Invalid arguments provided. Either provide game_data and strategy_data, or agent_json.")
 
-	async def send_message(self):
+	async def send_message(self, message: str, logger):
+		logger(message)
+      
+		if self.websocket:
+			await self.websocket.send_text(
+				json.dumps({
+					"type": "info",
+					"data": message
+				})
+			)
+   
+		return
+
+	async def send_agent(self):
 		game = self.game
 
 		trace_messages = self.autoformalizer.trace_messages if self.autoformalizer else []
@@ -108,15 +131,14 @@ class Agent:
 			"traceMessages": trace_messages,
 			"attempts": attempts
 		}
-
+		
 		if self.websocket:
 			await self.websocket.send_text(json.dumps({
 				"type": "agent",
 				"data": json.dumps(agent_log)
 			}))
 
-	@classmethod
-	def from_data(cls, game_data: DataObject, strategy_data: DataObject):
+	def from_data(self, game_data: DataObject, strategy_data: DataObject):
 		"""
 		Creates an Agent instance using game and strategy data.
 
@@ -127,10 +149,10 @@ class Agent:
 		Returns:
 		    Agent: An initialized Agent instance.
 		"""
-		return cls(game_data=game_data, strategy_data=strategy_data)
+		self.initialize(game_data=game_data, strategy_data=strategy_data)
 
-	@classmethod
-	def from_json(cls, agent_json: str):
+
+	def from_json(self, agent_json: str):
 		"""
 		Creates an Agent instance using a JSON configuration file.
 
@@ -140,18 +162,18 @@ class Agent:
 		Returns:
 		    Agent: An initialized Agent instance.
 		"""
-		return cls(agent_json=agent_json)
+		self.initialize(agent_json=agent_json)
 	
-	def iterate_rules(self, prolog_code: str):
+	async def iterate_rules(self, prolog_code: str):
 		"""
 		Iterate through the rules of the solver, game, and strategy.
 		"""
-
+  
 		self.game.game_rules = prolog_code
 		self.solver.game_string = self.game.game_rules
     
-		trace = self._load_rules(prolog_code, reload_solver=True)
-		logger.debug(f"Rules Loaded: => { self.status }")
+		trace = await self._load_rules(prolog_code, reload_solver=True)
+		await self.send_message(f"Rules Loaded: { self.status }", logger.debug)
   
 		if self.status != AgentStatus.CORRECT:
 			processed_trace = process_trace(trace, prolog_code)
@@ -171,7 +193,7 @@ class Agent:
 		await self.mind.observe(move)
 		await self.mind.think()
   
-		logger.debug(f"User interaction recorded: { move }")
+		await self.send_message(f"User interaction recorded: { move }", logger.debug)
   
 	def release_solver(self):
 		"""
@@ -179,7 +201,7 @@ class Agent:
 		"""
 		self.solver.release()
 
-	def _init_from_data(self, game_data: DataObject, strategy_data: DataObject):
+	async def _init_from_data(self, game_data: DataObject, strategy_data: DataObject):
 		"""
 		Initializes the agent using game and strategy data.
 
@@ -188,7 +210,7 @@ class Agent:
 		    strategy_data (DataObject): Strategy-related data for the agent.
 		"""
 		self.name = generate_agent_name(3)
-		self._init_game_and_strategy(game_data, strategy_data)
+		await self._init_game_and_strategy(game_data, strategy_data)
 
 	def _init_from_json(self, agent_json_path: Optional[str]=None, agent_json: Optional[object]=None):
 		"""
@@ -200,7 +222,7 @@ class Agent:
 		game_data, strategy_data = self.load(agent_json_path, agent_json)
 		self._init_game_and_strategy(game_data, strategy_data)
 
-	def _init_game_and_strategy(self, game_data, strategy_data):
+	async def _init_game_and_strategy(self, game_data, strategy_data):
 		"""
 		Sets up the game and strategy data for the agent.
 
@@ -208,17 +230,20 @@ class Agent:
 		    game_data (DataObject): Game data object for the agent.
 		    strategy_data (DataObject): Strategy data object for the agent.
 		"""
-		logger.debug(f"Agent {self.name} is {self.status}.")
-		self.set_game(game_data, reload_solver=False)
+		await self.send_message(f"Agent {self.name} is {self.status}.", logger.debug)
+
+		await self.set_game(game_data, reload_solver=False)
 
 		if self.status == AgentStatus.CORRECT:
-			self.set_strategy(strategy_data, reload_solver=False)
+			await self.set_strategy(strategy_data, reload_solver=False)
 			if self.status == AgentStatus.CORRECT:
-				logger.info(
-					f"Agent {self.name} with players {self.game.game_players} and moves {self.game.game_moves} is "
-					f"correctly initialized.")
+				await self.send_message(
+        			f"Agent {self.name} with players {self.game.game_players} and moves {self.game.game_moves} is "
+					f"correctly initialized.", 
+     				logger.info
+    			)
 		else:
-			logger.info(f"Agent's {self.name} initialization failed with status {self.status.value}.")
+			await self.send_message(f"Agent's {self.name} initialization failed with status {self.status.value}.", logger.info)
 
 	def autoformalize(self, parser, trace_processor):
 		"""
@@ -236,7 +261,7 @@ class Agent:
 		rules, status = self.autoformalizer.autoformalize(self, parser, trace_processor)
 		return rules, status
 
-	def set_game(self, game_object: DataObject, reload_solver=True):
+	async def set_game(self, game_object: DataObject, reload_solver=True):
 		"""
 		Sets up the game rules and initializes the game environment for the agent.
 
@@ -258,7 +283,7 @@ class Agent:
 
 		# If not in autoformalization mode, load the rules into the solver.
 		if game_object.mode != Mode.AUTOFORMALIZATION:
-			self._load_rules(self.game.game_rules, reload_solver)
+			await self._load_rules(self.game.game_rules, reload_solver)
 
 		# If the game rules are correct, extract game variables and default moves.
 		if self.status == AgentStatus.CORRECT:
@@ -270,7 +295,7 @@ class Agent:
 		# Return whether the game setup was successful and the current status.
 		return self.status == AgentStatus.CORRECT, self.status
 
-	def set_strategy(self, strategy_object: DataObject, reload_solver=True):
+	async def set_strategy(self, strategy_object: DataObject, reload_solver=True):
 		"""
 		Sets up the strategy rules for the agent.
 
@@ -292,7 +317,7 @@ class Agent:
 
 		# If not in autoformalization mode, load the rules into the solver.
 		if strategy_object.mode != Mode.AUTOFORMALIZATION:
-			self._load_rules(self.game.strategy_rules, reload_solver)
+			await self._load_rules(self.game.strategy_rules, reload_solver)
 
 		if self.status == AgentStatus.CORRECT:
 			# If the strategy rules are correct, extract the strategy name if available.
@@ -353,7 +378,7 @@ class Agent:
 		else:
 			raise RuntimeError(f"Unknown mode {data_object.mode}")
 
-	def _load_rules(self, rules, reload_solver):
+	async def _load_rules(self, rules, reload_solver):
 		"""
 		Loads rules into the solver and validates them.
 
@@ -373,7 +398,7 @@ class Agent:
 			# Validate the rules with the current solver.
 			valid, trace = self.solver.validate(rules)
 		if not valid:
-			logger.debug(f"Trying to load invalid Prolog code, trace: {trace}")
+			await self.send_message(f"Trying to load invalid Prolog code, trace: {trace}", logger.info)
 
 		# Update the agent's status based on the validation result.
 		self.status = AgentStatus.CORRECT if valid else AgentStatus.SYNTACTIC_ERROR

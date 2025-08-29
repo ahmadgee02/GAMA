@@ -6,7 +6,6 @@ import {
     logout,
     isUserAdmin
 } from "@/store/redux/authSlice";
-// import { useRouter } from 'next/navigation'
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useRouter } from 'next/navigation';
@@ -43,7 +42,7 @@ const ProtectedRouteLayout = (props: any) => {
     useEffect(() => {
         const AdminRoutes = ["/users"];
 
-        if (!isAdmin && AdminRoutes.includes(pathname)) {
+        if (typeof isAdmin !== 'undefined' && !isAdmin && AdminRoutes.includes(pathname)) {
             router.push("/")
         }
     }, [isAdmin])

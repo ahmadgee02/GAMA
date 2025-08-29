@@ -4,7 +4,6 @@ import { useAppDispatch } from "@/store/hooks";
 import { setLoading, setMessageHistory, setAgent } from '../store/redux/chatSlice';
 import { addNewAgent } from '../store/redux/pageSlice';
 import { IncontextExample, Prompt, Role, Message, Mode, ExtraDataType } from '../types';
-import toast from 'react-hot-toast';
 
 
 const WebSocketHook = () => {
@@ -13,8 +12,6 @@ const WebSocketHook = () => {
     //Public API that will echo messages sent to it back to the client
     const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL + "/agents/ws";
     const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
-
-    console.log("lastMessage", lastMessage?.data);
 
     useEffect(() => {
         if (lastMessage !== null) {
@@ -88,8 +85,7 @@ const WebSocketHook = () => {
                     )
                 })
             } else {
-                console.log("Socket Response:", data);
-                toast.success(data)
+                console.info("Server Response:", data);
             }
         }
     }, [lastMessage]);

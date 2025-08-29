@@ -23,7 +23,6 @@ const IncontextExamples: FC = () => {
     useEffect(() => {
         dispatch(getAllIncontextExamples());
     }, [])
-
     
     const onDelete = () => {
         dispatch(deleteIncontextExample(deleteOpen))

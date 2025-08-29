@@ -1,6 +1,5 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
-import { counterSlice } from "./redux/counterSlice";
 import { authSlice } from "./redux/authSlice";
 import { pageSlice } from "./redux/pageSlice";
 import { chatSlice } from "./redux/chatSlice";
@@ -8,7 +7,6 @@ import { chatSlice } from "./redux/chatSlice";
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
 const rootReducer = combineSlices(
-  counterSlice,
   authSlice,
   pageSlice,
   chatSlice

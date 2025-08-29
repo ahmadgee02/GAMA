@@ -5,16 +5,12 @@ import ProtectedRouteLayout from "@/components/common/ProtectedRouteLayout"
 import AddUser from "@/components/users/AddUser";
 import EditUser from "@/components/users/EditUser";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { selectLoading, selectUsers, getAllUsers } from "@/store/redux/pageSlice"
+import { selectLoading, selectUsers, getAllUsers, deleteUser } from "@/store/redux/pageSlice"
 import Loading from "@/components/common/Loading";
 import DeleteModal from "@/components/common/DeleteModal";
 
 
-interface Props {
-
-}
-
-const Users: FC<Props> = () => {
+const Users: FC = () => {
     const dispatch = useAppDispatch();
 
     const [addOpen, setAddOpen] = useState(false);
@@ -26,6 +22,12 @@ const Users: FC<Props> = () => {
     useEffect(() => {
         dispatch(getAllUsers());
     }, [])
+
+    const onDeleteUser = () => {
+        dispatch(deleteUser(deleteOpen))
+        setDeleteOpen(null!)
+    }
+
 
     return (
         <ProtectedRouteLayout>
@@ -112,8 +114,13 @@ const Users: FC<Props> = () => {
             }
 
             <AddUser open={addOpen} setOpen={setAddOpen} />
-            <EditUser userId={editOpen} open={!!editOpen} setOpen={setEditOpen}  />
-            <DeleteModal userId={deleteOpen} open={!!deleteOpen} setOpen={setDeleteOpen} />
+            <EditUser userId={editOpen} open={!!editOpen} setOpen={setEditOpen} />
+            <DeleteModal
+                title="Delete User"
+                onDelete={onDeleteUser}
+                open={!!deleteOpen}
+                setOpen={setDeleteOpen}
+            />
         </ProtectedRouteLayout>
     )
 }

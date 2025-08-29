@@ -38,7 +38,8 @@ class TestAgentCreation(unittest.TestCase):
 							   feedback_prompt=read_file(self.feedback_template_path), mode=Mode.AUTOFORMALIZATION)
 		strategy_data = DataObject(rules_path=self.strategy_path, mode=Mode.RULES_PATH)
 
-		agent = Agent(game_data, strategy_data, max_attempts=5)
+		agent = Agent(max_attempts=5)
+		agent.initialize(game_data, strategy_data)
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
@@ -48,7 +49,8 @@ class TestAgentCreation(unittest.TestCase):
 		game_data = DataObject(rules_path=self.game_path, mode=Mode.RULES_PATH)
 		strategy_data = DataObject(rules_path=self.strategy_path, mode=Mode.RULES_PATH)
 
-		agent = Agent(game_data, strategy_data, autoformalization_on=False)
+		agent = Agent(autoformalization_on=False)
+		agent.initialize(game_data, strategy_data)
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
@@ -58,7 +60,8 @@ class TestAgentCreation(unittest.TestCase):
 		game_data = DataObject(rules_string=self.game_rules, mode=Mode.RULES_STRING)
 		strategy_data = DataObject(rules_path=self.strategy_path, mode=Mode.RULES_PATH)
 
-		agent = Agent(game_data, strategy_data, autoformalization_on=False)
+		agent = Agent(autoformalization_on=False)
+		agent.initialize(game_data, strategy_data)
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
@@ -68,7 +71,8 @@ class TestAgentCreation(unittest.TestCase):
 		game_data = DataObject(rules_path=self.game_path, mode=Mode.RULES_PATH)
 		strategy_data = DataObject(rules_string=self.strategy_rules, mode=Mode.RULES_STRING)
 
-		agent = Agent(game_data, strategy_data, autoformalization_on=False)
+		agent = Agent(autoformalization_on=False)
+		agent.initialize(game_data, strategy_data)
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
@@ -82,7 +86,8 @@ class TestAgentCreation(unittest.TestCase):
 								   feedback_prompt=read_file(self.feedback_template_path), mode=Mode.AUTOFORMALIZATION)
 		game_data = DataObject(rules_path=self.game_path, mode=Mode.RULES_PATH)
 
-		agent = Agent(game_data, strategy_data, max_attempts=5)
+		agent = Agent(max_attempts=5)
+		agent.initialize(game_data, strategy_data)
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
@@ -91,7 +96,8 @@ class TestAgentCreation(unittest.TestCase):
 		logger.debug("Test that loading agent from json works correctly.")
 
 		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
-		agent = Agent(agent_json=agent_json, autoformalization_on=False)
+		agent = Agent(autoformalization_on=False)
+		agent.initialize(agent_json=agent_json)
 
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
@@ -101,7 +107,8 @@ class TestAgentCreation(unittest.TestCase):
 		logger.debug("Test that loading agent from json and game rules from a path works correctly.")
 
 		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
-		agent = Agent(agent_json=agent_json, autoformalization_on=False)
+		agent = Agent(autoformalization_on=False)
+		agent.initialize(agent_json=agent_json)
 		game_data = DataObject(rules_path=self.game_path, mode=Mode.RULES_PATH)
 		agent.set_game(game_data)
 
@@ -113,7 +120,8 @@ class TestAgentCreation(unittest.TestCase):
 		logger.debug("Test that loading agent from json and game and strategy rules from a path works correctly.")
 
 		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
-		agent = Agent(agent_json=agent_json, autoformalization_on=False)
+		agent = Agent(autoformalization_on=False)
+		agent.initialize(agent_json=agent_json)
 		game_data = DataObject(rules_path=self.game_path, mode=Mode.RULES_PATH)
 		agent.set_game(game_data)
 		strategy_data = DataObject(rules_path=self.strategy_path, mode=Mode.RULES_PATH)
@@ -127,7 +135,8 @@ class TestAgentCreation(unittest.TestCase):
 		logger.debug("Test that loading agent from json and game autoformalization works correctly.")
 
 		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
-		agent = Agent(agent_json=agent_json, max_attempts=5)
+		agent = Agent(max_attempts=5)
+		agent.initialize(agent_json=agent_json)
 
 		game_description = read_file(os.path.join(self.GAME_DIR, "bs_canonic_numbers.txt"))
 		prompt = read_file(self.game_template_path).format(game_description=game_description)
@@ -143,7 +152,8 @@ class TestAgentCreation(unittest.TestCase):
 		logger.debug("Test that loading agent from json and strategy autoformalization works correctly.")
 
 		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
-		agent = Agent(agent_json=agent_json)
+		agent = Agent()
+		agent.initialize(agent_json=agent_json)
 		strategy_description_path = normalize_path(self.config.get("Paths", "STRATEGY_DESCRIPTION"))
 		strategy_description = read_file(strategy_description_path)
 		prompt = read_file(self.strategy_template_path).format(strategy_description=strategy_description)

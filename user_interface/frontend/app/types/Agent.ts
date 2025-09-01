@@ -10,8 +10,8 @@ export interface Agent {
     gamePlayers: string[],
     defaultMove: string,
     moves: string[],
-    payoffs: string[],
-    totalPayoff: number,
+    payoffs?: string[],
+    totalPayoff?: number,
     traceMessages: string[],
     attempts: number
 }

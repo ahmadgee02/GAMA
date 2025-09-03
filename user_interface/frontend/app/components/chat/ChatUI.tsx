@@ -16,7 +16,7 @@ const ChatScreen: FC = () => {
     const messages = useAppSelector(selectMessagesHistory);
     const agent = useAppSelector(selectAgent);
     const mode = useAppSelector(selectMode);
-    const messagesEndRef = useRef(null);
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
     const [isEditMode, setIsEditMode] = useState(false);
     const [isSaveAgentOpen, setIsSaveAgentOpen] = useState(false);
 
@@ -55,7 +55,7 @@ const ChatScreen: FC = () => {
 
     return (
         <div className="flex flex-col h-screen">
-            <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+            <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4 hide-scrollbar">
                 {messages.map((msg, index) => (
                     <AgentMessage message={msg} key={index} />
                 ))}

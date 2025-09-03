@@ -8,15 +8,18 @@ import os
 import unittest
 
 
-class TestAgentCreation(unittest.TestCase):
-	def setUp(self):
+class TestAgentCreation(unittest.IsolatedAsyncioTestCase):
+	async def asyncSetUp(self):
 		# Step 1: Read configuration
-		logging.debug('Test')
+		logging.debug('Setting up TestAgentCreation')
+  
 		self.config = configparser.ConfigParser()
 		self.config.read(normalize_path("unit_tests/CONFIG/test_config.ini"))
 
 		# Step 2: Extract configuration parameters
 		self.GAME_DIR = normalize_path(self.config.get("Paths", "GAME_DIR"))
+		self.game_examples_path = normalize_path(self.config.get("Paths", "GAME_EXAMPLES_DIR"))
+		self.strategy_examples_path = normalize_path(self.config.get("Paths", "STRATEGY_EXAMPLES_DIR"))
 		self.OUT_DIR = self.config.get("Paths", "OUT_DIR")
 		if not os.path.exists(self.OUT_DIR):
 			os.makedirs(self.OUT_DIR)
@@ -28,138 +31,145 @@ class TestAgentCreation(unittest.TestCase):
 		self.strategy_path = normalize_path(self.config.get("Paths", "STRATEGY_PATH"))
 		self.game_rules = read_file(self.game_path)
 		self.strategy_rules = read_file(self.strategy_path)
+		self.strategy_description_path = normalize_path(self.config.get("Paths", "STRATEGY_DESCRIPTION"))
 
-	def test_game_autofomalization(self):
+	async def test_game_autofomalization(self):
 		"""Test that autoformalization of games rules works correctly."""
 		logger.debug("Test that autoformalization of games rules works correctly.")
 		game_description = read_file(os.path.join(self.GAME_DIR, "bs_canonic_numbers.txt"))
-		prompt = read_file(self.game_template_path).format(game_description=game_description)
+		example_description = read_file(os.path.join(self.game_examples_path, "prisoners_dilemma.txt"))
+		prompt = read_file(self.game_template_path).format(game_description=game_description, game_example=example_description)
+		
 		game_data = DataObject(nl_description=game_description, instruction_prompt=prompt,
 							   feedback_prompt=read_file(self.feedback_template_path), mode=Mode.AUTOFORMALIZATION)
 		strategy_data = DataObject(rules_path=self.strategy_path, mode=Mode.RULES_PATH)
 
 		agent = Agent(max_attempts=5)
-		agent.initialize(game_data, strategy_data)
+		await agent.initialize(game_data, strategy_data)
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
-	def test_game_path(self):
+	async def test_game_path(self):
 		"""Test that loading games rules from a path correctly."""
 		logger.debug("Test that loading games rules from a path works correctly.")
 		game_data = DataObject(rules_path=self.game_path, mode=Mode.RULES_PATH)
 		strategy_data = DataObject(rules_path=self.strategy_path, mode=Mode.RULES_PATH)
 
 		agent = Agent(autoformalization_on=False)
-		agent.initialize(game_data, strategy_data)
+		await agent.initialize(game_data, strategy_data)
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
-	def test_game_string(self):
+	async def test_game_string(self):
 		"""Test that loading games rules from a string works correctly."""
 		logger.debug("Test that loading games rules from a string works correctly.")
 		game_data = DataObject(rules_string=self.game_rules, mode=Mode.RULES_STRING)
 		strategy_data = DataObject(rules_path=self.strategy_path, mode=Mode.RULES_PATH)
 
 		agent = Agent(autoformalization_on=False)
-		agent.initialize(game_data, strategy_data)
+		await agent.initialize(game_data, strategy_data)
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
-	def test_strategy_string(self):
+	async def test_strategy_string(self):
 		"""Test that loading strategy rules from a string works correctly."""
 		logger.debug("Test that loading strategy rules from a string works correctly.")
 		game_data = DataObject(rules_path=self.game_path, mode=Mode.RULES_PATH)
 		strategy_data = DataObject(rules_string=self.strategy_rules, mode=Mode.RULES_STRING)
 
 		agent = Agent(autoformalization_on=False)
-		agent.initialize(game_data, strategy_data)
+		await agent.initialize(game_data, strategy_data)
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
-	def test_strategy_autofomalization(self):
+	async def test_strategy_autofomalization(self):
 		"""Test that autoformalization of strategy rules works correctly."""
 		logger.debug("Test that autoformalization of strategy rules works correctly.")
-		strategy_description_path = normalize_path(self.config.get("Paths", "STRATEGY_DESCRIPTION"))
-		strategy_description = read_file(strategy_description_path)
-		prompt = read_file(self.strategy_template_path).format(strategy_description=strategy_description)
+		strategy_description = read_file(self.strategy_description_path)
+		example_description = read_file(os.path.join(self.strategy_examples_path, "tit_for_tat.txt"))
+  
+		prompt = read_file(self.strategy_template_path).format(strategy_description=strategy_description, strategy_example=example_description)
 		strategy_data = DataObject(nl_description=strategy_description, instruction_prompt=prompt,
 								   feedback_prompt=read_file(self.feedback_template_path), mode=Mode.AUTOFORMALIZATION)
 		game_data = DataObject(rules_path=self.game_path, mode=Mode.RULES_PATH)
 
 		agent = Agent(max_attempts=5)
-		agent.initialize(game_data, strategy_data)
+		await agent.initialize(game_data, strategy_data)
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
-	def test_json(self):
+	async def test_json(self):
 		"""Test that loading agent from json works correctly."""
 		logger.debug("Test that loading agent from json works correctly.")
 
 		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
 		agent = Agent(autoformalization_on=False)
-		agent.initialize(agent_json=agent_json)
+		await agent.initialize(agent_json_path=agent_json)
 
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
-	def test_json_and_game_path(self):
+	async def test_json_and_game_path(self):
 		"""Test that loading agent from json and game rules from a path works correctly."""
 		logger.debug("Test that loading agent from json and game rules from a path works correctly.")
 
 		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
 		agent = Agent(autoformalization_on=False)
-		agent.initialize(agent_json=agent_json)
+		await agent.initialize(agent_json_path=agent_json)
 		game_data = DataObject(rules_path=self.game_path, mode=Mode.RULES_PATH)
-		agent.set_game(game_data)
+		await agent.set_game(game_data)
 
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
-	def test_json_and_game_path_and_strategy_path(self):
+	async def test_json_and_game_path_and_strategy_path(self):
 		"""Test that loading agent from json and game and strategy rules from a path works correctly."""
 		logger.debug("Test that loading agent from json and game and strategy rules from a path works correctly.")
 
 		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
 		agent = Agent(autoformalization_on=False)
-		agent.initialize(agent_json=agent_json)
+		await agent.initialize(agent_json_path=agent_json)
 		game_data = DataObject(rules_path=self.game_path, mode=Mode.RULES_PATH)
-		agent.set_game(game_data)
+		await agent.set_game(game_data)
 		strategy_data = DataObject(rules_path=self.strategy_path, mode=Mode.RULES_PATH)
-		agent.set_strategy(strategy_data)
+		await agent.set_strategy(strategy_data)
 
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
-	def test_json_and_game_autoformalization(self):
+	async def test_json_and_game_autoformalization(self):
 		"""Test that loading agent from json and game autoformalization works correctly."""
 		logger.debug("Test that loading agent from json and game autoformalization works correctly.")
 
 		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
 		agent = Agent(max_attempts=5)
-		agent.initialize(agent_json=agent_json)
+		await agent.initialize(agent_json_path=agent_json)
 
 		game_description = read_file(os.path.join(self.GAME_DIR, "bs_canonic_numbers.txt"))
-		prompt = read_file(self.game_template_path).format(game_description=game_description)
+		example_description = read_file(os.path.join(self.game_examples_path, "prisoners_dilemma.txt"))
+		prompt = read_file(self.game_template_path).format(game_description=game_description, game_example=example_description)
+  
 		game_data = DataObject(nl_description=game_description, instruction_prompt=prompt,
 							   feedback_prompt=read_file(self.feedback_template_path), mode=Mode.AUTOFORMALIZATION)
-		agent.set_game(game_data)
+		await agent.set_game(game_data)
 
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()
 
-	def test_json_and_strategy_autoformalization(self):
+	async def test_json_and_strategy_autoformalization(self):
 		"""Test that loading agent from json and strategy autoformalization works correctly."""
 		logger.debug("Test that loading agent from json and strategy autoformalization works correctly.")
 
 		agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
 		agent = Agent()
-		agent.initialize(agent_json=agent_json)
-		strategy_description_path = normalize_path(self.config.get("Paths", "STRATEGY_DESCRIPTION"))
-		strategy_description = read_file(strategy_description_path)
-		prompt = read_file(self.strategy_template_path).format(strategy_description=strategy_description)
+		await agent.initialize(agent_json_path=agent_json)
+		strategy_description = read_file(self.strategy_description_path)
+		example_description = read_file(os.path.join(self.strategy_examples_path, "tit_for_tat.txt"))
+  
+		prompt = read_file(self.strategy_template_path).format(strategy_description=strategy_description, strategy_example=example_description)
 		strategy_data = DataObject(nl_description=strategy_description, instruction_prompt=prompt,
 								   feedback_prompt=read_file(self.feedback_template_path), mode=Mode.AUTOFORMALIZATION)
-		agent.set_strategy(strategy_data)
+		await agent.set_strategy(strategy_data)
 
 		self.assertEqual(AgentStatus.CORRECT, agent.status)
 		agent.release_solver()

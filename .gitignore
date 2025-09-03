@@ -1,2 +1,4 @@
 /magif-env
 /magif.egg-info
+
+__pycache__/

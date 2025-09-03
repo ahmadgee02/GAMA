@@ -143,7 +143,7 @@ class Mind:
 		self.agent.status = AgentStatus.RUNTIME_ERROR
 		return None
 
-	async def get_total_payoff(self, log=True) -> float:
+	def get_total_payoff(self, log=True) -> float:
 		"""
 		Get the total payoff accumulated by the agent.
 

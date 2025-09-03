@@ -58,3 +58,7 @@ table {
 .ReactCollapse--collapse {
   transition: height 500ms;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}

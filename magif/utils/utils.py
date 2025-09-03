@@ -82,7 +82,7 @@ def read_file(filename: str) -> Optional[str]:
 		IOError: If an error occurs while reading the file.
 	"""
 	try:
-		with open(filename) as f:
+		with open(filename, "r", encoding="utf-8", errors="ignore") as f:
 			s = f.read()
 			return s
 	except FileNotFoundError:

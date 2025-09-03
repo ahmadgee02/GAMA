@@ -84,6 +84,14 @@ async def websocket_endpoint(
 
     os.environ["OPENAI_API_KEY"] = settings.OPENAI_API_KEY
 
+    if not os.environ["OPENAI_API_KEY"]:
+        await websocket.send_text(json.dumps({
+            "type": "info",
+            "data": "OpenAI API key is not set. Please set it in the .env file."
+        }))
+        
+        return
+
     try:
         while True:
             message = await websocket.receive_text()

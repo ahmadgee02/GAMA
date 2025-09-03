@@ -88,6 +88,8 @@ A sample configuration file is located at `unit_tests/CONFIG/test_config.ini`:
 ```ini
 [Paths]
 GAME_DIR = unit_tests/DATA/GAMES/
+GAME_EXAMPLES_DIR = unit_tests/DATA/GAME_EXAMPLES/
+STRATEGY_EXAMPLES_DIR = unit_tests/DATA/STRATEGY_EXAMPLES/
 OUT_DIR = unit_tests/LOGS/
 SOLVER_PATH = magif/solver/solver.pl
 GAME_TEMPLATE_PATH = DATA/PROMPTS/game_prompt_template.txt

@@ -23,10 +23,10 @@ import { isUserAdmin } from '@/store/redux/authSlice';
 
 const navigation = [
     { name: 'Dashboard', href: '/', icon: HomeIcon, adminPage: false },
-    { name: 'Incontext Examples', href: '/incontext-examples', icon: FolderIcon, adminPage: false  },
-    { name: 'Games', href: '/prompt/game', icon: FolderIcon, adminPage: false  },
-    { name: 'Stratergies', href: '/prompt/stratergy', icon: FolderIcon, adminPage: false  },
-    { name: 'Users', href: '/users', icon: FolderIcon, adminPage: true  }
+    { name: 'Incontext Examples', href: '/incontext-examples', icon: FolderIcon, adminPage: false },
+    { name: 'Games', href: '/prompt/game', icon: FolderIcon, adminPage: false },
+    { name: 'Stratergies', href: '/prompt/stratergy', icon: FolderIcon, adminPage: false },
+    { name: 'Users', href: '/users', icon: FolderIcon, adminPage: true }
 ];
 
 interface Props {
@@ -72,7 +72,7 @@ const Sidebar: FC<Props> = (props) => {
                         className="relative mr-16 flex w-full max-w-xs flex-1 transform transition duration-300 ease-in-out data-closed:-translate-x-full"
                     >
                         <TransitionChild>
-                            <div className=" absolute top-0 left-full flex w-16 justify-center pt-5 duration-300 ease-in-out data-closed:opacity-0">
+                            <div className=" absolute top-0 right-0 z-10 flex w-16 justify-center pt-5 duration-300 ease-in-out data-closed:opacity-0">
                                 <button type="button" onClick={() => setSidebarOpen(false)} className="-m-2.5 p-2.5">
                                     <span className="sr-only">Close sidebar</span>
                                     <XMarkIcon aria-hidden="true" className="cursor-pointer size-6 text-white" />
@@ -80,7 +80,7 @@ const Sidebar: FC<Props> = (props) => {
                             </div>
                         </TransitionChild>
 
-                        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
+                        <div className="flex grow flex-col gap-y-5 bg-gray-900 px-6 pb-4 ring-1 ring-white/10 relative h-[100vh]">
                             <div className="flex h-16 shrink-0 items-center">
                                 <img
                                     alt="Your Company"
@@ -112,12 +112,12 @@ const Sidebar: FC<Props> = (props) => {
                                     </li>
 
                                     <li>
-                                        <div className="text-xs/6 font-semibold text-gray-400">Incorrect Agent History</div>
-                                        <ul role="list" className="-mx-2 mt-2 space-y-1">
+                                        <div className="text-xs/6 font-semibold text-gray-400">History</div>
+                                        <ul role="list" className="-mx-2 mt-2 space-y-1 h-[calc(100vh-440px)] overflow-y-auto hide-scrollbar">
                                             {agentHistory.map(({ _id, agentData }) => (
-                                                <li key={_id} className='flex items-center justify-between hover:bg-gray-800 hover:text-white'>
+                                                <li key={_id} className='flex items-center justify-between hover:bg-gray-800 hover:text-white pr-2 rounded'>
                                                     <a
-                                                        href={`/agent/${_id}`}
+                                                        href={`/agents/${_id}`}
                                                         className={classNames(
                                                             pathname === `/agents/${_id}`
                                                                 ? 'bg-gray-800 text-white'
@@ -136,16 +136,19 @@ const Sidebar: FC<Props> = (props) => {
                                         </ul>
                                     </li>
 
-                                    <li className="mt-auto">
-                                        <a
-                                            href="#"
-                                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-gray-800 hover:text-white"
-                                        >
-                                            <Cog6ToothIcon aria-hidden="true" className="size-6 shrink-0" />
-                                            Settings
-                                        </a>
-                                    </li>
+
                                 </ul>
+
+                                <div className="mt-auto absolute bottom-3 left-3 w-full">
+                                    <a
+                                        href="#"
+                                        onClick={() => dispatch(exportAgents())}
+                                        className="group w-full -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 bg-gray-900 hover:bg-gray-800 hover:text-white pr-2 rounded"
+                                    >
+                                        <Cog6ToothIcon aria-hidden="true" className="size-6 shrink-0" />
+                                        Export
+                                    </a>
+                                </div>
                             </nav>
                         </div>
                     </DialogPanel>
@@ -154,7 +157,7 @@ const Sidebar: FC<Props> = (props) => {
 
             {/* Static sidebar for desktop */}
             <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col sidebar">
-                <div className="flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4">
+                <div className="flex grow flex-col gap-y-5 h-[100vh] px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center">
                         <img
                             alt="Your Company"
@@ -167,7 +170,7 @@ const Sidebar: FC<Props> = (props) => {
                             <li>
                                 <ul role="list" className="-mx-2 space-y-1">
                                     {navigation.filter(item => isAdmin || !item.adminPage).map((item) => (
-                                        <li key={item.name}>
+                                        <li key={item.name} className='flex justify-between items-center hover:bg-gray-800 hover:text-white pr-2 rounded'>
                                             <a
                                                 href={item.href}
                                                 className={classNames(
@@ -186,9 +189,9 @@ const Sidebar: FC<Props> = (props) => {
                             </li>
                             <li>
                                 <div className="text-xs/6 font-semibold">History</div>
-                                <ul role="list" className="-mx-2 mt-2 space-y-1">
+                                <ul role="list" className="-mx-2 mt-2 space-y-1 h-[calc(100vh-440px)] overflow-y-auto hide-scrollbar">
                                     {agentHistory.map(({ _id, agentData }) => (
-                                        <li key={_id} className='flex items-center justify-between'>
+                                        <li key={_id} className='flex items-center justify-between hover:bg-gray-800 hover:text-white pr-2 rounded'>
                                             <a
                                                 href={`/agents/${_id}`}
                                                 className={classNames(
@@ -208,16 +211,18 @@ const Sidebar: FC<Props> = (props) => {
                                     ))}
                                 </ul>
                             </li>
-                            <li className="mt-auto">
+
+                            <div className="mt-auto">
                                 <a
                                     href="#"
-                                    onClick={()=> dispatch(exportAgents())}
+                                    onClick={() => dispatch(exportAgents())}
                                     className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold hover:bg-gray-800 hover:text-white"
                                 >
                                     <Cog6ToothIcon aria-hidden="true" className="size-6 shrink-0" />
                                     Export
                                 </a>
-                            </li>
+                            </div>
+
                         </ul>
                     </nav>
                 </div>

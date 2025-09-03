@@ -9,8 +9,8 @@ from magif.utils.utils import generate_agent_name, Mode, normalize_path
 from magif.utils.data_object import DataObject
 
 
-class TestTournament(unittest.TestCase):
-	def setUp(self):
+class TestTournament(unittest.IsolatedAsyncioTestCase):
+	async def asyncSetUp(self):
 		"""
 		Set up the testing environment by preparing agent JSON data and initializing required variables.
 		"""
@@ -27,24 +27,24 @@ class TestTournament(unittest.TestCase):
 		# Initialize agent pool
 		self.agent_pool = AgentPool()
 
-	def _load_agents_from_json(self):
+	async def _load_agents_from_json(self):
 		"""
 		Helper method to load agents from JSON files and add them to the agent pool.
 		"""
 		for i in range(3):
 			agent = Agent(autoformalization_on=False)
-			agent.initialize(agent_json=self.agent_json_path)
+			await agent.initialize(agent_json_path=self.agent_json_path)
 			agent.name = generate_agent_name(3)
 			self.agent_pool.add_agent(agent)
 
-	def test_tournament_round_robin_play(self):
+	async def test_tournament_round_robin_play(self):
 		"""
 		Test that a tournament runs correctly with agents loaded from JSON files.
 		"""
 		logger.info("Testing tournament play with agents loaded from JSON in round robin mode.")
 
 		# Load agent data from JSON files
-		self._load_agents_from_json()
+		await self._load_agents_from_json()
 
 		tournament = Environment(
 			agent_pool=self.agent_pool,
@@ -54,20 +54,20 @@ class TestTournament(unittest.TestCase):
 		)
 
 		# Run the tournament
-		tournament.play_tournament()
+		await tournament.play_tournament()
 
 		# Validate results
 		winners = tournament.get_winners()
 		self.assertTrue(len(winners) == 3, "Tournament must have at least one winner.")
 		self.agent_pool.clean_agents()
 
-	def test_tournament_logging(self):
+	async def test_tournament_logging(self):
 		"""
 		Test that tournament results are logged correctly.
 		"""
 		logger.info("Testing tournament logging with agents loaded from JSON.")
 
-		self._load_agents_from_json()
+		await self._load_agents_from_json()
 		tournament_name = "test_tournament"
 		tournament = Environment(
 			agent_pool=self.agent_pool,
@@ -76,7 +76,7 @@ class TestTournament(unittest.TestCase):
 		)
 
 		# Run the tournament
-		tournament.play_tournament()
+		await tournament.play_tournament()
 
 		# Log the results
 		tournament_dir = self.logdir
@@ -84,7 +84,7 @@ class TestTournament(unittest.TestCase):
 		self.assertEqual(True, success)
 		self.agent_pool.clean_agents()
 
-	def test_tournament_clones_play(self):
+	async def test_tournament_clones_play(self):
 		"""
 		Test that a tournament runs correctly with agents loaded from JSON files.
 		"""
@@ -93,10 +93,10 @@ class TestTournament(unittest.TestCase):
 		# Load agent data from JSON files
 		for i in range(3):
 			agent = Agent(autoformalization_on=False)
-			agent.initialize(agent_json=self.agent_json_path)
+			await agent.initialize(agent_json_path=self.agent_json_path)
 			agent.name = generate_agent_name(3)
 			game_data = DataObject(rules_path=normalize_path("unit_tests/DATA/MISC/bos_agent.pl"), mode=Mode.RULES_PATH)
-			agent.set_game(game_data)
+			await agent.set_game(game_data)
 			self.agent_pool.add_agent(agent)
 
 		# Record original number of agents
@@ -106,13 +106,13 @@ class TestTournament(unittest.TestCase):
 		for i in range(agents_num):
 			agent = self.agent_pool.valid_agents[i]
 			clone = Agent(autoformalization_on=False)
-			clone.initialize(agent_json=self.agent_json_path)
+			await clone.initialize(agent_json_path=self.agent_json_path)
 			clone.name = generate_agent_name(3)
 
 			game_data = DataObject(rules_string=agent.game.game_rules, mode=Mode.RULES_STRING)
 			strategy_data = DataObject(rules_path=normalize_path("DATA/STRATEGIES/anti-tit-for-tat.pl"), mode=Mode.RULES_PATH)
-			clone.set_game(game_data)
-			clone.set_strategy(strategy_data)
+			await clone.set_game(game_data)
+			await clone.set_strategy(strategy_data)
 
 			self.agent_pool.add_agent(clone)
 
@@ -127,7 +127,7 @@ class TestTournament(unittest.TestCase):
 		)
 
 		# Run the tournament
-		tournament.play_tournament()
+		await tournament.play_tournament()
 
 		# Remove clones for the evaluation
 		self.agent_pool.truncate_pool(agents_num)
@@ -142,14 +142,14 @@ class TestTournament(unittest.TestCase):
 		self.assertTrue(len(winners) == 3, "Tournament must have at least one winner.")
 		self.agent_pool.clean_agents()
 
-	def test_agent_pool_integrity(self):
+	async def test_agent_pool_integrity(self):
 		"""
 		Test the integrity of the agent pool after the tournament.
 		"""
 		logger.info("Testing agent pool integrity after tournament.")
 
 		# Load agent data from JSON files
-		self._load_agents_from_json()
+		await self._load_agents_from_json()
 		tournament = Environment(
 			agent_pool=self.agent_pool,
 			num_rounds=self.num_rounds,
@@ -157,7 +157,7 @@ class TestTournament(unittest.TestCase):
 		)
 
 		# Run the tournament
-		tournament.play_tournament()
+		await tournament.play_tournament()
 
 		# Validate agent pool
 		self.assertTrue(

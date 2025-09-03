@@ -36,7 +36,7 @@ class Environment:
 		self.match_maker = match_maker
 		self.target_payoffs = target_payoffs if target_payoffs else []
 
-	def play_tournament(self) -> None:
+	async def play_tournament(self) -> None:
 		"""
 		Run the tournament where agents play against each other.
 		Raises a ValueError if agents have not been created.
@@ -49,9 +49,9 @@ class Environment:
 		agent_pairs = self.match_maker(self.agent_pool.valid_agents)
 
 		# Step 3: Conduct matches between agent pairs
-		self._play_matches(agent_pairs)
+		await self._play_matches(agent_pairs)
 
-	def _play_matches(self, agent_pairs: List[Tuple[Agent, Agent]]) -> None:
+	async def _play_matches(self, agent_pairs: List[Tuple[Agent, Agent]]) -> None:
 		"""
 		Play the specified number of rounds between each pair of agents.
 
@@ -59,14 +59,14 @@ class Environment:
 			agent_pairs (List[Tuple[Agent, Agent]]): List of tuples representing pairs of agents.
 		"""
 		for agent1, agent2 in agent_pairs:
-			valid_pair = self._play_match(agent1, agent2)
+			valid_pair = await self._play_match(agent1, agent2)
 			if not valid_pair:
 				logger.debug(
 					f"Agent {agent1.name} or {agent2.name} not valid. Excluding the pair from the tournament.")
 				self.agent_pool.move_agent(agent1)
 				self.agent_pool.move_agent(agent2)
 
-	def _play_match(self, agent1: Agent, agent2: Agent) -> bool:
+	async def _play_match(self, agent1: Agent, agent2: Agent) -> bool:
 		"""
 		Play a match between two agents for multiple rounds.
 
@@ -82,16 +82,16 @@ class Environment:
 				f"\nAgent {agent1.name} with {agent1.strategy_name} vs {agent2.name} with {agent2.strategy_name}, Round {round_num}.")
 
 			# Get moves from both agents
-			move_agent_1, move_agent_2 = agent1.mind.act(), agent2.mind.act()
+			move_agent_1, move_agent_2 = await agent1.mind.act(), await agent2.mind.act()
 			if not (move_agent_1 and move_agent_2):
 				return False
 
-			agent1.mind.observe(move_agent_2)
-			agent2.mind.observe(move_agent_1)
+			await agent1.mind.observe(move_agent_2)
+			await agent2.mind.observe(move_agent_1)
 
 			# Update payoffs based on the opponents' moves
-			updated_1 = agent1.mind.think()
-			updated_2 = agent2.mind.think()
+			updated_1 = await agent1.mind.think()
+			updated_2 = await agent2.mind.think()
 			if not (updated_1 and updated_2):
 				return False
 

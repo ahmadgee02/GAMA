@@ -11,7 +11,6 @@ from magif.utils.data_object import DataObject
 from magif.utils.base_lm import BaseLM
 from magif.utils.utils import AgentStatus, Mode, generate_agent_name, read_file, parse_axioms, process_trace, set_default, normalize_path
 from typing import Optional
-from fastapi import WebSocket
 
 class Agent:
 	"""
@@ -37,7 +36,7 @@ class Agent:
 				 llm: Optional[BaseLM] = GPT4,
 				 max_attempts: Optional[int] = 1,
 				 autoformalization_on: Optional[bool] = True,
-				 websocket: Optional[WebSocket] = None):
+				 websocket: Optional["WebSocket"] = None):
 		"""
 		Initializes an empty Agent.
 
@@ -85,15 +84,17 @@ class Agent:
 		    strategy_data (Optional[DataObject]): The strategy data for initialization.
 		    agent_json (Optional[str]): Path to a JSON file for initialization.
 		"""
-
+  
+		logger.debug(f"Initializing agent.")	
+  
 		# Initialize the agent's mind for decision-making and set default strategy name.
 		self.mind = Mind(self)
 
 		# Initialize the agent either from a JSON file or provided data.
 		if agent_json_path is not None:
-			self._init_from_json(agent_json_path=agent_json_path)
+			await self._init_from_json(agent_json_path=agent_json_path)
 		elif agent_json is not None:
-			self._init_from_json(agent_json=agent_json)
+			await self._init_from_json(agent_json=agent_json)
 		elif game_data is not None and strategy_data is not None:
 			await self._init_from_data(game_data, strategy_data)
 		else:
@@ -118,6 +119,8 @@ class Agent:
 		trace_messages = self.autoformalizer.trace_messages if self.autoformalizer else []
 		attempts = self.autoformalizer.attempts if self.autoformalizer else 0
 
+		logger.debug(f"Sending agent log to UI, , {self.name}, {self.strategy_name}")
+ 
 		agent_log = {
 			"name": self.name,
 			"strategyName": self.strategy_name,
@@ -138,7 +141,7 @@ class Agent:
 				"data": json.dumps(agent_log)
 			}))
 
-	def from_data(self, game_data: DataObject, strategy_data: DataObject):
+	async def from_data(self, game_data: DataObject, strategy_data: DataObject):
 		"""
 		Creates an Agent instance using game and strategy data.
 
@@ -149,10 +152,10 @@ class Agent:
 		Returns:
 		    Agent: An initialized Agent instance.
 		"""
-		self.initialize(game_data=game_data, strategy_data=strategy_data)
+		await self.initialize(game_data=game_data, strategy_data=strategy_data)
 
 
-	def from_json(self, agent_json: str):
+	async def from_json(self, agent_json: str):
 		"""
 		Creates an Agent instance using a JSON configuration file.
 
@@ -162,7 +165,7 @@ class Agent:
 		Returns:
 		    Agent: An initialized Agent instance.
 		"""
-		self.initialize(agent_json=agent_json)
+		await self.initialize(agent_json=agent_json)
 	
 	async def iterate_rules(self, prolog_code: str):
 		"""
@@ -212,7 +215,7 @@ class Agent:
 		self.name = generate_agent_name(3)
 		await self._init_game_and_strategy(game_data, strategy_data)
 
-	def _init_from_json(self, agent_json_path: Optional[str]=None, agent_json: Optional[object]=None):
+	async def _init_from_json(self, agent_json_path: Optional[str]=None, agent_json: Optional[object]=None):
 		"""
 		Initializes the agent using a JSON configuration file.
 
@@ -220,7 +223,7 @@ class Agent:
 		    agent_json (str): Path to the JSON file containing initialization data.
 		"""
 		game_data, strategy_data = self.load(agent_json_path, agent_json)
-		self._init_game_and_strategy(game_data, strategy_data)
+		await self._init_game_and_strategy(game_data, strategy_data)
 
 	async def _init_game_and_strategy(self, game_data, strategy_data):
 		"""
@@ -476,7 +479,7 @@ class Agent:
 		"""
 		return move in self.game.get_possible_moves()
 
-	async def agent_log(self):
+	def agent_log(self):
 		game = self.game
 
 		trace_messages = self.autoformalizer.trace_messages if self.autoformalizer else []
@@ -494,7 +497,7 @@ class Agent:
 			"default_move": game.default_move,
 			"moves": self.memory.moves,
 			"payoffs": self.memory.payoffs,
-			"total_payoff": await self.mind.get_total_payoff(),
+			"total_payoff": self.mind.get_total_payoff(),
 			"trace_messages": trace_messages,
 			"attempts": attempts
 		}  
@@ -539,8 +542,6 @@ class Agent:
 		if agent_json_path is not None:
 			if not os.path.exists(agent_json_path):
 				raise FileNotFoundError(f"No saved agent file found at {agent_json_path}")
-			
-			logger.info(f"agent_json_path ===> { agent_json_path }")
 		
 			# Load the JSON file and parse the agent state.
 			with open(agent_json_path, "r") as f:
@@ -548,8 +549,6 @@ class Agent:
 		else:
 			agent_log = agent_json
 
-  
-		logger.info(f"agent_log ==> , {agent_log}")
 		# Restore agent attributes from the loaded JSON data.
 		self.name = agent_log["name"]
 		self.strategy_name = agent_log["strategy_name"]

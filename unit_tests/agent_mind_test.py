@@ -7,8 +7,8 @@ from magif.utils.utils import normalize_path
 import json
 
 
-class TestAgentMindFunctions(unittest.TestCase):
-	def setUp(self):
+class TestAgentMindFunctions(unittest.IsolatedAsyncioTestCase):
+	async def asyncSetUp(self):
 		# Step 1: Read configuration
 		logging.debug('Setting up TestAgentMindFunctions')
 		self.config = ConfigParser()
@@ -22,29 +22,29 @@ class TestAgentMindFunctions(unittest.TestCase):
 
 		self.agent_json = normalize_path(self.config.get("Paths", "AGENT_JSON"))
 		self.agent = Agent(autoformalization_on=False)  # Initialize Agent
-		self.agent.initialize(agent_json=self.agent_json)
+		await self.agent.initialize(agent_json_path=self.agent_json)
 
 	def tearDown(self):
 		self.agent.release_solver()
 		del self.agent
 
-	def test_act(self):
+	async def test_act(self):
 		"""Test the agent's ability to make a move using the `act` method."""
 		logging.debug("Testing the `act` method.")
-		move = self.agent.mind.act()  # Use the Mind instance within Agent
+		move = await self.agent.mind.act()  # Use the Mind instance within Agent
 		self.assertIsNotNone(move, "The agent should successfully make a move.")
 		self.assertEqual("Move1", move, "The agent should successfully make a move.")
 		self.assertIn(move, self.agent.memory.moves, "The move should be stored in the agent's memory.")
 
-	def test_perceive(self):
+	async def test_perceive(self):
 		"""Test the agent's ability to perceive an opponent's move using the `perceive` method."""
 		logging.debug("Testing the `perceive` method.")
 		opponent_move = "Move2"
-		self.agent.mind.observe(opponent_move)  # Use the Mind instance within Agent
+		await self.agent.mind.observe(opponent_move)  # Use the Mind instance within Agent
 		self.assertIn(opponent_move, self.agent.memory.opponent_moves,
 					  "The opponent's move should be stored in the agent's memory.")
 
-	def test_revise(self):
+	async def test_revise(self):
 		"""Test the agent's ability to revise its state using the `revise` method."""
 		logging.debug("Testing the `revise` method.")
 		# Set up initial moves to enable revision
@@ -53,7 +53,7 @@ class TestAgentMindFunctions(unittest.TestCase):
 		self.agent.memory.opponent_moves.append(opponent_move)
 		self.agent.game.game_players = ["player1", "player2"]
 
-		success = self.agent.mind.think()  # Use the Mind instance within Agent
+		success = await self.agent.mind.think()  # Use the Mind instance within Agent
 		payoff = self.agent.memory.payoffs[-1]
 		result = self.agent.solver.engine.query(f"holds(last_move({self.agent.game.game_players[1]}, {opponent_move}), s0).", 1)
 		last_move = result.data
@@ -64,7 +64,7 @@ class TestAgentMindFunctions(unittest.TestCase):
 		self.assertGreater(len(self.agent.memory.payoffs), 0,
 						   "The payoff should be calculated and added to the agent's memory.")
 
-	def test_memory_save(self):
+	async def test_memory_save(self):
 		"""Test the agent's ability to save memory to a JSON file after acting, perceiving, and revising."""
 		logging.debug("Testing saving memory to a JSON file.")
 
@@ -73,10 +73,10 @@ class TestAgentMindFunctions(unittest.TestCase):
 
 		# Perform act, perceive, revise loop four times
 		for opponent_move in opponent_moves:
-			move = self.agent.mind.act()  # Agent makes a move
+			move = await self.agent.mind.act()  # Agent makes a move
 			self.assertIsNotNone(move, "The agent should successfully make a move.")
-			self.agent.mind.observe(opponent_move)  # Agent perceives opponent's move
-			success = self.agent.mind.think()  # Agent revises based on moves
+			await self.agent.mind.observe(opponent_move)  # Agent perceives opponent's move
+			success = await self.agent.mind.think()  # Agent revises based on moves
 			self.assertTrue(success, "The revise method should successfully update the solver and state.")
 
 		# Save memory to a temporary JSON file
